@@ -197,7 +197,7 @@ function applyTheme(p,m){const r=document.documentElement;if(p&&p!=='encre')r.se
 try{const t=JSON.parse(localStorage.getItem('cotoma-theme')||'null');if(t)applyTheme(t.p,t.m);}catch(e){}
 const PSTAT=[['a_contacter','À contacter','mute'],['contacte','Contacté','info'],['rdv','Rendez-vous','info'],['devis','Devis envoyé','warn'],['gagne','Gagné','ok'],['perdu','Pas intéressé','bad']];
 const MSTAT=[['entretien','Entretien à faire','warn'],['redaction','Rédaction','info'],['validation','En validation','info'],['livre','Livré','ok'],['suivi','Suivi mensuel','ok']];
-const PACKS=[['audit','Audit + textes',49],['site','Site conforme',290],['tpe','Conformité TPE',790],['pme','PME / questionnaire',1490],['suivi','Suivi mensuel',49],['autre','Autre',0]];
+const PACKS=[['audit','Audit + textes',49],['site','Site conforme',290],['tpe','Conformité TPE',790],['pme','PME / questionnaire',1990],['suivi','Suivi mensuel',89],['autre','Autre',0]];
 const PRIO={1:'Données sensibles',2:'Activité en ligne',3:'Fichier clients',4:'Faible'};
 const today=()=>new Date().toISOString().slice(0,10);
 const eur=n=>(Math.round((+n||0)*100)/100).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';

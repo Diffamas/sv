@@ -13,7 +13,7 @@ Ce que je livre : registre des traitements, politique de confidentialité et coo
 
 Référence : mise en conformité complète d'un groupe industriel multi-sites en 2026 (registre, PIA, politiques, réponses au questionnaire sécurité d'un donneur d'ordre), aux côtés du référent RGPD interne.
 
-Prix fixes annoncés avant de commencer. Pack Site conforme 290 €, Pack Conformité TPE 790 €, PME et questionnaires clients sur devis à partir de 1 490 €.
+Prix fixes annoncés avant de commencer. Pack Site conforme 290 €, Pack Conformité TPE 790 €, PME et questionnaires clients sur devis à partir de 1 990 €.
 
 Basé en Seine-et-Marne, j'interviens sur place dans le sud 77 et le nord 89, et à distance partout en France.
 

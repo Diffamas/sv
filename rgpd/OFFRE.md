@@ -21,8 +21,8 @@ La compétence RGPD a trois avantages : capital zéro, marge 100 %, et une deman
 |---|---|---|---|---|
 | Site conforme | 290 € | Artisan, commerce, indépendant avec un site | Audit du site, mentions légales, politique de confidentialité, politique cookies, réglage de la bannière, mention d'information sur le formulaire | 2 jours |
 | Conformité TPE | 790 € | TPE de 1 à 20 salariés | Tout le pack Site + registre des traitements, durées de conservation, cartographie des sous-traitants et clauses, procédure violation de données, registre des demandes de droits, 1 h de formation du gérant | 1 semaine |
-| PME / questionnaire client | à partir de 1 490 € ou 400 €/jour | PME à qui un client impose EcoVadis, CyberVadis, un appel d'offres ou un audit | Tout le pack TPE + PIA sur l'outil CNIL, gouvernance, mesures de sécurité documentées, réponses au questionnaire, preuves | 2 à 4 semaines |
-| Suivi | 49 €/mois | Clients des packs TPE et PME | Mise à jour annuelle du registre, veille, réponse aux demandes de droits et aux incidents | continu |
+| PME / questionnaire client | à partir de 1 990 € ou 500 €/jour | PME à qui un client impose EcoVadis, CyberVadis, un appel d'offres ou un audit | Tout le pack TPE + PIA sur l'outil CNIL, gouvernance, mesures de sécurité documentées, réponses au questionnaire, preuves | 2 à 4 semaines |
+| Suivi | 89 €/mois | Clients des packs TPE et PME | Mise à jour annuelle du registre, veille, réponse aux demandes de droits et aux incidents | continu |
 
 Un seul pack Site conforme couvre 11 fois les 25 €. Un pack TPE couvre un mois de vie.
 
@@ -48,7 +48,7 @@ Malt prend 10 % sur les missions trouvées via la plateforme, Gumroad 10 % + fra
 
 1. Micro-entreprise : activité « conseil pour les affaires » (code NAF 70.22Z), gratuit sur autoentrepreneur.urssaf.fr. Charges : 24,6 % du chiffre encaissé, pas de TVA en dessous de 37 500 € de prestations.
 2. Le client ne sera pas cité : la référence reste « groupe industriel multi-sites, 2026 », sans nom, sans secteur, sans nombre de sites. Une recommandation LinkedIn de ton contact, si elle vient de lui, reste possible.
-3. Créer le profil Malt avec le texte de prospection.md, TJM 400 €.
+3. Créer le profil Malt avec le texte de prospection.md, TJM 500 €.
 4. Lancer l'outil d'audit sur 50 sites locaux, envoyer 20 emails ciblés avec l'accroche générée. Taux de réponse réaliste : 5 à 10 %, donc 1 à 2 rendez-vous, 1 client sur 3 rendez-vous.
 5. Publier le kit sur Gumroad à 49 €.
 6. Poster sur LinkedIn une fois par semaine : un manquement courant, comment le corriger.
