@@ -38,3 +38,7 @@ python3 generer_kit.py
 | `python3 admin/facture.py relances` | Factures en retard avec le texte de relance prêt |
 
 Les dossiers clients, factures et livre des recettes sont exclus de Git (`.gitignore`) : ils restent sur ta machine. Complète `admin/config-vendeur.yaml` une fois avec ton SIRET.
+
+## Hébergement du site (dossier `site/`)
+
+`rgpd/site/index.html` est la version autonome de la page de présentation, prête pour n'importe quel hébergeur statique. `CNAME` contient le domaine prévu (cotoma.fr), `robots.txt` autorise l'indexation. Pour mettre à jour le site, modifie `page/index.html` puis régénère `site/` (voir la conversation) ou copie le contenu à la main.
