@@ -52,6 +52,22 @@ if ($count === 0 && is_file($seed)) {
     }
 }
 
+// Coordonnées ajoutées après le premier import : complète les champs encore vides des paramètres (une seule fois).
+$cfgRow = $pdo->query("SELECT data, version FROM docs WHERE collection = 'parametres' AND id = 'config'")->fetch(PDO::FETCH_ASSOC);
+if ($cfgRow) {
+    $cfg = json_decode($cfgRow['data'], true) ?: [];
+    if (empty($cfg['nom'])) {
+        $src = is_file($seed) ? $seed : (is_file($seed . '.importe') ? $seed . '.importe' : null);
+        $s = $src ? json_decode((string)file_get_contents($src), true) : null;
+        $def = $s['parametres']['config'] ?? [];
+        $changed = false;
+        foreach (['nom', 'adresse', 'telephone', 'email', 'forme'] as $k) {
+            if (empty($cfg[$k]) && !empty($def[$k])) { $cfg[$k] = $def[$k]; $changed = true; }
+        }
+        if ($changed) $pdo->prepare("UPDATE docs SET data = ?, version = version + 1, updated_at = ? WHERE collection = 'parametres' AND id = 'config'")->execute([json_encode($cfg, JSON_UNESCAPED_UNICODE), gmdate('c')]);
+    }
+}
+
 $method = $_SERVER['REQUEST_METHOD'];
 $body = [];
 if ($method === 'POST') {

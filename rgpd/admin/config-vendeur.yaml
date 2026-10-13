@@ -1,9 +1,9 @@
 # Tes informations, imprimées sur chaque facture. À compléter une seule fois.
-nom: "[Prénom Nom]"
-adresse: "[adresse complète]"
-siret: "[SIRET]"
-email: "[email pro]"
-telephone: "[téléphone]"
+nom: "Mattis Maupin"
+adresse: "52 bis rue de Montgelard, 77130 Montereau-Fault-Yonne"
+siret: "en cours d'immatriculation"
+email: "contact@cotoma.fr"
+telephone: "07 88 40 34 95"
 iban: "[IBAN]"
 bic: "[BIC]"
 delai_paiement_jours: 30

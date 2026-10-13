@@ -1,6 +1,6 @@
 # Prospection : textes prêts à l'emploi
 
-Remplace [prénom nom], [email], [téléphone], [lien page] avant envoi.
+Coordonnées déjà renseignées (Mattis Maupin, contact@cotoma.fr, 07 88 40 34 95, https://cotoma.fr).
 
 ## Profil Malt (titre + présentation)
 
@@ -36,7 +36,7 @@ Vous voulez savoir où en est votre site ? Envoyez-moi l'adresse en message, je 
 
 Objet : Votre site [domaine] : 3 points à corriger
 
-Bonjour [prénom nom],
+Bonjour Mattis Maupin,
 
 [Coller l'accroche générée par audit_site.py, par exemple : En regardant votre site, j'ai noté que des traceurs se chargent sans bannière de consentement (Google Analytics) ; aucune politique de confidentialité ; Google Fonts chargé depuis les serveurs Google.]
 
@@ -46,15 +46,15 @@ Je propose un pack Site conforme à 290 € tout compris : mentions légales, po
 
 Si vous préférez d'abord voir le détail, je vous envoie l'audit complet gratuitement. Un simple « oui » en réponse suffit.
 
-[prénom nom] · COTOMA
+Mattis Maupin · COTOMA
 Conformité RGPD des TPE et PME, Seine-et-Marne
-[téléphone] · [lien page]
+07 88 40 34 95 · https://cotoma.fr
 
 ## Email 2 : sous-traitant industriel à qui un client demande des preuves
 
 Objet : Questionnaire RGPD ou EcoVadis reçu d'un client ?
 
-Bonjour [prénom nom],
+Bonjour Mattis Maupin,
 
 De plus en plus de donneurs d'ordre demandent à leurs fournisseurs un registre des traitements, une politique de sécurité ou un score EcoVadis / CyberVadis avant de signer. Beaucoup de PME découvrent la demande la semaine où il faut répondre.
 
@@ -64,8 +64,8 @@ Si vous avez reçu ce type de demande, ou si vous voulez l'anticiper, je peux vo
 
 Auriez-vous un créneau cette semaine ou la suivante ?
 
-[prénom nom] · COTOMA
-[téléphone] · [lien page]
+Mattis Maupin · COTOMA
+07 88 40 34 95 · https://cotoma.fr
 
 ## Email 3 : artisan ou commerce avec vidéosurveillance ou fichier clients
 
@@ -79,12 +79,12 @@ Je propose aux entreprises de [ville] une mise en conformité à prix fixe : 290
 
 Je passe à [ville] le [jour]. Un café de 20 minutes pour faire le point ?
 
-[prénom nom] · COTOMA
-[téléphone]
+Mattis Maupin · COTOMA
+07 88 40 34 95
 
 ## Script téléphonique (90 secondes)
 
-« Bonjour, [prénom nom], de COTOMA, je suis consultant RGPD à [ville]. Je vous appelle parce que j'ai regardé votre site et j'ai vu [le point principal de l'audit]. Ce n'est pas grave, mais c'est le motif numéro un des amendes CNIL cette année chez les petites entreprises. Je corrige ça en deux jours pour 290 €, prix fixe. Est-ce que je peux vous envoyer par email le détail de ce que j'ai vu ? » 
+« Bonjour, Mattis Maupin, de COTOMA, je suis consultant RGPD à [ville]. Je vous appelle parce que j'ai regardé votre site et j'ai vu [le point principal de l'audit]. Ce n'est pas grave, mais c'est le motif numéro un des amendes CNIL cette année chez les petites entreprises. Je corrige ça en deux jours pour 290 €, prix fixe. Est-ce que je peux vous envoyer par email le détail de ce que j'ai vu ? » 
 
 Si « on a déjà quelqu'un » : « Très bien. Est-ce qu'il vous a remis un registre des traitements ? C'est le document que la CNIL demande en premier. Si vous ne l'avez pas, je vous le fais pour 790 € avec le reste. »
 
