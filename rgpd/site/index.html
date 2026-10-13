@@ -49,10 +49,15 @@ h3{font-size:1.05rem;font-weight:700}
 .btn{display:inline-block;background:var(--accent);color:var(--accent-ink);font-family:var(--display);font-weight:700;padding:12px 20px;text-decoration:none;border:0;cursor:pointer;font-size:1rem}
 .btn:focus-visible{outline:3px solid var(--fg);outline-offset:2px}
 .btn.ghost{background:transparent;color:var(--fg);border:1.5px solid var(--fg)}
-.stamp{position:relative;background:var(--paper);border:1px solid var(--line);padding:22px 22px 18px;font-family:var(--mono);font-size:.86rem;line-height:1.5}
-.stamp dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0}
-.stamp dt{color:var(--muted)}
-.stamp dd{margin:0}
+.stamp{position:relative;background:var(--paper);border:1px solid var(--line);padding:26px 22px 8px;font-size:.98rem;line-height:1.5}
+.stamp .stamp-title{font-family:var(--mono);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+.stamp dl{display:grid;grid-template-columns:auto 1fr;column-gap:16px;margin:0}
+.stamp dt,.stamp dd{padding:9px 0;border-top:1px solid var(--line)}
+.stamp dt{font-family:var(--display);font-weight:700;font-size:.9rem;color:var(--fg);white-space:nowrap}
+.stamp dd{margin:0;color:var(--fg)}
+.stamp dd .ref{font-family:var(--mono);font-size:.88rem}
+.stamp ul{margin:0;padding-left:18px}
+.stamp li{margin:2px 0}
 .seal{position:absolute;right:16px;top:-14px;transform:rotate(-6deg);border:3px solid var(--accent);color:var(--accent);font-family:var(--display);font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:4px 10px;font-size:.78rem;background:var(--paper)}
 section{padding-block:36px;border-top:1px solid var(--line)}
 .packs{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
@@ -129,11 +134,12 @@ footer p{margin:4px 0}
   </div>
   <aside class="stamp" aria-label="Dernière mission">
     <span class="seal">Dossier clos</span>
+    <p class="stamp-title">Dernière mission réalisée</p>
     <dl>
-      <dt>Référence</dt><dd>MISSION-2026-01</dd>
+      <dt>Référence</dt><dd><span class="ref">MISSION-2026-01</span></dd>
       <dt>Client</dt><dd>Groupe industriel multi-sites (confidentiel)</dd>
-      <dt>Périmètre</dt><dd>RH, clients, site web, vidéosurveillance, badges, géolocalisation, messagerie, IT</dd>
-      <dt>Livré</dt><dd>Registre des traitements, PIA sur l'outil CNIL, politiques confidentialité et cookies, procédure violation, durées, cartographie des sous-traitants, gouvernance, réponses au questionnaire sécurité d'un donneur d'ordre</dd>
+      <dt>Périmètre</dt><dd>RH, clients, site web, vidéosurveillance, badges, géolocalisation, messagerie, informatique</dd>
+      <dt>Livré</dt><dd><ul><li>Registre des traitements</li><li>Analyse d'impact (PIA) sur l'outil CNIL</li><li>Politiques confidentialité et cookies</li><li>Procédure de violation et durées de conservation</li><li>Cartographie des sous-traitants et gouvernance</li><li>Réponses au questionnaire sécurité d'un donneur d'ordre</li></ul></dd>
       <dt>Durée</dt><dd>Printemps 2026</dd>
     </dl>
   </aside>
