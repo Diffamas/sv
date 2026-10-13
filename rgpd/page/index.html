@@ -36,7 +36,9 @@ h3{font-size:1.05rem;font-weight:700}
 .seal{position:absolute;right:16px;top:-14px;transform:rotate(-6deg);border:3px solid var(--accent);color:var(--accent);font-family:var(--display);font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:4px 10px;font-size:.78rem;background:var(--paper)}
 section{padding-block:36px;border-top:1px solid var(--line)}
 .packs{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
-.pack{background:var(--paper);border:1px solid var(--line);padding:22px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.pack{position:relative;background:var(--paper);border:1px solid var(--line);padding:22px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.pack .badge{position:absolute;top:-13px;left:18px;background:var(--accent);color:var(--accent-ink);font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:6px 12px;line-height:1;white-space:nowrap}
+.pack.hl{padding-top:30px}
 .pack.hl{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
 .pack .ref{font-family:var(--mono);font-size:.74rem;color:var(--muted);letter-spacing:.06em}
 .price{font-family:var(--display);font-size:2rem;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
@@ -134,7 +136,8 @@ footer p{margin:4px 0}
       <div class="time">Livré sous 2 jours ouvrés</div>
     </article>
     <article class="pack hl">
-      <span class="ref">PACK-02 · le plus demandé</span>
+      <span class="badge">★ Le plus demandé</span>
+      <span class="ref">PACK-02 · le meilleur rapport couverture / prix</span>
       <h3>Conformité TPE</h3>
       <div class="price">790 €<small>prix fixe, TVA non applicable</small></div>
       <p class="for">Entreprise de 1 à 20 salariés : fichier clients, paie, caméras, site.</p>
