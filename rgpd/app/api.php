@@ -7,9 +7,12 @@ header('Cache-Control: no-store');
 header('X-Content-Type-Options: nosniff');
 
 $secure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https');
-session_set_cookie_params(['lifetime' => 0, 'path' => dirname($_SERVER['SCRIPT_NAME']) ?: '/', 'secure' => $secure, 'httponly' => true, 'samesite' => 'Strict']);
-session_name('cotoma');
-session_start();
+$cookiePath = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') ?: '/';
+// Les sessions sont stockées dans la base SQLite, pas dans les sessions PHP : sur un hébergement mutualisé
+// à plusieurs serveurs, une session PHP peut ne pas être partagée d'une requête à l'autre.
+function cookie_set(string $token, int $exp, bool $secure, string $path): void {
+    setcookie('cotoma', $token, ['expires' => $exp, 'path' => $path, 'secure' => $secure, 'httponly' => true, 'samesite' => 'Strict']);
+}
 
 function out(array $o, int $code = 200): void { http_response_code($code); echo json_encode($o, JSON_UNESCAPED_UNICODE); exit; }
 function fail(string $m, int $code = 400): void { out(['error' => $m], $code); }
@@ -22,6 +25,15 @@ $pdo->exec('PRAGMA journal_mode=WAL');
 $pdo->exec('CREATE TABLE IF NOT EXISTS docs (collection TEXT NOT NULL, id TEXT NOT NULL, data TEXT NOT NULL, version INTEGER NOT NULL DEFAULT 1, updated_at TEXT NOT NULL, PRIMARY KEY (collection, id))');
 $pdo->exec('CREATE TABLE IF NOT EXISTS attempts (ip TEXT NOT NULL, ts INTEGER NOT NULL)');
 $pdo->exec('CREATE TABLE IF NOT EXISTS journal (ts TEXT NOT NULL, action TEXT NOT NULL, collection TEXT, id TEXT)');
+$pdo->exec('CREATE TABLE IF NOT EXISTS sessions (token TEXT PRIMARY KEY, expires INTEGER NOT NULL, created TEXT NOT NULL)');
+$pdo->prepare('DELETE FROM sessions WHERE expires < ?')->execute([time()]);
+$SESSION_TTL = 43200; // 12 heures, prolongées à chaque requête
+$token = (string)($_COOKIE['cotoma'] ?? '');
+$auth = false;
+if (preg_match('/^[a-f0-9]{64}$/', $token)) {
+    $st = $pdo->prepare('SELECT expires FROM sessions WHERE token = ?'); $st->execute([$token]);
+    if ($st->fetchColumn() !== false) { $auth = true; $pdo->prepare('UPDATE sessions SET expires = ? WHERE token = ?')->execute([time() + $SESSION_TTL, $token]); cookie_set($token, time() + $SESSION_TTL, $secure, $cookiePath); }
+}
 
 // Premier démarrage : importe data/seed.json si la base est vide.
 $count = (int)$pdo->query('SELECT COUNT(*) FROM docs')->fetchColumn();
@@ -44,7 +56,6 @@ if ($method === 'POST') {
     $body = json_decode((string)file_get_contents('php://input'), true) ?: [];
 }
 $action = $body['action'] ?? $_GET['action'] ?? 'status';
-$auth = !empty($_SESSION['auth']);
 $ip = $_SERVER['REMOTE_ADDR'] ?? '0';
 $COLLS = ['prospects', 'clients', 'factures', 'parametres'];
 
@@ -65,12 +76,14 @@ switch ($action) {
             $pdo->prepare('INSERT INTO attempts (ip, ts) VALUES (?,?)')->execute([$ip, time()]);
             fail('Mot de passe incorrect.', 401);
         }
-        session_regenerate_id(true);
-        $_SESSION['auth'] = true;
+        $token = bin2hex(random_bytes(32));
+        $pdo->prepare('INSERT INTO sessions (token, expires, created) VALUES (?,?,?)')->execute([$token, time() + $SESSION_TTL, gmdate('c')]);
+        cookie_set($token, time() + $SESSION_TTL, $secure, $cookiePath);
         $pdo->prepare('DELETE FROM attempts WHERE ip = ?')->execute([$ip]);
         out(['auth' => true]);
     case 'logout':
-        $_SESSION = []; session_destroy(); out(['auth' => false]);
+        if ($token !== '') $pdo->prepare('DELETE FROM sessions WHERE token = ?')->execute([$token]);
+        cookie_set('', time() - 3600, $secure, $cookiePath); out(['auth' => false]);
     case 'export':
         $tok = (string)($_GET['token'] ?? '');
         if (!$auth && !($COTOMA_EXPORT_TOKEN !== '' && hash_equals($COTOMA_EXPORT_TOKEN, $tok))) fail('Non autorisé.', 401);
