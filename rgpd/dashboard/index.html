@@ -159,7 +159,8 @@ td.name .note{margin-top:2px}
   <div class="row"><div><p class="eyebrow">Registre</p><h2>Devis, factures et avoirs</h2></div><div class="filters"><select id="f-filter" aria-label="Filtrer"><option value="">Tout</option><option value="brouillon">Brouillons</option><option value="emise">Émis</option><option value="retard">En retard</option><option value="encaissee">Encaissées</option><option value="devis">Devis</option><option value="annulee">Annulées et avoirs</option></select><button class="btn sm ghost" id="d-new" type="button">Nouveau devis</button><button class="btn sm" id="f-new" type="button">Nouvelle facture</button></div></div>
   <div class="kpis" id="f-kpis"></div>
   <div class="tablewrap"><table id="f-table"></table></div>
-  <p class="note" style="margin-top:10px">Numérotation continue par année et par type, attribuée à l'émission. Une facture émise ne se supprime pas : elle s'annule par un avoir. Mentions légales imprimées sur chaque PDF : identité et SIRET de l'entrepreneur individuel, SIREN du client, date de la prestation, échéance, pénalités de retard, indemnité de 40 €, franchise de TVA.</p>
+  <p class="note" style="margin-top:10px">Numérotation continue par année et par type, attribuée à l'émission. Une facture émise ne se modifie ni ne se supprime : elle s'annule par un avoir. Mentions imprimées sur chaque PDF : identité, forme « entrepreneur individuel », adresse et SIRET de l'émetteur, nom, adresse et SIREN du client, nature de l'opération, date d'émission et de prestation, lignes et totaux HT, franchise de TVA (art. 293 B), échéance, pénalités de retard, indemnité de 40 € entre professionnels, médiateur et rétractation pour les particuliers.</p>
+  <p class="note">Conservation : garde chaque PDF émis et un export CSV annuel dans un dossier à toi, 10 ans (art. L123-22 C. com.). Facturation électronique : depuis le 1er septembre 2026 tu dois pouvoir recevoir des factures électroniques via une plateforme agréée ; à partir du 1er septembre 2027, tes factures aux professionnels devront être émises par cette plateforme et les ventes aux particuliers déclarées en e-reporting. Ce tableau de bord reste la source, la plateforme prendra le relais pour la transmission.</p>
 </section>
 
 <section class="view" id="tab-bilan" hidden>
@@ -447,10 +448,18 @@ function openFacture(f,client,type){
     if(!ls.length){banner('Ajoute au moins une ligne avec une désignation et un prix.',true);return false;}
     const emit=S.emit==='1';delete S.emit;
     const doc={...strip(f),...d,type,lignes:ls,montant:Math.round(ls.reduce((a,l)=>a+l.qte*l.pu,0)*100)/100,particulier:d.particulier==='1',maj:today()};
-    if(emit){doc.statut='emise';if(!doc.numero)doc.numero=nextNumero(type);if(!doc.date)doc.date=today();}
+    if(emit){doc.statut='emise';if(!doc.numero)doc.numero=nextNumero(type);if(!doc.date)doc.date=today();doc.emise_le=new Date().toISOString();doc.verrouille=true;}
     if(type==='facture'){if(doc.statut==='encaissee'&&!doc.encaisse_le)doc.encaisse_le=today();if(doc.statut!=='encaissee')doc.encaisse_le='';}
-    if(!doc.particulier&&doc.statut!=='brouillon'&&!doc.client_siret){banner('Entre professionnels, le SIREN du client est obligatoire sur la facture depuis 2024. Renseigne-le ou coche Particulier.',true);return false;}
-    if(doc.statut!=='brouillon'&&(!S.cfg.siret||!S.cfg.adresse)){banner('Complète d\'abord tes paramètres : SIRET et adresse sont obligatoires sur un document émis.',true);return false;}
+    if(doc.statut!=='brouillon'){
+      if(!doc.particulier&&!doc.client_siret){banner('Entre professionnels, le SIREN du client est obligatoire sur la facture. Renseigne-le ou coche Particulier.',true);return false;}
+      if(!S.cfg.siret||!S.cfg.adresse||!S.cfg.nom){banner('Complète d\'abord tes paramètres : nom, SIRET et adresse sont obligatoires sur un document émis.',true);return false;}
+      if(doc.particulier&&!S.cfg.mediateur){banner('Pour facturer un particulier, le médiateur de la consommation doit être renseigné dans les paramètres (adhésion obligatoire à un médiateur agréé).',true);return false;}
+      if(type==='facture'){const dd=new Date(doc.date+'T00:00:00'),de=new Date((doc.echeance||'')+'T00:00:00');const days=Math.round((de-dd)/864e5);
+        if(!(days>=0)){banner('L\'échéance ne peut pas précéder la date d\'émission.',true);return false;}
+        if(!doc.particulier&&days>60){banner('Entre professionnels, le délai de paiement ne peut pas dépasser 60 jours après la date de facture (art. L441-10 C. com.).',true);return false;}
+        if(doc.date_prestation&&doc.date_prestation>doc.date){banner('La facture s\'émet à la fin de la prestation : la date de prestation ne peut pas être postérieure à la date d\'émission. Pour un acompte, indique-le dans l\'objet.',true);return false;}
+        if(doc.date<today().slice(0,4)+'-01-01'){banner('La date d\'émission doit être dans l\'année de la séquence de numérotation.',true);return false;}}
+    }
     return write(()=>isNew?S.db.collection('factures').add(doc):S.db.doc('factures/'+f.id).set(doc));});
   const form=$('#ff',body);
   $$('button[type=submit]',form).forEach(b=>b.addEventListener('click',()=>{S.emit=b.dataset.emit||'0';}));
@@ -483,6 +492,7 @@ async function genPdf(f,btn){
   txt(`Date d'émission : ${fdate(f.date)}`,M,y);y+=4.5;
   if(f.type==='devis'){txt(`Valable jusqu'au : ${fdate(f.validite)}`,M,y);y+=4.5;}else{txt(`Date de la prestation : ${fdate(f.date_prestation||f.date)}`,M,y);y+=4.5;if(f.type==='facture'){txt(`Date d'échéance : ${fdate(f.echeance)}`,M,y);y+=4.5;}}
   if(f.ref){txt(`Annule et remplace la facture ${f.ref}`,M,y);y+=4.5;}if(f.ref_devis){txt(`Suite au devis ${f.ref_devis}`,M,y);y+=4.5;}
+  if(f.type!=='devis'){txt('Nature de l\'opération : prestation de services. Lieu d\'exécution : adresse du client ci-contre (pas de livraison de biens).',M,y);y+=4.5;}
   y+=4;const yb=y;
   doc.setFont('helvetica','bold');txt('Émetteur',M,y);doc.setFont('helvetica','normal');y+=5;
   [vendeur,c.adresse||'',`SIRET ${c.siret||''}`,c.rcs||'',c.tva?`TVA intracommunautaire : ${c.tva}`:'TVA non applicable, art. 293 B du CGI',c.email||'',c.telephone||''].filter(Boolean).forEach(s=>{doc.splitTextToSize(s,80).forEach(l=>{txt(l,M,y);y+=4.5;});});
@@ -509,7 +519,7 @@ async function genPdf(f,btn){
       'Pas d\'escompte pour paiement anticipé. En cas de retard de paiement, pénalités au taux de trois fois le taux d\'intérêt légal, exigibles sans rappel (art. L441-10 C. com.), et indemnité forfaitaire pour frais de recouvrement de 40 € (art. D441-5 C. com.).'
     ];
     legal.forEach(s=>{doc.splitTextToSize(s,W-2*M).forEach(l=>{txt(l,M,y);y+=3.8;});});
-  }else if(f.type==='devis'){doc.setFontSize(8);['Devis gratuit. Prestation réalisée après acceptation écrite (signature ou accord par email) et paiement à 30 jours à réception de la facture.','Bon pour accord, date et signature du client :'].forEach(s=>{doc.splitTextToSize(s,W-2*M).forEach(l=>{txt(l,M,y);y+=3.8;});});y+=14;}
+  }else if(f.type==='devis'){doc.setFontSize(8);const dv=['Devis gratuit. Prestation réalisée après acceptation écrite (signature ou accord par email). Facture émise à la fin de la prestation, payable à 30 jours.'];if(f.particulier){dv.push('Consommateur : droit de rétractation de 14 jours pour un contrat conclu à distance ou hors établissement (art. L221-18 C. conso). En demandant l\'exécution avant la fin de ce délai, vous renoncez expressément à ce droit pour la part exécutée.');dv.push(c.mediateur?`Médiation de la consommation : ${c.mediateur}.`:'Médiation de la consommation : [à renseigner dans les paramètres avant tout devis à un particulier].');}dv.push('Bon pour accord, date et signature du client :');dv.forEach(s=>{doc.splitTextToSize(s,W-2*M).forEach(l=>{txt(l,M,y);y+=3.8;});});y+=14;}
   else{doc.setFontSize(8);txt(`Cet avoir annule la facture ${f.ref||''}. Montant remboursé ou à déduire d'une prochaine facture.`,M,y);y+=4;}
   doc.setFontSize(7.5);doc.setTextColor(110);const foot=`${vendeur} — ${c.adresse||''} — SIRET ${c.siret||''} — ${c.tva?'TVA '+c.tva:'TVA non applicable, art. 293 B du CGI'}${c.assurance?' — '+c.assurance:''}`;
   doc.splitTextToSize(foot,W-2*M).forEach((l,i)=>{txt(l,W/2,285+i*3.5,{align:'center'});});doc.setTextColor(0);

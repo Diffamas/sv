@@ -56,3 +56,29 @@ Malt prend 10 % sur les missions trouvées via la plateforme, Gumroad 10 % + fra
 - Dépenses : 0 à 10 €.
 - Premier pack Site conforme : 290 € encaissés, 219 € nets après charges.
 - Objectif réaliste à 60 jours : 2 packs Site + 1 pack TPE = 1 370 € encaissés.
+
+## Conformité de la facturation (vérifiée le 13 octobre 2026)
+
+Ce que le tableau de bord applique sur chaque devis, facture et avoir :
+
+| Obligation | Texte | Comment c'est appliqué |
+|---|---|---|
+| Numéro unique, chronologique, sans trou | art. 242 nonies A ann. II CGI | Numéro attribué à l'émission, une séquence par type et par année (F-, D-, AV-). Un brouillon n'a pas de numéro et peut être supprimé ; un document émis ne se modifie plus. |
+| Identité de l'émetteur avec « EI » ou « entrepreneur individuel », adresse, SIRET | art. L526-22 C. com., L441-9 C. com. | Paramètres obligatoires avant émission. |
+| Identité et adresse du client, SIREN du client entre professionnels | décret 2022-1299, en vigueur depuis le 1er septembre 2026 | Émission refusée sans SIREN sauf client particulier. |
+| Nature de l'opération, adresse de livraison | décret 2022-1299 | Ligne « prestation de services, lieu d'exécution : adresse du client ». |
+| Date d'émission, date de la prestation | art. L441-9 | Contrôle : la prestation ne peut pas être postérieure à l'émission. |
+| Désignation, quantité, prix unitaire HT, total | art. L441-9 | Lignes détaillées. |
+| TVA : mention « TVA non applicable, art. 293 B du CGI » | art. 293 B CGI | Imprimée sur chaque document tant que tu es en franchise. |
+| Échéance, pénalités de retard à 3 fois le taux légal, indemnité de 40 €, pas d'escompte | art. L441-10 et D441-5 C. com. | Imprimées entre professionnels. Délai plafonné à 60 jours. |
+| Particuliers : médiateur de la consommation, droit de rétractation | art. L616-1 et L221-18 C. conso | Émission refusée sans médiateur renseigné. |
+| Avoir pour corriger une facture émise | art. 242 nonies A | Bouton « Annuler par un avoir », référence croisée. |
+| Conservation 10 ans | art. L123-22 C. com. | PDF à archiver chez toi, export CSV depuis Bilan. |
+
+Ce qui reste à ta charge :
+
+1. **Médiateur de la consommation** : si tu factures des particuliers, tu dois adhérer à un médiateur agréé avant la première vente (CM2C, Médicys, AME, environ 50 à 100 € par an). Pour des clients professionnels uniquement, pas besoin.
+2. **Facturation électronique** : depuis le 1er septembre 2026, obligation de pouvoir recevoir des factures électroniques via une plateforme agréée, même en franchise de TVA. Choisis-en une maintenant sur la liste d'impots.gouv.fr ; plusieurs ont une offre gratuite pour les micro-entreprises. À partir du 1er septembre 2027, tes factures aux professionnels devront partir par cette plateforme et tes ventes aux particuliers être déclarées en e-reporting. Le tableau de bord devra alors exporter vers la plateforme : je l'ajouterai quand tu l'auras choisie.
+3. **Logiciel de caisse certifié** : l'obligation de certification (art. 286 I 3° bis CGI) ne s'applique pas tant que tu es en franchise en base. Si tu dépasses les seuils et deviens redevable de la TVA, il faudra un outil attesté par son éditeur.
+4. **Archivage** : la base du tableau de bord est en ligne. Télécharge chaque PDF émis et fais un export CSV par trimestre dans un dossier de sauvegarde.
+5. **Une seule personne émet** : la numérotation se calcule dans la page ; n'émets pas deux factures en même temps depuis deux appareils.
