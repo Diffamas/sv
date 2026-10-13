@@ -33,7 +33,7 @@ jobs:
           cp -r rgpd/site/fonts deploy/www/fonts
           cp rgpd/app/index.html rgpd/app/api.php rgpd/app/remote.js rgpd/app/.htaccess deploy/www/app/
           cp -r rgpd/app/data rgpd/app/fonts rgpd/app/lib deploy/www/app/
-          rm -f deploy/www/app/data/*.sqlite* deploy/www/app/data/seed.json.importe
+          rm -f deploy/www/app/data/*.sqlite* deploy/www/app/data/*.importe
           python3 - <<'PY'
           import os
           pw=os.environ.get('COTOMA_PASSWORD','').replace('\\','\\\\').replace("'","\\'")
@@ -56,7 +56,7 @@ jobs:
           server-dir: www/
           exclude: |
             **/cotoma.sqlite*
-            **/seed.json.importe
+            **/seed-v2.json.importe
 
       - name: Vérifier que le site répond
         run: |

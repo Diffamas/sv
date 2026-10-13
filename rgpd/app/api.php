@@ -19,9 +19,12 @@ function fail(string $m, int $code = 400): void { out(['error' => $m], $code); }
 
 if (!is_dir($COTOMA_DATA_DIR)) { @mkdir($COTOMA_DATA_DIR, 0750, true); }
 if (!is_writable($COTOMA_DATA_DIR)) fail('Le dossier data/ n\'est pas accessible en écriture.', 500);
-$pdo = new PDO('sqlite:' . $COTOMA_DATA_DIR . '/cotoma.sqlite');
+// Base v2 : journal classique (pas de WAL) pour rester cohérente sur le stockage partagé entre les serveurs OVH.
+$pdo = new PDO('sqlite:' . $COTOMA_DATA_DIR . '/cotoma-v2.sqlite');
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-$pdo->exec('PRAGMA journal_mode=WAL');
+$pdo->exec('PRAGMA journal_mode=DELETE');
+$pdo->exec('PRAGMA synchronous=FULL');
+$pdo->exec('PRAGMA busy_timeout=5000');
 $pdo->exec('CREATE TABLE IF NOT EXISTS docs (collection TEXT NOT NULL, id TEXT NOT NULL, data TEXT NOT NULL, version INTEGER NOT NULL DEFAULT 1, updated_at TEXT NOT NULL, PRIMARY KEY (collection, id))');
 $pdo->exec('CREATE TABLE IF NOT EXISTS attempts (ip TEXT NOT NULL, ts INTEGER NOT NULL)');
 $pdo->exec('CREATE TABLE IF NOT EXISTS journal (ts TEXT NOT NULL, action TEXT NOT NULL, collection TEXT, id TEXT)');
@@ -37,7 +40,7 @@ if (preg_match('/^[a-f0-9]{64}$/', $token)) {
 
 // Premier démarrage : importe data/seed.json si la base est vide.
 $count = (int)$pdo->query('SELECT COUNT(*) FROM docs')->fetchColumn();
-$seed = $COTOMA_DATA_DIR . '/seed.json';
+$seed = $COTOMA_DATA_DIR . '/seed-v2.json';
 if ($count === 0 && is_file($seed)) {
     $s = json_decode((string)file_get_contents($seed), true);
     if (is_array($s)) {
@@ -64,7 +67,7 @@ function docid(string $id): string { if (!preg_match('/^[A-Za-z0-9_.~:@+-]{1,200
 
 switch ($action) {
     case 'status':
-        out(['auth' => $auth, 'setup' => $COTOMA_PASSWORD === 'change-moi']);
+        out(['auth' => $auth, 'setup' => $COTOMA_PASSWORD === 'change-moi', 'v' => 2]);
     case 'login':
         if ($method !== 'POST') fail('Méthode.', 405);
         if ($COTOMA_PASSWORD === 'change-moi' || strlen($COTOMA_PASSWORD) < 12) fail('Définis d\'abord un mot de passe d\'au moins 12 caractères dans config.php.', 503);
