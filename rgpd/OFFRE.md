@@ -1,4 +1,6 @@
-# Plan B : vendre ta compétence RGPD, pas des vêtements
+# COTOMA — vendre ta compétence RGPD, pas des vêtements
+
+Nom commercial : COTOMA. À déclarer comme nom commercial de l'entreprise individuelle au guichet unique (champ « nom commercial »), pour pouvoir l'utiliser sur les factures et la page.
 
 Décision prise le 13 octobre 2026, hors Shopify, sans stock, sans pub.
 

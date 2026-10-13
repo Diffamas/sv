@@ -1,4 +1,4 @@
-<title>Conformité RGPD Sud 77</title>
+<title>COTOMA</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 /* Layout : un dossier administratif. Colonne de texte étroite, tableaux à bords fins, références de type REG-001, un seul tampon rouge. */
@@ -69,13 +69,27 @@ ol.steps p{margin:6px 0 0;font-size:.95rem;color:var(--muted)}
 .note{font-size:.9rem;color:var(--muted);margin-top:10px}
 footer{padding-block:24px;font-size:.85rem;color:var(--muted);border-top:1px solid var(--line)}
 footer p{margin:4px 0}
+/* Thèmes au choix : encre (défaut), ardoise, nuit, sable. Le visiteur choisit en pied de page ; le choix reste sur son appareil. */
+:root[data-palette="ardoise"]{--bg:#f4f6f4;--paper:#ffffff;--fg:#1d2b24;--muted:#5f6f66;--line:#cfd9d2;--accent:#1f7a4d;--accent-ink:#ffffff;--tint:#e8efea}
+:root[data-palette="nuit"]{--bg:#f6f4ef;--paper:#ffffff;--fg:#1b1f2a;--muted:#5d6273;--line:#d8d4ca;--accent:#9a6a15;--accent-ink:#ffffff;--tint:#efebe2}
+:root[data-palette="sable"]{--bg:#faf7f2;--paper:#ffffff;--fg:#2b2622;--muted:#6b625a;--line:#e0d8cc;--accent:#1f5fa8;--accent-ink:#ffffff;--tint:#f1ebe1}
+@media (prefers-color-scheme: dark){
+  :root[data-palette="ardoise"]:not([data-theme="light"]){--bg:#0f1714;--paper:#162019;--fg:#e6efe9;--muted:#98aa9f;--line:#26362d;--accent:#5fc48f;--accent-ink:#0f1714;--tint:#1c2922}
+  :root[data-palette="nuit"]:not([data-theme="light"]){--bg:#0d111a;--paper:#141927;--fg:#ece7dc;--muted:#9aa0b4;--line:#283049;--accent:#d9a441;--accent-ink:#0d111a;--tint:#1a2033}
+  :root[data-palette="sable"]:not([data-theme="light"]){--bg:#171310;--paper:#1f1a16;--fg:#efe8df;--muted:#a89d92;--line:#3a322b;--accent:#6fa8ea;--accent-ink:#171310;--tint:#282119}
+}
+:root[data-palette="ardoise"][data-theme="dark"]{--bg:#0f1714;--paper:#162019;--fg:#e6efe9;--muted:#98aa9f;--line:#26362d;--accent:#5fc48f;--accent-ink:#0f1714;--tint:#1c2922}
+:root[data-palette="nuit"][data-theme="dark"]{--bg:#0d111a;--paper:#141927;--fg:#ece7dc;--muted:#9aa0b4;--line:#283049;--accent:#d9a441;--accent-ink:#0d111a;--tint:#1a2033}
+:root[data-palette="sable"][data-theme="dark"]{--bg:#171310;--paper:#1f1a16;--fg:#efe8df;--muted:#a89d92;--line:#3a322b;--accent:#6fa8ea;--accent-ink:#171310;--tint:#282119}
+.themebar{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:14px;font-size:.82rem;color:var(--muted)}
+.themebar select{font:inherit;color:var(--fg);background:var(--paper);border:1px solid var(--line);padding:4px 6px}
 @media (max-width:720px){.hero{grid-template-columns:1fr}.seal{right:10px}}
 @media (prefers-reduced-motion:no-preference){.pack{transition:transform .15s}.pack:hover{transform:translateY(-2px)}}
 </style>
 
 <div class="wrap">
 <header class="top">
-  <div class="brand">[Prénom Nom]<small>Conformité RGPD · TPE et PME · Seine-et-Marne</small></div>
+  <div class="brand">COTOMA<small>Conformité RGPD · TPE et PME · Seine-et-Marne</small></div>
   <nav aria-label="Sections"><a href="#offres">Offres</a><a href="#livrables">Livrables</a><a href="#methode">Méthode</a><a href="#questions">Questions</a><a href="#contact">Contact</a></nav>
 </header>
 
@@ -204,12 +218,26 @@ footer p{margin:4px 0}
 </section>
 
 <footer>
-  <p>[Prénom Nom], entreprise individuelle, SIRET [numéro], [adresse]. TVA non applicable, art. 293 B du CGI.</p>
-  <p>Ce site ne dépose aucun cookie et ne contient aucun traceur. Les coordonnées envoyées par email servent uniquement à vous répondre et sont supprimées un an après le dernier échange.</p>
+  <p>COTOMA est le nom commercial de [Prénom Nom], entrepreneur individuel, SIRET [numéro], [adresse]. TVA non applicable, art. 293 B du CGI.</p>
+  <p>Ce site ne dépose aucun cookie et ne contient aucun traceur. Les coordonnées envoyées par email servent uniquement à vous répondre et sont supprimées un an après le dernier échange. Le choix de thème ci-dessous reste sur votre appareil.</p>
+  <div class="themebar">
+    <label>Thème <select id="th-pal" aria-label="Palette"><option value="encre">Encre</option><option value="ardoise">Ardoise</option><option value="nuit">Nuit</option><option value="sable">Sable</option></select></label>
+    <label>Mode <select id="th-mode" aria-label="Clair ou sombre"><option value="auto">Automatique</option><option value="light">Clair</option><option value="dark">Sombre</option></select></label>
+  </div>
 </footer>
 </div>
 
 <script>
+(function(){
+  /* Thème par défaut du site : change cette valeur pour tous les visiteurs. Le visiteur peut ensuite choisir le sien. */
+  var DEFAULT_PALETTE='encre';
+  var root=document.documentElement;
+  function apply(p,m){if(p&&p!=='encre')root.setAttribute('data-palette',p);else root.removeAttribute('data-palette');if(m==='light'||m==='dark')root.setAttribute('data-theme',m);else root.removeAttribute('data-theme');}
+  var s=null;try{s=JSON.parse(localStorage.getItem('cotoma-theme')||'null');}catch(e){}
+  var p=(s&&s.p)||DEFAULT_PALETTE,m=(s&&s.m)||'auto';apply(p,m);
+  var sp=document.getElementById('th-pal'),sm=document.getElementById('th-mode');
+  if(sp&&sm){sp.value=p;sm.value=m;function save(){apply(sp.value,sm.value);try{localStorage.setItem('cotoma-theme',JSON.stringify({p:sp.value,m:sm.value}));}catch(e){}}sp.addEventListener('change',save);sm.addEventListener('change',save);}
+})();
 document.querySelectorAll('.copy').forEach(function(b){
   b.addEventListener('click',function(){
     var el=document.getElementById(b.getAttribute('data-copy'));var t=el.textContent.trim();var done=function(){var o=b.textContent;b.textContent='Copié';setTimeout(function(){b.textContent=o;},1500);};

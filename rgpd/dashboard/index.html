@@ -1,4 +1,4 @@
-<title>Pilotage RGPD</title>
+<title>COTOMA Pilotage</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 /* Layout : même dossier administratif que la page de présentation. En-tête à filet, nav en liens, étiquettes en mono rouge, tableaux à bords fins, références de type REG-001, un tampon par vue. */
@@ -92,12 +92,24 @@ pre.yaml{background:var(--tint);border:1px solid var(--line);padding:12px;font-f
 td.name strong{font-family:var(--display);font-weight:700}
 td.name .note{margin-top:2px}
 .tel{font-family:var(--mono);font-size:.82rem;color:var(--fg);text-decoration:none;user-select:all}
+/* Thèmes au choix, les mêmes que la page de présentation : encre (défaut), ardoise, nuit, sable. */
+:root[data-palette="ardoise"]{--bg:#f4f6f4;--paper:#ffffff;--fg:#1d2b24;--muted:#5f6f66;--line:#cfd9d2;--tint:#e8efea;--accent:#1f7a4d;--accent-ink:#ffffff;--bar:#2f6b5a}
+:root[data-palette="nuit"]{--bg:#f6f4ef;--paper:#ffffff;--fg:#1b1f2a;--muted:#5d6273;--line:#d8d4ca;--tint:#efebe2;--accent:#9a6a15;--accent-ink:#ffffff;--bar:#3b4a6b}
+:root[data-palette="sable"]{--bg:#faf7f2;--paper:#ffffff;--fg:#2b2622;--muted:#6b625a;--line:#e0d8cc;--tint:#f1ebe1;--accent:#1f5fa8;--accent-ink:#ffffff;--bar:#3f6fae}
+@media (prefers-color-scheme: dark){
+  :root[data-palette="ardoise"]:not([data-theme="light"]){--bg:#0f1714;--paper:#162019;--fg:#e6efe9;--muted:#98aa9f;--line:#26362d;--tint:#1c2922;--accent:#5fc48f;--accent-ink:#0f1714;--bar:#7fc2a6}
+  :root[data-palette="nuit"]:not([data-theme="light"]){--bg:#0d111a;--paper:#141927;--fg:#ece7dc;--muted:#9aa0b4;--line:#283049;--tint:#1a2033;--accent:#d9a441;--accent-ink:#0d111a;--bar:#8fa3d6}
+  :root[data-palette="sable"]:not([data-theme="light"]){--bg:#171310;--paper:#1f1a16;--fg:#efe8df;--muted:#a89d92;--line:#3a322b;--tint:#282119;--accent:#6fa8ea;--accent-ink:#171310;--bar:#8fb6e6}
+}
+:root[data-palette="ardoise"][data-theme="dark"]{--bg:#0f1714;--paper:#162019;--fg:#e6efe9;--muted:#98aa9f;--line:#26362d;--tint:#1c2922;--accent:#5fc48f;--accent-ink:#0f1714;--bar:#7fc2a6}
+:root[data-palette="nuit"][data-theme="dark"]{--bg:#0d111a;--paper:#141927;--fg:#ece7dc;--muted:#9aa0b4;--line:#283049;--tint:#1a2033;--accent:#d9a441;--accent-ink:#0d111a;--bar:#8fa3d6}
+:root[data-palette="sable"][data-theme="dark"]{--bg:#171310;--paper:#1f1a16;--fg:#efe8df;--muted:#a89d92;--line:#3a322b;--tint:#282119;--accent:#6fa8ea;--accent-ink:#171310;--bar:#8fb6e6}
 @media (max-width:720px){.head{grid-template-columns:1fr}.stamp{min-width:0}}
 </style>
 
 <div class="wrap">
 <header class="top">
-  <div class="brand">[Prénom Nom]<small>Pilotage RGPD · Seine-et-Marne</small></div>
+  <div class="brand">COTOMA<small id="brand-sub">Pilotage RGPD · Seine-et-Marne</small></div>
   <nav class="tabs" role="tablist" aria-label="Vues">
     <button role="tab" aria-selected="true" data-tab="dash">Tableau de bord</button>
     <button role="tab" aria-selected="false" data-tab="queue">À contacter</button>
@@ -179,7 +191,10 @@ td.name .note{margin-top:2px}
 (function(){
 'use strict';
 const $=(s,r)=>(r||document).querySelector(s), $$=(s,r)=>Array.from((r||document).querySelectorAll(s));
-const S={prospects:[],clients:[],factures:[],cfg:{taux_cotisations:25.6,acre:false,objectif_mensuel:1500,objectif_contacts:10,nom:'',siret:''},db:null,canWrite:null,ready:false,chartTable:false,year:new Date().getFullYear(),qLimit:30};
+const S={prospects:[],clients:[],factures:[],cfg:{taux_cotisations:25.6,acre:false,objectif_mensuel:1500,objectif_contacts:10,nom:'',siret:'',nom_commercial:'COTOMA',theme_palette:'encre',theme_mode:'auto'},db:null,canWrite:null,ready:false,chartTable:false,year:new Date().getFullYear(),qLimit:30};
+/* Thème : appliqué tout de suite depuis l'appareil, puis depuis les paramètres partagés quand la base répond. */
+function applyTheme(p,m){const r=document.documentElement;if(p&&p!=='encre')r.setAttribute('data-palette',p);else r.removeAttribute('data-palette');if(m==='light'||m==='dark')r.setAttribute('data-theme',m);else r.removeAttribute('data-theme');try{localStorage.setItem('cotoma-theme',JSON.stringify({p:p||'encre',m:m||'auto'}));}catch(e){}}
+try{const t=JSON.parse(localStorage.getItem('cotoma-theme')||'null');if(t)applyTheme(t.p,t.m);}catch(e){}
 const PSTAT=[['a_contacter','À contacter','mute'],['contacte','Contacté','info'],['rdv','Rendez-vous','info'],['devis','Devis envoyé','warn'],['gagne','Gagné','ok'],['perdu','Pas intéressé','bad']];
 const MSTAT=[['entretien','Entretien à faire','warn'],['redaction','Rédaction','info'],['validation','En validation','info'],['livre','Livré','ok'],['suivi','Suivi mensuel','ok']];
 const PACKS=[['audit','Audit + textes',49],['site','Site conforme',290],['tpe','Conformité TPE',790],['pme','PME / questionnaire',1490],['suivi','Suivi mensuel',49],['autre','Autre',0]];
@@ -213,7 +228,7 @@ async function boot(){
   db.collection('prospects').onSnapshot(s=>{S.prospects=s.docs.map(d=>({id:d.id,...d.data()}));renderAll();},onErr);
   db.collection('clients').onSnapshot(s=>{S.clients=s.docs.map(d=>({id:d.id,...d.data()}));renderAll();},onErr);
   db.collection('factures').onSnapshot(s=>{S.factures=s.docs.map(d=>({id:d.id,...d.data()}));renderAll();},onErr);
-  db.doc('parametres/config').onSnapshot(s=>{if(s.exists)S.cfg={...S.cfg,...s.data()};renderAll();},onErr);
+  db.doc('parametres/config').onSnapshot(s=>{if(s.exists){S.cfg={...S.cfg,...s.data()};if(s.data().theme_palette||s.data().theme_mode)applyTheme(S.cfg.theme_palette,S.cfg.theme_mode);}renderAll();},onErr);
   S.ready=true;
 }
 async function write(fn){
@@ -266,7 +281,7 @@ function queueRows(){
 function renderAll(){if(!S.ready)return;renderDash();renderChart();renderPipeline();renderTodo();renderUrssaf();renderQueue();renderProspects();renderClients();renderFactures();renderBilan();}
 function renderDash(){
   const s=stats();const obj=+S.cfg.objectif_mensuel||0;
-  $('.brand').firstChild.textContent=S.cfg.nom||'[Prénom Nom]';
+  $('.brand').firstChild.textContent=S.cfg.nom_commercial||'COTOMA';$('#brand-sub').textContent='Pilotage RGPD'+(S.cfg.nom?' · '+S.cfg.nom:' · Seine-et-Marne');
   $('#dash-sub').textContent=s.queue?`${s.queue} entreprises attendent un premier contact, dont ${s.p1} en priorité 1.`:'La file de prospection est vide : importe une liste.';
   $('#dash-stamp').innerHTML=`<dt>Date</dt><dd>${new Date().toLocaleDateString('fr-FR')}</dd><dt>Contacts du jour</dt><dd>${s.todayN} / ${S.cfg.objectif_contacts||10}</dd><dt>Prospects</dt><dd>${S.prospects.length}</dd><dt>Clients</dt><dd>${S.clients.length}</dd><dt>Factures</dt><dd>${S.factures.length}</dd>`;
   $('#kpis').innerHTML=[
@@ -441,7 +456,7 @@ function openFacture(f,client,type){
   ${inp('objet','Objet',f.objet,'text',{wide:1,req:1})}
   <div class="wide tablewrap"><table id="lt"><tr><th>Désignation</th><th>Qté</th><th>Prix unitaire HT</th><th class="num">Total HT</th><th></th></tr>${lignes.map(LIGNE).join('')}<tr><td colspan="5"><button type="button" class="btn sm quiet" id="addl">+ Ajouter une ligne</button></td></tr><tr><th colspan="3">Total HT = net à payer, TVA non applicable, art. 293 B du CGI</th><th class="num" id="ftot">${eur(lignesTotal(f))}</th><th></th></tr></table></div>
   <label>Statut<select name="statut">${opt(statOpts,f.statut)}</select></label>${type==='facture'?inp('encaisse_le','Encaissée le',f.encaisse_le,'date')+inp('mode','Mode de règlement',f.mode):''}
-  <div class="actions">${isNew||f.statut!=='brouillon'?'':'<button type="button" class="btn ghost sm left" id="del">Supprimer le brouillon</button>'}${!isNew&&locked&&type==='facture'&&!['annulee','encaissee'].includes(s)?'<button type="button" class="btn ghost sm" id="avoir">Annuler par un avoir</button>':''}${!isNew&&type==='devis'&&['emise','accepte'].includes(s)?'<button type="button" class="btn ghost sm" id="tofac">Transformer en facture</button>':''}${!isNew&&s==='retard'||(!isNew&&s==='emise'&&type==='facture')?'<button type="button" class="btn ghost sm" id="rel">Texte de relance</button>':''}${!isNew&&locked?'<button type="button" class="btn ghost sm" id="pdf">Télécharger le PDF</button>':''}${!isNew&&type==='facture'&&['emise','retard'].includes(s)?'<button type="button" class="btn sm" id="paid">Encaissée aujourd\'hui</button>':''}<button type="button" class="btn ghost" data-close>Fermer</button>${f.statut==='brouillon'?'<button type="submit" class="btn ghost" data-emit="0">Enregistrer le brouillon</button><button type="submit" class="btn" data-emit="1">Émettre</button>':'<button type="submit" class="btn">Enregistrer</button>'}</div></form>
+  <div class="actions">${isNew||f.statut!=='brouillon'?'':'<button type="button" class="btn ghost sm left" id="del">Supprimer le brouillon</button>'}${!isNew&&locked&&type==='facture'&&!['annulee','encaissee'].includes(s)?'<button type="button" class="btn ghost sm" id="avoir">Annuler par un avoir</button>':''}${!isNew&&type==='devis'&&['emise','accepte'].includes(s)?'<button type="button" class="btn ghost sm" id="tofac">Transformer en facture</button>':''}${!isNew&&s==='retard'||(!isNew&&s==='emise'&&type==='facture')?'<button type="button" class="btn ghost sm" id="rel">Texte de relance</button>':''}${!isNew?`<button type="button" class="btn ghost sm" id="pdf">${locked?'Télécharger le PDF':'PDF du brouillon'}</button>`:''}${!isNew&&type==='facture'&&['emise','retard'].includes(s)?'<button type="button" class="btn sm" id="paid">Encaissée aujourd\'hui</button>':''}<button type="button" class="btn ghost" data-close>Fermer</button>${f.statut==='brouillon'?'<button type="submit" class="btn ghost" data-emit="0">Enregistrer le brouillon</button><button type="submit" class="btn" data-emit="1">Émettre</button>':'<button type="submit" class="btn">Enregistrer</button>'}</div></form>
   <p class="note" style="margin:10px 0 0">${locked?'Document émis : le client, les lignes et les dates ne doivent plus changer. Pour corriger une facture, annule-la par un avoir et réémets-en une.':'Le numéro est attribué à l\'émission, dans l\'ordre, sans trou. Vérifie les paramètres (SIRET, IBAN) avant d\'émettre.'}</p>`,
   async d=>{
     const ls=$$('#lt tr.ligne',body).map(tr=>({des:$('[name=des]',tr).value.trim(),qte:+$('[name=qte]',tr).value||0,pu:+$('[name=pu]',tr).value||0})).filter(l=>l.des||l.pu);
@@ -486,9 +501,13 @@ async function genPdf(f,btn){
   const c=S.cfg,ty=TYPES[f.type||'facture'];const doc=new J({unit:'mm',format:'a4'});const W=210,M=18;let y=M;
   const txt=(s,x,yy,o)=>{doc.text(String(s),x,yy,o||{});};const line=(yy)=>{doc.setDrawColor(200);doc.line(M,yy,W-M,yy);};
   const fr=n=>(Math.round(n*100)/100).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
-  const vendeur=`${c.nom||''}${c.forme?' — '+c.forme:' — Entrepreneur individuel'}`;
-  doc.setFont('helvetica','bold');doc.setFontSize(20);txt(ty[1]+(f.numero?' N° '+f.numero:''),M,y);y+=8;
+  const brouillon=f.statut==='brouillon';const nc=c.nom_commercial||'COTOMA';
+  const vendeur=`${c.nom||''}${c.forme?' — '+c.forme:' — Entrepreneur individuel'}${nc?' (nom commercial : '+nc+')':''}`;
+  if(brouillon){doc.setTextColor(215);doc.setFont('helvetica','bold');doc.setFontSize(64);txt('BROUILLON',W/2,170,{align:'center',angle:32});doc.setTextColor(0);}
+  doc.setFont('helvetica','bold');doc.setFontSize(14);txt(nc,W-M,M,{align:'right'});
+  doc.setFontSize(20);txt(ty[1]+(f.numero?' N° '+f.numero:brouillon?' — BROUILLON':''),M,y);y+=8;
   doc.setFont('helvetica','normal');doc.setFontSize(9.5);
+  if(brouillon){txt('Document provisoire : sans numéro, sans valeur comptable ni fiscale. Le numéro et la date définitifs sont attribués à l\'émission.',M,y);y+=4.5;}
   txt(`Date d'émission : ${fdate(f.date)}`,M,y);y+=4.5;
   if(f.type==='devis'){txt(`Valable jusqu'au : ${fdate(f.validite)}`,M,y);y+=4.5;}else{txt(`Date de la prestation : ${fdate(f.date_prestation||f.date)}`,M,y);y+=4.5;if(f.type==='facture'){txt(`Date d'échéance : ${fdate(f.echeance)}`,M,y);y+=4.5;}}
   if(f.ref){txt(`Annule et remplace la facture ${f.ref}`,M,y);y+=4.5;}if(f.ref_devis){txt(`Suite au devis ${f.ref_devis}`,M,y);y+=4.5;}
@@ -523,7 +542,7 @@ async function genPdf(f,btn){
   else{doc.setFontSize(8);txt(`Cet avoir annule la facture ${f.ref||''}. Montant remboursé ou à déduire d'une prochaine facture.`,M,y);y+=4;}
   doc.setFontSize(7.5);doc.setTextColor(110);const foot=`${vendeur} — ${c.adresse||''} — SIRET ${c.siret||''} — ${c.tva?'TVA '+c.tva:'TVA non applicable, art. 293 B du CGI'}${c.assurance?' — '+c.assurance:''}`;
   doc.splitTextToSize(foot,W-2*M).forEach((l,i)=>{txt(l,W/2,285+i*3.5,{align:'center'});});doc.setTextColor(0);
-  const name=`${ty[0]}-${(f.numero||'brouillon').replace(/[^A-Za-z0-9-]/g,'')}.pdf`;
+  const name=brouillon?`Brouillon-${ty[0]}-${(f.client||'client').replace(/[^A-Za-z0-9-]/g,'')}-${today()}.pdf`:`${ty[0]}-${(f.numero||'').replace(/[^A-Za-z0-9-]/g,'')}.pdf`;
   if(!S.dl){banner('L\'enregistrement de fichiers n\'est pas disponible dans cette vue : ouvre la page sur claude.ai pour télécharger le PDF.',true);return;}
   try{btn.disabled=true;await S.dl.save({filename:name,data:doc.output('blob')});const o=btn.textContent;btn.textContent='Enregistré';setTimeout(()=>{btn.textContent=o;btn.disabled=false;},1500);}
   catch(e){btn.disabled=false;if(e&&e.code==='declined')return;banner('PDF non enregistré ('+(e&&e.code||'erreur')+').',true);}
@@ -541,14 +560,16 @@ function parseImport(txt){
 function splitCsv(l){const r=[];let cur='',q=false;for(const ch of l){if(ch==='"')q=!q;else if(ch===','&&!q){r.push(cur);cur='';}else cur+=ch;}r.push(cur);return r.map(x=>x.trim());}
 function openParams(){
   const c=S.cfg;open(`<p class="eyebrow">Paramètres</p><h3>Ton activité et tes factures</h3><form class="f">
-  ${inp('nom','Prénom et nom (en-tête, factures, relances)',c.nom)}${inp('forme','Forme juridique affichée',c.forme||'Entrepreneur individuel')}
+  ${inp('nom_commercial','Nom commercial (en-tête des pages et des factures)',c.nom_commercial||'COTOMA')}<label>Thème<select name="theme_palette">${opt([['encre','Encre'],['ardoise','Ardoise'],['nuit','Nuit'],['sable','Sable']],c.theme_palette||'encre')}</select></label><label>Mode<select name="theme_mode">${opt([['auto','Automatique'],['light','Clair'],['dark','Sombre']],c.theme_mode||'auto')}</select></label>
+  ${inp('nom','Prénom et nom (obligatoire sur les factures)',c.nom)}${inp('forme','Forme juridique affichée',c.forme||'Entrepreneur individuel')}
   ${inp('adresse','Adresse du siège (obligatoire sur les factures)',c.adresse,'text',{wide:1})}${inp('siret','SIRET',c.siret)}${inp('rcs','Immatriculation (ex. SIREN au répertoire SIRENE, ou RM)',c.rcs)}
   ${inp('email','Email pro',c.email,'email')}${inp('telephone','Téléphone',c.telephone,'tel')}
   ${inp('iban','IBAN',c.iban,'text',{wide:1})}${inp('bic','BIC',c.bic)}${inp('tva','N° TVA (vide = franchise en base)',c.tva)}
   ${inp('mediateur','Médiateur de la consommation (clients particuliers)',c.mediateur,'text',{wide:1})}${inp('assurance','Assurance RC pro (facultatif : assureur, n° de contrat, couverture)',c.assurance,'text',{wide:1})}
   ${inp('taux_cotisations','Taux de cotisations URSSAF (%)',c.taux_cotisations,'number',{step:'0.1'})}<label>ACRE la première année<select name="acre"><option value="0" ${!c.acre?'selected':''}>Non</option><option value="1" ${c.acre?'selected':''}>Oui, -25 %</option></select></label>${inp('objectif_mensuel','Objectif mensuel (€)',c.objectif_mensuel,'number',{step:'10'})}${inp('objectif_contacts','Contacts par jour visés',c.objectif_contacts||10,'number',{step:'1'})}
   <div class="actions"><button type="button" class="btn ghost" data-close>Annuler</button><button type="submit" class="btn">Enregistrer</button></div></form>`,
-  async d=>{d.acre=d.acre==='1';d.taux_cotisations=+d.taux_cotisations||25.6;d.objectif_mensuel=+d.objectif_mensuel||0;d.objectif_contacts=+d.objectif_contacts||10;return write(()=>S.db.doc('parametres/config').set({...S.cfg,...d}));});
+  async d=>{d.acre=d.acre==='1';d.taux_cotisations=+d.taux_cotisations||25.6;d.objectif_mensuel=+d.objectif_mensuel||0;d.objectif_contacts=+d.objectif_contacts||10;applyTheme(d.theme_palette,d.theme_mode);return write(()=>S.db.doc('parametres/config').set({...S.cfg,...d}));});
+  $$('[name=theme_palette],[name=theme_mode]',body).forEach(s=>s.addEventListener('change',()=>applyTheme($('[name=theme_palette]',body).value,$('[name=theme_mode]',body).value)));
 }
 function copy(t,btn){const done=()=>{const o=btn.textContent;btn.textContent='Copié';setTimeout(()=>btn.textContent=o,1500);};const fb=()=>{const pre=btn.closest('.dlg').querySelector('pre');if(pre){const r=document.createRange();r.selectNodeContents(pre);const s=getSelection();s.removeAllRanges();s.addRange(r);}};if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(done,fb);else fb();}
 

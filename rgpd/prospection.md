@@ -4,7 +4,7 @@ Remplace [prénom nom], [email], [téléphone], [lien page] avant envoi.
 
 ## Profil Malt (titre + présentation)
 
-Titre : Consultant RGPD pour TPE et PME. Registre, politiques, cookies, réponses EcoVadis et CyberVadis.
+Titre : COTOMA · Consultant RGPD pour TPE et PME. Registre, politiques, cookies, réponses EcoVadis et CyberVadis.
 
 Présentation :
 J'aide les petites entreprises à être en règle avec le RGPD sans y passer des semaines ni payer un cabinet.
@@ -46,8 +46,8 @@ Je propose un pack Site conforme à 290 € tout compris : mentions légales, po
 
 Si vous préférez d'abord voir le détail, je vous envoie l'audit complet gratuitement. Un simple « oui » en réponse suffit.
 
-[prénom nom]
-Consultant RGPD, Seine-et-Marne
+[prénom nom] · COTOMA
+Conformité RGPD des TPE et PME, Seine-et-Marne
 [téléphone] · [lien page]
 
 ## Email 2 : sous-traitant industriel à qui un client demande des preuves
@@ -64,7 +64,7 @@ Si vous avez reçu ce type de demande, ou si vous voulez l'anticiper, je peux vo
 
 Auriez-vous un créneau cette semaine ou la suivante ?
 
-[prénom nom]
+[prénom nom] · COTOMA
 [téléphone] · [lien page]
 
 ## Email 3 : artisan ou commerce avec vidéosurveillance ou fichier clients
@@ -79,12 +79,12 @@ Je propose aux entreprises de [ville] une mise en conformité à prix fixe : 290
 
 Je passe à [ville] le [jour]. Un café de 20 minutes pour faire le point ?
 
-[prénom nom]
+[prénom nom] · COTOMA
 [téléphone]
 
 ## Script téléphonique (90 secondes)
 
-« Bonjour, [prénom nom], je suis consultant RGPD à [ville]. Je vous appelle parce que j'ai regardé votre site et j'ai vu [le point principal de l'audit]. Ce n'est pas grave, mais c'est le motif numéro un des amendes CNIL cette année chez les petites entreprises. Je corrige ça en deux jours pour 290 €, prix fixe. Est-ce que je peux vous envoyer par email le détail de ce que j'ai vu ? » 
+« Bonjour, [prénom nom], de COTOMA, je suis consultant RGPD à [ville]. Je vous appelle parce que j'ai regardé votre site et j'ai vu [le point principal de l'audit]. Ce n'est pas grave, mais c'est le motif numéro un des amendes CNIL cette année chez les petites entreprises. Je corrige ça en deux jours pour 290 €, prix fixe. Est-ce que je peux vous envoyer par email le détail de ce que j'ai vu ? » 
 
 Si « on a déjà quelqu'un » : « Très bien. Est-ce qu'il vous a remis un registre des traitements ? C'est le document que la CNIL demande en premier. Si vous ne l'avez pas, je vous le fais pour 790 € avec le reste. »
 
