@@ -11,7 +11,7 @@ J'aide les petites entreprises à être en règle avec le RGPD sans y passer des
 
 Ce que je livre : registre des traitements, politique de confidentialité et cookies, mentions légales, procédure de violation de données, durées de conservation, cartographie et clauses des sous-traitants, analyse d'impact (PIA) sur l'outil CNIL, et les réponses aux questionnaires que vos clients vous imposent (EcoVadis, CyberVadis, appels d'offres).
 
-Référence : mise en conformité complète d'un groupe industriel de 9 sites en 2026 (registre, PIA, politiques, pack CyberVadis), aux côtés du référent RGPD interne.
+Référence : mise en conformité complète d'un groupe industriel multi-sites en 2026 (registre, PIA, politiques, réponses au questionnaire sécurité d'un donneur d'ordre), aux côtés du référent RGPD interne.
 
 Prix fixes annoncés avant de commencer. Pack Site conforme 290 €, Pack Conformité TPE 790 €, PME et questionnaires clients sur devis à partir de 1 490 €.
 
@@ -23,7 +23,7 @@ Depuis janvier, la CNIL a prononcé 23 sanctions en procédure simplifiée. Mont
 
 Ce n'est plus un sujet de grands groupes.
 
-Cette année, j'ai mené la mise en conformité complète d'un groupe industriel de 9 sites : registre des traitements, analyse d'impact CNIL, politiques, procédure de violation de données, pack CyberVadis pour répondre à ses donneurs d'ordre.
+Cette année, j'ai mené la mise en conformité complète d'un groupe industriel multi-sites : registre des traitements, analyse d'impact CNIL, politiques, procédure de violation de données, réponses au questionnaire sécurité de ses donneurs d'ordre.
 
 Je propose maintenant la même méthode aux TPE et PME, à prix fixe :
 - Site conforme : 290 €
@@ -58,7 +58,7 @@ Bonjour [prénom nom],
 
 De plus en plus de donneurs d'ordre demandent à leurs fournisseurs un registre des traitements, une politique de sécurité ou un score EcoVadis / CyberVadis avant de signer. Beaucoup de PME découvrent la demande la semaine où il faut répondre.
 
-Cette année, j'ai préparé ce dossier complet pour un groupe industriel de 9 sites : registre, analyse d'impact CNIL, procédure de violation de données, cartographie des sous-traitants et réponses au questionnaire CyberVadis.
+Cette année, j'ai préparé ce dossier complet pour un groupe industriel multi-sites : registre, analyse d'impact CNIL, procédure de violation de données, cartographie des sous-traitants et réponses au questionnaire sécurité de son donneur d'ordre.
 
 Si vous avez reçu ce type de demande, ou si vous voulez l'anticiper, je peux vous dire en 30 minutes ce qui vous manque et ce que ça coûterait de le produire. Pack Conformité TPE à 790 €, PME sur devis.
 
@@ -97,7 +97,7 @@ Si « pas le temps » : « Je comprends. Je vous envoie l'audit, vous le lisez e
 
 ## Où trouver les prospects, gratuitement
 
-1. Ta propre liste : sous-traitants, fournisseurs et clients du groupe industriel que tu as accompagné. Ils ont les mêmes obligations et le même donneur d'ordre.
+1. Ton réseau : les entreprises que tu connais déjà, sans jamais citer le client accompagné ni son secteur.
 2. Zone économique du Confluent à Montereau (une soixantaine d'entreprises), ZI du Port à Vernou-La-Celle, Pôle des Renardières à Écuelles : relever les noms sur place ou sur Google Maps, auditer les sites avec l'outil.
 3. Annuaire des associations et commerces de ville-montereau77.fr, CCI Seine-et-Marne, clubs d'entreprises (Rotary Montereau, club des entrepreneurs du Pays de Montereau).
 4. Pages Jaunes par secteur et code postal : plombiers, garages, cabinets médicaux et paramédicaux (données sensibles, très exposés), agences immobilières, auto-écoles, salles de sport, campings.

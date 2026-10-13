@@ -4,7 +4,7 @@ Décision prise le 13 octobre 2026, hors Shopify, sans stock, sans pub.
 
 ## Pourquoi celle-là et pas une autre
 
-J'ai regardé ce que tu as déjà produit. Dans ton Drive, il y a un dossier RGPD complet livré en mai-juin 2026 pour un groupe industriel multi-sites (registre de 8 traitements, PIA sur l'outil CNIL, politiques confidentialité et cookies, procédure de violation de données, tableau des durées de conservation, cartographie des sous-traitants, gouvernance, pack CyberVadis). C'est exactement le livrable qu'un consultant facture entre 450 et 850 € la journée sur Malt ou via la CCI.
+J'ai regardé ce que tu as déjà produit. Dans ton Drive, il y a un dossier RGPD complet livré en mai-juin 2026 pour un groupe industriel multi-sites (registre, PIA sur l'outil CNIL, politiques, procédure de violation de données, durées de conservation, sous-traitants, gouvernance, réponses à un questionnaire sécurité client). C'est exactement le livrable qu'un consultant facture entre 450 et 850 € la journée sur Malt ou via la CCI.
 
 Les autres pistes à 25 € tiennent moins bien :
 - Print-on-demand Seven Starz (Printful + Etsy) : zéro stock mais 8 à 12 € de marge par pièce et aucun trafic. Il faudrait 200 ventes pour que ça compte.
@@ -45,7 +45,7 @@ Malt prend 10 % sur les missions trouvées via la plateforme, Gumroad 10 % + fra
 ## Ordre des opérations (cette semaine)
 
 1. Micro-entreprise : activité « conseil pour les affaires » (code NAF 70.22Z), gratuit sur autoentrepreneur.urssaf.fr. Charges : 24,6 % du chiffre encaissé, pas de TVA en dessous de 37 500 € de prestations.
-2. Demander à ton contact chez le client industriel l'autorisation de le citer en référence, ou au minimum une recommandation LinkedIn. Sans nom, la référence « groupe industriel multi-sites, 9 sites, 2026 » suffit.
+2. Le client ne sera pas cité : la référence reste « groupe industriel multi-sites, 2026 », sans nom, sans secteur, sans nombre de sites. Une recommandation LinkedIn de ton contact, si elle vient de lui, reste possible.
 3. Créer le profil Malt avec le texte de prospection.md, TJM 400 €.
 4. Lancer l'outil d'audit sur 50 sites locaux, envoyer 20 emails ciblés avec l'accroche générée. Taux de réponse réaliste : 5 à 10 %, donc 1 à 2 rendez-vous, 1 client sur 3 rendez-vous.
 5. Publier le kit sur Gumroad à 49 €.
