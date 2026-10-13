@@ -59,15 +59,21 @@ if ($method === 'POST') {
     $body = json_decode((string)file_get_contents('php://input'), true) ?: [];
 }
 $action = $body['action'] ?? $_GET['action'] ?? 'status';
-$ip = $_SERVER['REMOTE_ADDR'] ?? '0';
+// Derrière le répartiteur de charge OVH, l'adresse du visiteur est dans X-Forwarded-For.
+$ip = trim(explode(',', (string)($_SERVER['HTTP_X_FORWARDED_FOR'] ?? ''))[0]) ?: ($_SERVER['REMOTE_ADDR'] ?? '0');
 $COLLS = ['prospects', 'clients', 'factures', 'parametres'];
 
 function coll(string $c, array $COLLS): string { if (!in_array($c, $COLLS, true)) fail('Collection inconnue.'); return $c; }
 function docid(string $id): string { if (!preg_match('/^[A-Za-z0-9_.~:@+-]{1,200}$/', $id)) fail('Identifiant invalide.'); return $id; }
 
 switch ($action) {
+    case 'ping':
+        // Diagnostic sans données : un compteur qui doit augmenter à chaque appel si les écritures sont bien partagées.
+        $pdo->exec('CREATE TABLE IF NOT EXISTS meta (k TEXT PRIMARY KEY, v TEXT)');
+        $pdo->exec("INSERT INTO meta (k, v) VALUES ('ping', '0') ON CONFLICT(k) DO UPDATE SET v = CAST(CAST(v AS INTEGER) + 1 AS TEXT)");
+        out(['ping' => (int)$pdo->query("SELECT v FROM meta WHERE k = 'ping'")->fetchColumn(), 'node' => substr(hash('sha256', (string)gethostname()), 0, 8)]);
     case 'status':
-        out(['auth' => $auth, 'setup' => $COTOMA_PASSWORD === 'change-moi', 'v' => 2]);
+        out(['auth' => $auth, 'setup' => $COTOMA_PASSWORD === 'change-moi', 'v' => 3]);
     case 'login':
         if ($method !== 'POST') fail('Méthode.', 405);
         if ($COTOMA_PASSWORD === 'change-moi' || strlen($COTOMA_PASSWORD) < 12) fail('Définis d\'abord un mot de passe d\'au moins 12 caractères dans config.php.', 503);
