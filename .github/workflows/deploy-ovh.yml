@@ -1,0 +1,65 @@
+name: Déployer COTOMA sur OVH
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'rgpd/site/**'
+      - 'rgpd/app/**'
+      - 'rgpd/page/**'
+      - 'rgpd/dashboard/**'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-ovh
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Construire le site et le tableau de bord
+        env:
+          COTOMA_PASSWORD: ${{ secrets.COTOMA_PASSWORD }}
+          COTOMA_EXPORT_TOKEN: ${{ secrets.COTOMA_EXPORT_TOKEN }}
+        run: |
+          set -e
+          python3 rgpd/site/build.py
+          python3 rgpd/app/build.py
+          mkdir -p deploy/www/app
+          cp rgpd/site/index.html rgpd/site/.htaccess rgpd/site/robots.txt rgpd/site/sitemap.xml deploy/www/
+          cp -r rgpd/site/fonts deploy/www/fonts
+          cp rgpd/app/index.html rgpd/app/api.php rgpd/app/remote.js rgpd/app/.htaccess deploy/www/app/
+          cp -r rgpd/app/data rgpd/app/fonts rgpd/app/lib deploy/www/app/
+          rm -f deploy/www/app/data/*.sqlite* deploy/www/app/data/seed.json.importe
+          python3 - <<'PY'
+          import os
+          pw=os.environ.get('COTOMA_PASSWORD','').replace('\\','\\\\').replace("'","\\'")
+          tok=os.environ.get('COTOMA_EXPORT_TOKEN','').replace('\\','\\\\').replace("'","\\'")
+          if len(pw)<12: raise SystemExit('Le secret COTOMA_PASSWORD doit faire au moins 12 caractères.')
+          open('deploy/www/app/config.php','w').write("<?php\n$COTOMA_PASSWORD = '%s';\n$COTOMA_EXPORT_TOKEN = '%s';\n$COTOMA_DATA_DIR = __DIR__ . '/data';\n" % (pw,tok))
+          print('config.php écrit')
+          PY
+          find deploy/www -type f | wc -l
+
+      - name: Envoyer sur l'hébergement OVH (FTP sécurisé)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.OVH_FTP_SERVER }}
+          username: ${{ secrets.OVH_FTP_USER }}
+          password: ${{ secrets.OVH_FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
+          local-dir: deploy/www/
+          server-dir: www/
+          exclude: |
+            **/cotoma.sqlite*
+            **/seed.json.importe
+
+      - name: Vérifier que le site répond
+        run: |
+          sleep 5
+          curl -sS -o /dev/null -w "cotoma.fr -> %{http_code}\n" https://cotoma.fr/ || true
+          curl -sS https://cotoma.fr/app/api.php?action=status || true
