@@ -84,3 +84,7 @@ Ce qui reste à ta charge :
 3. **Logiciel de caisse certifié** : l'obligation de certification (art. 286 I 3° bis CGI) ne s'applique pas tant que tu es en franchise en base. Si tu dépasses les seuils et deviens redevable de la TVA, il faudra un outil attesté par son éditeur.
 4. **Archivage** : la base du tableau de bord est en ligne. Télécharge chaque PDF émis et fais un export CSV par trimestre dans un dossier de sauvegarde.
 5. **Une seule personne émet** : la numérotation se calcule dans la page ; n'émets pas deux factures en même temps depuis deux appareils.
+
+## Position sur le DPO
+
+COTOMA n'exerce pas la fonction de DPO. Si l'activité du client impose la désignation d'un délégué à la protection des données (ou s'il le souhaite), l'audit se conclut par la désignation d'un DPO interne, la définition de son rôle et sa déclaration à la CNIL. Cette position est affichée dans la FAQ du site.
