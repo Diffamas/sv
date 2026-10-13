@@ -1,8 +1,9 @@
 # COTOMA — tableau de bord privé (OVH, Apache)
 RewriteEngine On
-# Redirection HTTPS : réactivée par Claude dès que le certificat cotoma.fr est émis par OVH.
-# RewriteCond %{HTTPS} !=on
-# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# Redirection HTTPS (le certificat Let's Encrypt cotoma.fr est actif). Double condition pour ne pas boucler derrière le répartiteur OVH.
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 # Jamais d'accès direct à la base, aux sauvegardes ni à la configuration
 RewriteRule ^data(/|$) - [F]
 <FilesMatch "^(config\.php|.*\.sqlite.*|.*\.json|build\.py)$">

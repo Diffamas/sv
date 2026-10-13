@@ -34,9 +34,10 @@ open(os.path.join(HERE,'sitemap.xml'),'w').write(f'<?xml version="1.0" encoding=
 open(os.path.join(HERE,'.htaccess'),'w').write('''# COTOMA — hébergement OVH (Apache)
 # HTTPS obligatoire
 RewriteEngine On
-# Redirection HTTPS : réactivée par Claude dès que le certificat cotoma.fr est émis par OVH.
-# RewriteCond %{HTTPS} !=on
-# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# Redirection HTTPS (le certificat Let's Encrypt cotoma.fr est actif). Double condition pour ne pas boucler derrière le répartiteur OVH.
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 # www -> sans www
 RewriteCond %{HTTP_HOST} ^www\\.(.+)$ [NC]
 RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
