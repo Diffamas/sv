@@ -72,7 +72,12 @@
       document.body.appendChild(overlay);
       overlay.querySelector('form').addEventListener('submit', async e => {
         e.preventDefault(); const b = overlay.querySelector('button'); b.disabled = true;
-        try { await call('login', { password: overlay.querySelector('#pw').value }); hideLogin(); if (resolveBoot) { resolveBoot(); resolveBoot = null; } refresh(); }
+        try {
+          await call('login', { password: overlay.querySelector('#pw').value });
+          const st = await call('status', null, 'GET');
+          if (!st || !st.auth) { overlay.querySelector('#login-msg').textContent = 'Mot de passe accepté, mais ton navigateur n\'a pas conservé le cookie de connexion. Vérifie que les cookies sont autorisés pour cotoma.fr, désactive les extensions de confidentialité pour ce site, ou essaie en fenêtre de navigation privée.'; }
+          else { hideLogin(); if (resolveBoot) { resolveBoot(); resolveBoot = null; } refresh(); }
+        }
         catch (err) { overlay.querySelector('#login-msg').textContent = err.message || 'Erreur.'; }
         b.disabled = false;
       });

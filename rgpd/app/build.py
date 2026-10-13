@@ -6,12 +6,13 @@
 Transformations : polices locales, jsPDF local, couche de données remote.js (api.php + mot de passe),
 téléchargement direct des PDF, squelette HTML complet, noindex, écran de connexion.
 """
-import os, re
+import os, re, hashlib
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(HERE)
 src = open(os.path.join(ROOT, 'dashboard', 'index.html'), encoding='utf-8').read()
+VERSION = hashlib.sha1(open(os.path.join(HERE, 'remote.js'), 'rb').read()).hexdigest()[:8]
 fonts = open(os.path.join(HERE, 'fonts', 'fonts.css'), encoding='utf-8').read()
 src, n1 = re.subn(r'<link rel="stylesheet" href="https://fonts\.googleapis\.com[^"]*">', '<style>' + fonts + '</style>', src)
-src, n2 = re.subn(r'<script src="https://cdnjs\.cloudflare\.com/ajax/libs/jspdf/[^"]+"></script>', '<script src="lib/jspdf.umd.min.js"></script>\n<script src="remote.js"></script>', src)
+src, n2 = re.subn(r'<script src="https://cdnjs\.cloudflare\.com/ajax/libs/jspdf/[^"]+"></script>', '<script src="lib/jspdf.umd.min.js"></script>\n<script src="remote.js?v=' + VERSION + '"></script>', src)
 old = "const [db,user,dl]=await Promise.all([window.claude?.use?.('db'),window.claude?.use?.('user'),window.claude?.use?.('downloads')]);"
 assert old in src, 'ligne de démarrage introuvable dans dashboard/index.html'
 src = src.replace(old, "const [db,user,dl]=await window.remoteBoot();")

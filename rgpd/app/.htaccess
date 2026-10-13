@@ -20,3 +20,7 @@ Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
 AddType font/woff2 .woff2
 AddDefaultCharset UTF-8
 DirectoryIndex index.html
+# Toujours recharger la page et le script après une mise à jour
+<FilesMatch "\.(html|js|php)$">
+Header set Cache-Control "no-cache, must-revalidate"
+</FilesMatch>
