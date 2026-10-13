@@ -1,0 +1,32 @@
+# Réponses du questionnaire client. Une mission = un fichier comme celui-ci.
+# Lance ensuite : python3 generer_dossier.py client-exemple.yaml
+raison_sociale: "Boulangerie Dupont"
+forme_juridique: "SARL"
+forme_capital: "SARL au capital de 10 000 €"
+adresse: "12 rue de la Gare, 77130 Montereau-Fault-Yonne"
+ville: "Montereau-Fault-Yonne"
+siret: "123 456 789 00012"
+immatriculation: "RCS Melun 123 456 789"
+tva: "FR12 123456789"
+representant: "Marie Dupont"
+fonction: "gérante"
+email: "contact@boulangerie-dupont.fr"
+telephone: "01 64 00 00 00"
+site: "https://www.boulangerie-dupont.fr"
+hebergeur: "OVH"
+hebergeur_mentions: "OVH SAS, 2 rue Kellermann, 59100 Roubaix, 09 72 10 10 07"
+messagerie: "Google Workspace"
+comptable: "Cabinet Martin Expertise"
+logiciel_facturation: "Sage 50"
+agence_web: "Agence Pixel 77"
+prestataire_it: "Agence Pixel 77, 01 64 00 00 01, support@pixel77.fr"
+videosurveillance: true
+videosurveillance_prestataire: "Verisure"
+analytics: "Google Analytics"
+analytics_consentement: "Oui"
+embeds: "Google Maps"
+pixels: "Pixel Meta"
+transfert_hors_ue: "Certains prestataires, comme Google Workspace et Google Analytics, sont situés aux États-Unis : le transfert est encadré par les clauses contractuelles types de la Commission européenne et par leur certification au Data Privacy Framework."
+# Traitements à garder dans le registre (références de l'onglet Registre du kit) :
+traitements: [CLI, PRO, RH, REC, WEB, FOU, SEC, COM]
+effectif: 6

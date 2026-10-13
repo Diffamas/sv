@@ -1,0 +1,7 @@
+# Données clients et comptables : jamais sur GitHub
+rgpd/mission/dossiers/
+rgpd/admin/factures/
+rgpd/admin/livre-recettes.csv
+rgpd/mission/*.yaml
+!rgpd/mission/client-exemple.yaml
+__pycache__/

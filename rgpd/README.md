@@ -26,3 +26,15 @@ Dépendances : `pip install requests beautifulsoup4`.
 cd rgpd/kit-rgpd-tpe
 python3 generer_kit.py
 ```
+
+## Automatisations (dossier `mission/` et `admin/`)
+
+| Commande | Ce qu'elle fait |
+|---|---|
+| `python3 mission/generer_dossier.py mission/<client>.yaml` | Génère le dossier RGPD complet du client (8 documents remplis, audit du site, liste des champs restants) à partir des réponses au questionnaire `mission/questionnaire-client.md` |
+| `python3 admin/facture.py nouvelle --client ... --objet ... --montant ...` | Facture numérotée en PDF, conforme micro-entreprise, ajoutée au livre des recettes |
+| `python3 admin/facture.py encaissee 2026-001` | Marque la facture payée |
+| `python3 admin/facture.py urssaf` | Chiffre d'affaires du trimestre à déclarer et cotisations estimées |
+| `python3 admin/facture.py relances` | Factures en retard avec le texte de relance prêt |
+
+Les dossiers clients, factures et livre des recettes sont exclus de Git (`.gitignore`) : ils restent sur ta machine. Complète `admin/config-vendeur.yaml` une fois avec ton SIRET.

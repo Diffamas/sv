@@ -1,0 +1,11 @@
+# Tes informations, imprimées sur chaque facture. À compléter une seule fois.
+nom: "[Prénom Nom]"
+adresse: "[adresse complète]"
+siret: "[SIRET]"
+email: "[email pro]"
+telephone: "[téléphone]"
+iban: "[IBAN]"
+bic: "[BIC]"
+delai_paiement_jours: 30
+taux_cotisations: 25.6      # % URSSAF micro-BNC 2026, à vérifier chaque année
+acre: false                 # true la première année si l'ACRE est accordée
