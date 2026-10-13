@@ -42,3 +42,7 @@ Les dossiers clients, factures et livre des recettes sont exclus de Git (`.gitig
 ## Hébergement du site (dossier `site/`)
 
 `rgpd/site/index.html` est la version autonome de la page de présentation, prête pour n'importe quel hébergeur statique. `CNAME` contient le domaine prévu (cotoma.fr), `robots.txt` autorise l'indexation. Pour mettre à jour le site, modifie `page/index.html` puis régénère `site/` (voir la conversation) ou copie le contenu à la main.
+
+## Tableau de bord auto-hébergé (dossier `app/`)
+
+Version du tableau de bord pour cotoma.fr/app : `api.php` + SQLite + mot de passe (`config.php`). Construit par `python3 app/build.py` à partir de `dashboard/index.html`. Guide de mise en ligne : `app/OVH-APP.md`. Le mot de passe du dépôt est `change-moi` : il doit être remplacé avant l'envoi, jamais commité.

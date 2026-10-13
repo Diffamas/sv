@@ -5,3 +5,6 @@ rgpd/admin/livre-recettes.csv
 rgpd/mission/*.yaml
 !rgpd/mission/client-exemple.yaml
 __pycache__/
+rgpd/app/data/*.sqlite*
+rgpd/app/data/seed.json.importe
+rgpd/app/php.log
