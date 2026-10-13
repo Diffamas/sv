@@ -1,0 +1,221 @@
+<title>Conformité RGPD Sud 77</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout : un dossier administratif. Colonne de texte étroite, tableaux à bords fins, références de type REG-001, un seul tampon rouge. */
+:root{
+  --bg:#f5f6f8; --paper:#ffffff; --fg:#15233b; --muted:#5b6578; --line:#d4d9e2;
+  --accent:#b8232f; --accent-ink:#ffffff; --ok:#1f7a4d; --tint:#eef1f6;
+  --display:"Archivo",system-ui,sans-serif; --body:"IBM Plex Sans",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --bg:#0f1520; --paper:#161e2b; --fg:#e8ecf3; --muted:#9aa6ba; --line:#2a3546; --accent:#e4505c; --accent-ink:#ffffff; --ok:#5fc48f; --tint:#1c2634; color-scheme:dark } }
+:root[data-theme="dark"]{ --bg:#0f1520; --paper:#161e2b; --fg:#e8ecf3; --muted:#9aa6ba; --line:#2a3546; --accent:#e4505c; --accent-ink:#ffffff; --ok:#5fc48f; --tint:#1c2634; color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.55;margin:0}
+.wrap{max-width:960px;margin:0 auto;padding-block:0 64px;padding-inline:16px}
+header.top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:baseline;justify-content:space-between;padding-block:20px;border-bottom:1px solid var(--line)}
+.brand{font-family:var(--display);font-weight:800;font-size:1.05rem;letter-spacing:.01em}
+.brand small{display:block;font-family:var(--mono);font-weight:400;font-size:.72rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.top nav{display:flex;flex-wrap:wrap;gap:16px;font-size:.92rem}
+.top nav a{color:var(--muted);text-decoration:none}
+.top nav a:hover,.top nav a:focus-visible{color:var(--fg);text-decoration:underline}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0}
+h1{font-size:clamp(1.9rem,4.5vw,2.9rem);line-height:1.08;font-weight:800;letter-spacing:-.01em}
+h2{font-size:1.45rem;font-weight:700;margin-bottom:14px}
+h3{font-size:1.05rem;font-weight:700}
+.eyebrow{font-family:var(--mono);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.hero{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:32px;padding-block:48px 40px;align-items:start}
+.hero p.lede{font-size:1.12rem;max-width:34em;margin:18px 0 0;color:var(--muted)}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px;align-items:center}
+.btn{display:inline-block;background:var(--accent);color:var(--accent-ink);font-family:var(--display);font-weight:700;padding:12px 20px;text-decoration:none;border:0;cursor:pointer;font-size:1rem}
+.btn:focus-visible{outline:3px solid var(--fg);outline-offset:2px}
+.btn.ghost{background:transparent;color:var(--fg);border:1.5px solid var(--fg)}
+.stamp{position:relative;background:var(--paper);border:1px solid var(--line);padding:22px 22px 18px;font-family:var(--mono);font-size:.86rem;line-height:1.5}
+.stamp dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0}
+.stamp dt{color:var(--muted)}
+.stamp dd{margin:0}
+.seal{position:absolute;right:16px;top:-14px;transform:rotate(-6deg);border:3px solid var(--accent);color:var(--accent);font-family:var(--display);font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:4px 10px;font-size:.78rem;background:var(--paper)}
+section{padding-block:36px;border-top:1px solid var(--line)}
+.packs{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.pack{background:var(--paper);border:1px solid var(--line);padding:22px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.pack.hl{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
+.pack .ref{font-family:var(--mono);font-size:.74rem;color:var(--muted);letter-spacing:.06em}
+.price{font-family:var(--display);font-size:2rem;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.price small{font-family:var(--body);font-size:.9rem;font-weight:400;color:var(--muted);display:block;margin-top:6px}
+.pack ul{margin:0;padding-left:18px;font-size:.95rem}
+.pack li{margin:4px 0}
+.pack .for{font-size:.92rem;color:var(--muted)}
+.pack .time{margin-top:auto;font-family:var(--mono);font-size:.8rem;color:var(--muted);padding-top:10px;border-top:1px dashed var(--line)}
+table{width:100%;border-collapse:collapse;font-size:.95rem;background:var(--paper)}
+th,td{text-align:left;padding:10px 12px;border:1px solid var(--line);vertical-align:top}
+th{background:var(--tint);font-family:var(--display);font-weight:700;font-size:.86rem}
+td.ref{font-family:var(--mono);font-size:.82rem;white-space:nowrap}
+.tablewrap{overflow-x:auto}
+ol.steps{counter-reset:s;list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+ol.steps li{counter-increment:s;background:var(--paper);border:1px solid var(--line);padding:18px}
+ol.steps li::before{content:"Semaine " counter(s);display:block;font-family:var(--mono);font-size:.74rem;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+ol.steps p{margin:6px 0 0;font-size:.95rem;color:var(--muted)}
+.faq details{border-top:1px solid var(--line);padding:12px 0}
+.faq details:last-child{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;font-family:var(--display);font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.faq summary::after{content:"+";font-weight:500;color:var(--muted)}
+.faq details[open] summary::after{content:"–"}
+.faq p{margin:10px 0 0;color:var(--muted);max-width:60em}
+.contact{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.card{background:var(--paper);border:1px solid var(--line);padding:18px;min-width:0}
+.card .k{font-family:var(--mono);font-size:.74rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.card .v{font-size:1.05rem;font-weight:600;margin-top:4px;word-break:break-word;user-select:all}
+.copy{margin-top:10px;font-size:.85rem;background:var(--tint);border:1px solid var(--line);color:var(--fg);padding:6px 10px;cursor:pointer;font-family:var(--body)}
+.copy:focus-visible{outline:2px solid var(--accent)}
+.note{font-size:.9rem;color:var(--muted);margin-top:10px}
+footer{padding-block:24px;font-size:.85rem;color:var(--muted);border-top:1px solid var(--line)}
+footer p{margin:4px 0}
+@media (max-width:720px){.hero{grid-template-columns:1fr}.seal{right:10px}}
+@media (prefers-reduced-motion:no-preference){.pack{transition:transform .15s}.pack:hover{transform:translateY(-2px)}}
+</style>
+
+<div class="wrap">
+<header class="top">
+  <div class="brand">[Prénom Nom]<small>Conformité RGPD · TPE et PME · Seine-et-Marne</small></div>
+  <nav aria-label="Sections"><a href="#offres">Offres</a><a href="#livrables">Livrables</a><a href="#methode">Méthode</a><a href="#questions">Questions</a><a href="#contact">Contact</a></nav>
+</header>
+
+<div class="hero">
+  <div>
+    <p class="eyebrow">Mise en conformité à prix fixe</p>
+    <h1>Un client vous réclame un dossier RGPD. Votre site n'a pas de bannière cookies. Je m'en occupe en deux jours.</h1>
+    <p class="lede">Registre des traitements, politiques, cookies, procédure de violation de données, réponses EcoVadis et CyberVadis. Le prix est annoncé avant de commencer, et vous repartez avec les documents à montrer en cas de contrôle.</p>
+    <div class="cta">
+      <a class="btn" href="#contact">Demander l'audit express gratuit</a>
+      <a class="btn ghost" href="#offres">Voir les trois packs</a>
+    </div>
+  </div>
+  <aside class="stamp" aria-label="Dernière mission">
+    <span class="seal">Dossier clos</span>
+    <dl>
+      <dt>Référence</dt><dd>MISSION-2026-01</dd>
+      <dt>Client</dt><dd>Groupe industriel, 9 sites, étiquettes et packaging</dd>
+      <dt>Périmètre</dt><dd>RH, clients, site web, vidéosurveillance, badges, géolocalisation, messagerie, IT</dd>
+      <dt>Livré</dt><dd>Registre (8 traitements), PIA sur l'outil CNIL, politiques confidentialité et cookies, procédure violation, durées, cartographie de 6 sous-traitants, gouvernance, pack CyberVadis</dd>
+      <dt>Durée</dt><dd>Mai à juin 2026</dd>
+      <dt>Nom du client</dt><dd>sur demande</dd>
+    </dl>
+  </aside>
+</div>
+
+<section id="offres">
+  <p class="eyebrow">Offres</p>
+  <h2>Trois packs, trois prix. Pas d'heure supplémentaire.</h2>
+  <div class="packs">
+    <article class="pack">
+      <span class="ref">PACK-01</span>
+      <h3>Site conforme</h3>
+      <div class="price">290 €<small>prix fixe, TVA non applicable</small></div>
+      <p class="for">Artisan, commerce, indépendant, association avec un site vitrine ou une boutique.</p>
+      <ul>
+        <li>Audit du site et rapport des manquements</li>
+        <li>Mentions légales</li>
+        <li>Politique de confidentialité</li>
+        <li>Politique cookies et réglage de la bannière</li>
+        <li>Mention d'information sur le formulaire de contact</li>
+      </ul>
+      <div class="time">Livré sous 2 jours ouvrés</div>
+    </article>
+    <article class="pack hl">
+      <span class="ref">PACK-02 · le plus demandé</span>
+      <h3>Conformité TPE</h3>
+      <div class="price">790 €<small>prix fixe, TVA non applicable</small></div>
+      <p class="for">Entreprise de 1 à 20 salariés : fichier clients, paie, caméras, site.</p>
+      <ul>
+        <li>Tout le pack Site conforme</li>
+        <li>Registre des traitements complet</li>
+        <li>Durées de conservation et plan de purge</li>
+        <li>Cartographie des sous-traitants et clauses article 28</li>
+        <li>Procédure de violation de données et registre des demandes</li>
+        <li>1 h de formation du gérant et de l'équipe</li>
+      </ul>
+      <div class="time">Livré sous 1 semaine</div>
+    </article>
+    <article class="pack">
+      <span class="ref">PACK-03</span>
+      <h3>PME et questionnaire client</h3>
+      <div class="price">dès 1 490 €<small>ou 400 € par jour, devis sous 48 h</small></div>
+      <p class="for">PME à qui un donneur d'ordre impose EcoVadis, CyberVadis, un audit ou un appel d'offres.</p>
+      <ul>
+        <li>Tout le pack Conformité TPE</li>
+        <li>Analyse d'impact (PIA) sur l'outil CNIL</li>
+        <li>Gouvernance et mesures de sécurité documentées</li>
+        <li>Réponses au questionnaire et dossier de preuves</li>
+        <li>Suivi disponible à 49 € par mois</li>
+      </ul>
+      <div class="time">2 à 4 semaines selon le nombre de sites</div>
+    </article>
+  </div>
+</section>
+
+<section id="livrables">
+  <p class="eyebrow">Livrables</p>
+  <h2>Ce que vous avez en main à la fin</h2>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Réf.</th><th>Document</th><th>À quoi il sert</th><th>Base</th></tr></thead>
+    <tbody>
+      <tr><td class="ref">REG-001</td><td>Registre des activités de traitement</td><td>Premier document demandé par la CNIL lors d'un contrôle</td><td>Art. 30 RGPD</td></tr>
+      <tr><td class="ref">POL-001</td><td>Politique de confidentialité</td><td>Information des clients, salariés, visiteurs</td><td>Art. 13 et 14</td></tr>
+      <tr><td class="ref">POL-002</td><td>Politique cookies et bannière réglée</td><td>Motif n°1 des sanctions simplifiées en 2026</td><td>Art. 82 loi Informatique et Libertés</td></tr>
+      <tr><td class="ref">LEG-001</td><td>Mentions légales</td><td>Identification de l'éditeur du site</td><td>Loi LCEN</td></tr>
+      <tr><td class="ref">PROC-INC-01</td><td>Procédure de violation de données</td><td>Notifier la CNIL sous 72 h sans paniquer</td><td>Art. 33 et 34</td></tr>
+      <tr><td class="ref">ST-001</td><td>Cartographie des sous-traitants et clauses</td><td>Hébergeur, comptable, logiciels, agence web</td><td>Art. 28</td></tr>
+      <tr><td class="ref">CONS-001</td><td>Tableau des durées de conservation</td><td>Savoir quoi supprimer et quand</td><td>Art. 5-1-e</td></tr>
+      <tr><td class="ref">PIA-001</td><td>Analyse d'impact (pack PME)</td><td>Vidéosurveillance, géolocalisation, données RH sensibles</td><td>Art. 35</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section id="methode">
+  <p class="eyebrow">Méthode</p>
+  <h2>Comment se passe une mission Conformité TPE</h2>
+  <ol class="steps">
+    <li><h3>Entretien d'une heure</h3><p>Sur place ou en visio. On liste ce que vous faites avec des données : clients, salariés, caméras, site, logiciels. Vous n'avez rien à préparer.</p></li>
+    <li><h3>Rédaction</h3><p>Je produis le registre, les politiques et les procédures à partir de l'entretien et de vos contrats existants. Vous validez par email.</p></li>
+    <li><h3>Mise en ligne et réglages</h3><p>Textes publiés sur le site, bannière réglée, clauses envoyées à vos prestataires. Formation d'une heure de l'équipe.</p></li>
+    <li><h3>Remise du dossier</h3><p>Un dossier classé, prêt à être montré à la CNIL ou à un client. Mise à jour annuelle possible avec le suivi.</p></li>
+  </ol>
+</section>
+
+<section id="questions" class="faq">
+  <p class="eyebrow">Questions</p>
+  <h2>Ce que demandent les gérants</h2>
+  <details><summary>Je suis une petite structure, le RGPD me concerne vraiment ?</summary><p>Oui, dès que vous avez un fichier clients, des salariés ou un site avec un formulaire. L'exemption de registre prévue pour les moins de 250 salariés ne s'applique que si le traitement est occasionnel, ce qui n'est jamais le cas d'un fichier clients ou de la paie. La CNIL sanctionne en procédure simplifiée, jusqu'à 20 000 €, et c'est précisément cette procédure qui vise les petites structures.</p></details>
+  <details><summary>Pourquoi un client me demande un questionnaire EcoVadis ou CyberVadis ?</summary><p>Les grands groupes doivent évaluer leurs fournisseurs sur la sécurité et la protection des données. Sans réponse documentée, le fournisseur est noté bas et peut être déréférencé. Le pack PME produit les preuves attendues et rédige les réponses avec vous.</p></details>
+  <details><summary>Combien de temps ça me prend, à moi ?</summary><p>Une heure d'entretien, une relecture par email, une heure de formation. Le reste est de mon côté.</p></details>
+  <details><summary>Et si je n'ai pas de site ?</summary><p>Le pack Conformité TPE s'applique sans la partie site : même prix, le temps est reporté sur le registre et la formation.</p></details>
+  <details><summary>Vous êtes avocat ?</summary><p>Non. Je produis la documentation et les réglages techniques et organisationnels, comme un référent RGPD externe. Pour un contentieux ou un avis juridique engageant, je vous oriente vers un avocat.</p></details>
+</section>
+
+<section id="contact">
+  <p class="eyebrow">Contact</p>
+  <h2>Envoyez-moi l'adresse de votre site. Audit express gratuit sous 48 h.</h2>
+  <div class="contact">
+    <div class="card"><div class="k">Email</div><div class="v" id="mail">[email pro]</div><button class="copy" type="button" data-copy="mail">Copier l'adresse</button></div>
+    <div class="card"><div class="k">Téléphone</div><div class="v" id="tel">[téléphone]</div><button class="copy" type="button" data-copy="tel">Copier le numéro</button></div>
+    <div class="card"><div class="k">Zone</div><div class="v">Sud Seine-et-Marne, nord Yonne, et à distance partout en France</div></div>
+  </div>
+  <p class="note">Dans votre message, indiquez l'adresse du site et, si vous l'avez, le questionnaire reçu de votre client. Réponse sous 48 h ouvrées avec les trois premiers points à corriger.</p>
+</section>
+
+<footer>
+  <p>[Prénom Nom], entreprise individuelle, SIRET [numéro], [adresse]. TVA non applicable, art. 293 B du CGI.</p>
+  <p>Ce site ne dépose aucun cookie et ne contient aucun traceur. Les coordonnées envoyées par email servent uniquement à vous répondre et sont supprimées un an après le dernier échange.</p>
+</footer>
+</div>
+
+<script>
+document.querySelectorAll('.copy').forEach(function(b){
+  b.addEventListener('click',function(){
+    var el=document.getElementById(b.getAttribute('data-copy'));var t=el.textContent.trim();var done=function(){var o=b.textContent;b.textContent='Copié';setTimeout(function(){b.textContent=o;},1500);};
+    var fallback=function(){var r=document.createRange();r.selectNodeContents(el);var s=window.getSelection();s.removeAllRanges();s.addRange(r);};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,fallback);}else{fallback();}
+  });
+});
+</script>
