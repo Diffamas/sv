@@ -12,12 +12,25 @@
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.55;margin:0}
 .wrap{max-width:960px;margin:0 auto;padding-block:0 64px;padding-inline:16px}
-header.top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:baseline;justify-content:space-between;padding-block:20px;border-bottom:1px solid var(--line)}
+/* Bandeau de navigation : reste en haut de l'écran pendant le défilement, liens lisibles, section en cours soulignée, Contact en bouton. */
+header.top{display:flex;flex-wrap:wrap;gap:10px 24px;align-items:center;justify-content:space-between;padding-block:14px;border-bottom:2px solid var(--fg);position:sticky;top:0;z-index:20;background:var(--bg);margin-inline:-16px;padding-inline:16px}
+html{scroll-padding-top:84px}
 .brand{font-family:var(--display);font-weight:800;font-size:1.05rem;letter-spacing:.01em}
 .brand small{display:block;font-family:var(--mono);font-weight:400;font-size:.72rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
-.top nav{display:flex;flex-wrap:wrap;gap:16px;font-size:.92rem}
-.top nav a{color:var(--muted);text-decoration:none}
-.top nav a:hover,.top nav a:focus-visible{color:var(--fg);text-decoration:underline}
+.top nav{display:flex;flex-wrap:wrap;gap:4px;font-size:.98rem;align-items:center}
+.top nav a{color:var(--fg);font-weight:600;text-decoration:none;padding:7px 11px;border-bottom:2px solid transparent}
+.top nav a:hover,.top nav a:focus-visible{background:var(--tint);border-bottom-color:var(--accent)}
+.top nav a:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.top nav a[aria-current="true"]{border-bottom-color:var(--accent);color:var(--accent)}
+.top nav a.nav-cta{background:var(--accent);color:var(--accent-ink);border-bottom-color:transparent;font-family:var(--display);font-weight:700;margin-left:6px}
+.top nav a.nav-cta:hover,.top nav a.nav-cta:focus-visible{background:var(--fg);color:var(--bg)}
+@media (max-width:720px){
+  header.top{padding-block:10px;gap:6px}
+  .top nav{flex-wrap:nowrap;overflow-x:auto;width:calc(100% + 16px);margin-right:-16px;padding-bottom:2px;scrollbar-width:none}
+  .top nav::-webkit-scrollbar{display:none}
+  .top nav a{white-space:nowrap;padding:6px 9px;font-size:.92rem}
+  html{scroll-padding-top:110px}
+}
 h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0}
 h1{font-size:clamp(1.9rem,4.5vw,2.9rem);line-height:1.08;font-weight:800;letter-spacing:-.01em}
 h2{font-size:1.45rem;font-weight:700;margin-bottom:14px}
@@ -94,7 +107,7 @@ footer p{margin:4px 0}
 .themebar select{font:inherit;color:var(--fg);background:var(--paper);border:1px solid var(--line);padding:4px 6px}
 @media (max-width:720px){.hero{grid-template-columns:1fr}.seal{right:10px}}
 @media (prefers-reduced-motion:no-preference){
-html{scroll-behavior:smooth;scroll-padding-top:16px}
+html{scroll-behavior:smooth}
 .pack,.steps li,.card{transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
 .pack:hover,.steps li:hover,.card:hover{transform:translateY(-3px);border-color:var(--muted);box-shadow:0 10px 24px -18px rgba(0,0,0,.45)}
 .pack.hl:hover{border-color:var(--accent)}
@@ -102,10 +115,7 @@ html{scroll-behavior:smooth;scroll-padding-top:16px}
 .btn:hover{transform:translateY(-1px);box-shadow:0 8px 18px -12px rgba(0,0,0,.5)}
 .btn:active{transform:translateY(0);box-shadow:none}
 .copy:hover{background:var(--line)}
-.top nav a{position:relative;transition:color .2s ease}
-.top nav a::after{content:"";position:absolute;left:0;right:100%;bottom:-3px;height:1.5px;background:var(--accent);transition:right .25s ease}
-.top nav a:hover::after,.top nav a:focus-visible::after{right:0}
-.top nav a:hover{text-decoration:none}
+.top nav a{transition:background-color .2s ease,color .2s ease,border-color .2s ease}
 summary::after{display:inline-block;transition:transform .25s ease}
 details[open] summary::after{transform:rotate(180deg)}
 details[open]>p{animation:faq-in .35s ease both}
@@ -124,7 +134,7 @@ details[open]>p{animation:faq-in .35s ease both}
 <div class="wrap">
 <header class="top">
   <div class="brand">COTOMA<small>Conformité RGPD · TPE et PME · Seine-et-Marne</small></div>
-  <nav aria-label="Sections"><a href="#offres">Offres</a><a href="#livrables">Livrables</a><a href="#methode">Méthode</a><a href="#apropos">À propos</a><a href="#questions">Questions</a><a href="#contact">Contact</a><a href="#confidentialite">Confidentialité</a></nav>
+  <nav aria-label="Sections"><a href="#offres">Offres</a><a href="#livrables">Livrables</a><a href="#methode">Méthode</a><a href="#apropos">À propos</a><a href="#questions">Questions</a><a href="#confidentialite">Confidentialité</a><a href="#contact" class="nav-cta">Contact</a></nav>
 </header>
 
 <div class="hero">
@@ -334,6 +344,14 @@ details[open]>p{animation:faq-in .35s ease both}
   items.forEach(function(el){io.observe(el);});
   /* Sécurité : tout ce qui n'a pas été vu après 4 s devient visible. */
   setTimeout(function(){items.forEach(function(el){el.classList.add('in');});},4000);
+})();
+/* Bandeau : souligne la section affichée à l'écran. */
+(function(){
+  if(!('IntersectionObserver' in window))return;
+  var links=Array.prototype.slice.call(document.querySelectorAll('.top nav a[href^="#"]'));
+  var byId={};links.forEach(function(a){var s=document.getElementById(a.getAttribute('href').slice(1));if(s)byId[s.id]=a;});
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.removeAttribute('aria-current');});var a=byId[e.target.id];if(a&&!a.classList.contains('nav-cta')){a.setAttribute('aria-current','true');if(a.scrollIntoView&&a.parentNode.scrollWidth>a.parentNode.clientWidth)a.parentNode.scrollLeft=a.offsetLeft-16;}}});},{rootMargin:'-30% 0px -60% 0px'});
+  Object.keys(byId).forEach(function(id){io.observe(document.getElementById(id));});
 })();
 /* Compteur de visites anonyme : une requête vers ce même site, sans cookie ni identifiant (voir Confidentialité). */
 (function(){
