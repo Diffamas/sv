@@ -7,9 +7,10 @@
 <meta name="robots" content="index,follow">
 <meta name="referrer" content="no-referrer">
 <link rel="canonical" href="https://cotoma.fr/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"COTOMA","description":"Mise en conformité RGPD à prix fixe pour TPE et PME : audit, registre des traitements, politiques, cookies, réponses EcoVadis et CyberVadis.","url":"https://cotoma.fr/","email":"contact@cotoma.fr","telephone":"+33788403495","founder":{"@type":"Person","name":"Mattis Maupin"},"address":{"@type":"PostalAddress","streetAddress":"52 bis rue de Montgelard","postalCode":"77130","addressLocality":"Montereau-Fault-Yonne","addressCountry":"FR"},"areaServed":["Seine-et-Marne","Yonne","France"],"priceRange":"290 € - 1990 €","knowsAbout":["RGPD","protection des données personnelles","registre des traitements","EcoVadis","CyberVadis"]}</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2315233b'/%3E%3Ctext x='16' y='22' font-size='18' font-family='Arial' font-weight='bold' fill='%23fff' text-anchor='middle'%3EC%3C/text%3E%3C/svg%3E">
 <style>:root{color-scheme:light}body{margin:0;font-family:system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
-<title>COTOMA</title>
+<title>COTOMA · Conformité RGPD pour TPE et PME en Seine-et-Marne</title>
 <style>@font-face{font-family:'Archivo';font-style:normal;font-weight:500;font-display:swap;src:url(fonts/Archivo-500.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:'Archivo';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/Archivo-700.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:'Archivo';font-style:normal;font-weight:800;font-display:swap;src:url(fonts/Archivo-800.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
@@ -91,6 +92,7 @@ ol.steps p{margin:6px 0 0;font-size:.95rem;color:var(--muted)}
 .card{background:var(--paper);border:1px solid var(--line);padding:18px;min-width:0}
 .card .k{font-family:var(--mono);font-size:.74rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
 .card .v{font-size:1.05rem;font-weight:600;margin-top:4px;word-break:break-word;user-select:all}
+.card .v a{color:inherit;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1.5px}
 .copy{margin-top:10px;font-size:.85rem;background:var(--tint);border:1px solid var(--line);color:var(--fg);padding:6px 10px;cursor:pointer;font-family:var(--body)}
 .copy:focus-visible{outline:2px solid var(--accent)}
 .note{font-size:.9rem;color:var(--muted);margin-top:10px}
@@ -147,7 +149,7 @@ footer p{margin:4px 0}
 
 <section id="offres">
   <p class="eyebrow">Offres</p>
-  <h2>Trois packs, trois prix. Pas d'heure supplémentaire.</h2>
+  <h2>Deux packs à prix fixe, un pack sur devis. Pas d'heure supplémentaire.</h2>
   <div class="packs">
     <article class="pack">
       <span class="ref">PACK-01</span>
@@ -243,8 +245,8 @@ footer p{margin:4px 0}
   <p class="eyebrow">Contact</p>
   <h2>Envoyez-moi l'adresse de votre site. Audit express gratuit sous 48 h.</h2>
   <div class="contact">
-    <div class="card"><div class="k">Email</div><div class="v" id="mail">contact@cotoma.fr</div><button class="copy" type="button" data-copy="mail">Copier l'adresse</button></div>
-    <div class="card"><div class="k">Téléphone</div><div class="v" id="tel">07 88 40 34 95</div><button class="copy" type="button" data-copy="tel">Copier le numéro</button></div>
+    <div class="card"><div class="k">Email</div><div class="v"><a id="mail" href="mailto:contact@cotoma.fr">contact@cotoma.fr</a></div><button class="copy" type="button" data-copy="mail">Copier l'adresse</button></div>
+    <div class="card"><div class="k">Téléphone</div><div class="v"><a id="tel" href="tel:+33788403495">07 88 40 34 95</a></div><button class="copy" type="button" data-copy="tel">Copier le numéro</button></div>
     <div class="card"><div class="k">Zone</div><div class="v">Sud Seine-et-Marne, nord Yonne, et à distance partout en France</div></div>
   </div>
   <p class="note">Dans votre message, indiquez l'adresse du site et, si vous l'avez, le questionnaire reçu de votre client. Réponse sous 48 h ouvrées avec les trois premiers points à corriger.</p>
