@@ -214,7 +214,8 @@ const PSTAT=[['a_contacter','À contacter','mute'],['contacte','Contacté','info
 const MSTAT=[['entretien','Entretien à faire','warn'],['redaction','Rédaction','info'],['validation','En validation','info'],['livre','Livré','ok'],['suivi','Suivi mensuel','ok']];
 const PACKS=[['audit','Audit + textes',49],['site','Site conforme',290],['tpe','Conformité TPE',790],['pme','PME / questionnaire',1990],['suivi','Suivi mensuel',89],['autre','Autre',0]];
 const PRIO={1:'Données sensibles',2:'Activité en ligne',3:'Fichier clients',4:'Faible'};
-const today=()=>new Date().toISOString().slice(0,10);
+/* Dates au jour local (Paris), pas en UTC : sinon entre minuit et 2 h la date est celle de la veille. */
+const today=()=>{const d=new Date();return new Date(d.getTime()-d.getTimezoneOffset()*6e4).toISOString().slice(0,10);};
 const eur=n=>(Math.round((+n||0)*100)/100).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
 const fdate=s=>s?new Date(s+'T00:00:00').toLocaleDateString('fr-FR'):'';
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -225,7 +226,7 @@ const isFacture=f=>!f.type||f.type==='facture';
 const fStatut=f=>['encaissee','annulee','brouillon','accepte','refuse'].includes(f.statut)?f.statut:(isFacture(f)&&f.echeance&&f.echeance<today()?'retard':'emise');
 const encaissee=f=>isFacture(f)&&f.statut==='encaissee';
 const lignesTotal=f=>Array.isArray(f.lignes)&&f.lignes.length?f.lignes.reduce((a,l)=>a+(+l.qte||0)*(+l.pu||0),0):(+f.montant||0);
-const addDays=(d,n)=>{const x=new Date(d+'T00:00:00');x.setDate(x.getDate()+n);return x.toISOString().slice(0,10);};
+const addDays=(d,n)=>{const x=new Date(d+'T00:00:00Z');x.setUTCDate(x.getUTCDate()+n);return x.toISOString().slice(0,10);};
 const quarter=d=>Math.floor((+d.slice(5,7)-1)/3)+1;
 const scoreNum=s=>{const m=/^([\d.,]+)/.exec(s||'');return m?+m[1].replace(',','.'):99;};
 const siteShort=s=>(s||'').replace(/^https?:\/\/(www\.)?/,'').replace(/\/$/,'');
