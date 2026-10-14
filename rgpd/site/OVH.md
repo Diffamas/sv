@@ -46,7 +46,7 @@ Modifie `rgpd/page/index.html` (ou demande-moi), lance `python3 rgpd/site/build.
 |---|---|
 | Mentions légales (LCEN art. 6-III) | Section « Mentions légales » : éditeur, SIRET, contact, directeur de publication, hébergeur OVH |
 | Information des personnes (RGPD art. 13) | Section « Confidentialité » : données, finalités, bases légales, durées, destinataires, droits, CNIL |
-| Cookies et traceurs (loi Informatique et Libertés art. 82) | Aucun cookie, aucun traceur, aucune mesure d'audience. Le thème choisi est une préférence stockée localement, exemptée de consentement |
+| Cookies et traceurs (loi Informatique et Libertés art. 82) | Aucun cookie, aucun traceur. La mesure d'audience est un compteur maison (`app/api.php`, action `visite`) qui n'enregistre que des totaux par jour, provenance et type d'appareil : ni IP, ni identifiant, ni cookie, rien n'est lu ni écrit sur l'appareil du visiteur, donc pas de consentement à demander. Données gardées 25 mois. Le thème choisi est une préférence stockée localement, exemptée de consentement |
 | Transferts hors UE | Aucun : polices hébergées sur le site, hébergeur et messagerie en France |
 | Sécurité (RGPD art. 32) | HTTPS forcé, HSTS, politique de sécurité du contenu stricte, pas de formulaire, pas de script tiers |
 | Médiation de la consommation (C. conso L616-1) | Champ prévu dans les mentions légales, à remplir si tu factures des particuliers |

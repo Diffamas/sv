@@ -312,13 +312,14 @@ details[open]>p{animation:faq-in .35s ease both}
   <table>
     <thead><tr><th>Situation</th><th>Données</th><th>Pourquoi</th><th>Base légale</th><th>Durée</th></tr></thead>
     <tbody>
-      <tr><td>Vous consultez le site</td><td>Aucune donnée collectée par le site lui-même. L'hébergeur tient des journaux techniques (adresse IP, date, page consultée) pour la sécurité du serveur.</td><td>Sécurité</td><td>Intérêt légitime de l'hébergeur</td><td>1 an au plus, chez OVH</td></tr>
+      <tr><td>Vous consultez le site</td><td>Un compteur de visites anonyme, hébergé sur ce site : il ajoute 1 au total du jour, classé par site d'origine (par exemple « Google » ou « LinkedIn », jamais l'adresse complète de la page) et par type d'appareil (mobile ou ordinateur). Ni cookie, ni adresse IP, ni identifiant : impossible de savoir qui a visité, ni de relier deux visites.</td><td>Savoir combien de personnes lisent le site et d'où elles viennent</td><td>Intérêt légitime ; aucune donnée personnelle conservée</td><td>Totaux journaliers gardés 25 mois</td></tr>
+      <tr><td>Le serveur reçoit votre visite</td><td>L'hébergeur tient des journaux techniques (adresse IP, date, page consultée) pour la sécurité du serveur.</td><td>Sécurité</td><td>Intérêt légitime de l'hébergeur</td><td>1 an au plus, chez OVH</td></tr>
       <tr><td>Vous m'écrivez par email</td><td>Votre adresse, votre nom et le contenu de votre message.</td><td>Vous répondre et préparer un devis</td><td>Mesures précontractuelles à votre demande</td><td>1 an après le dernier échange, 3 ans si une relation commerciale s'engage</td></tr>
       <tr><td>Vous choisissez un thème</td><td>Votre choix d'affichage, enregistré dans votre navigateur (stockage local), jamais transmis.</td><td>Mémoriser votre préférence</td><td>Exempté de consentement : préférence demandée par vous (art. 82 de la loi Informatique et Libertés)</td><td>Jusqu'à effacement des données du site dans votre navigateur</td></tr>
     </tbody>
   </table>
   </div>
-  <p class="note" style="margin-top:12px"><strong>Cookies et traceurs :</strong> aucun. Pas de mesure d'audience, pas de bouton de partage, pas de vidéo intégrée, pas de police chargée depuis un serveur tiers. Aucune donnée ne quitte l'Union européenne.</p>
+  <p class="note" style="margin-top:12px"><strong>Cookies et traceurs :</strong> aucun. La mesure d'audience se limite au compteur anonyme décrit ci-dessus, sans cookie, et ne s'active pas si votre navigateur envoie le signal « Global Privacy Control » ou « Ne pas me pister ». Pas de bouton de partage, pas de vidéo intégrée, pas de police chargée depuis un serveur tiers. Aucune donnée ne quitte l'Union européenne.</p>
   <p class="note"><strong>Responsable du traitement :</strong> Mattis Maupin, COTOMA, 52 bis rue de Montgelard, 77130 La Grande-Paroisse, contact@cotoma.fr. <strong>Destinataires :</strong> moi seul, et mon hébergeur de messagerie OVH SAS (serveurs en France). Aucune vente ni cession.</p>
   <p class="note"><strong>Vos droits :</strong> accès, rectification, effacement, limitation, opposition, portabilité, directives post-mortem. Écrivez à contact@cotoma.fr ; réponse sous un mois. Si vous estimez que vos droits ne sont pas respectés, vous pouvez saisir la CNIL, 3 place de Fontenoy, TSA 80715, 75334 Paris Cedex 07, cnil.fr/fr/plaintes.</p>
 </section>
@@ -356,6 +357,14 @@ details[open]>p{animation:faq-in .35s ease both}
   items.forEach(function(el){io.observe(el);});
   /* Sécurité : tout ce qui n'a pas été vu après 4 s devient visible. */
   setTimeout(function(){items.forEach(function(el){el.classList.add('in');});},4000);
+})();
+/* Compteur de visites anonyme : une requête vers ce même site, sans cookie ni identifiant (voir Confidentialité). */
+(function(){
+  if(location.hostname!=='cotoma.fr'||navigator.globalPrivacyControl||navigator.doNotTrack==='1'||!window.fetch)return;
+  var ref='';try{ref=document.referrer?new URL(document.referrer).hostname:'';}catch(e){}
+  var src='';try{var q=new URLSearchParams(location.search);src=q.get('src')||q.get('utm_source')||'';}catch(e){}
+  var body=JSON.stringify({action:'visite',page:location.pathname,ref:ref,src:src,appareil:matchMedia('(max-width:720px)').matches?'mobile':'ordinateur'});
+  try{fetch('/app/api.php',{method:'POST',body:body,keepalive:true,credentials:'same-origin',headers:{'Content-Type':'text/plain'}}).catch(function(){});}catch(e){}
 })();
 document.querySelectorAll('.copy').forEach(function(b){
   b.addEventListener('click',function(){
