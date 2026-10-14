@@ -97,5 +97,7 @@
     setInterval(() => { if (!document.hidden) refresh(); }, 30000);
     return [db, user, downloads];
   };
+  /* Visites du site public (totaux par jour, sans donnée personnelle) pour l'onglet Visites. */
+  window.cotomaVisites = async function (jours) { return call('visites', { jours: jours || 400 }); };
   window.cotomaLogout = async function () { try { await call('logout'); } catch (e) {} location.reload(); };
 })();

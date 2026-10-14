@@ -116,6 +116,7 @@ td.name .note{margin-top:2px}
     <button role="tab" aria-selected="false" data-tab="prospects">Prospects</button>
     <button role="tab" aria-selected="false" data-tab="clients">Clients</button>
     <button role="tab" aria-selected="false" data-tab="factures">Factures</button>
+    <button role="tab" aria-selected="false" data-tab="visites">Visites</button>
     <button role="tab" aria-selected="false" data-tab="bilan">Bilan</button>
   </nav>
 </header>
@@ -173,6 +174,20 @@ td.name .note{margin-top:2px}
   <div class="tablewrap"><table id="f-table"></table></div>
   <p class="note" style="margin-top:10px">Numérotation continue par année et par type, attribuée à l'émission. Une facture émise ne se modifie ni ne se supprime : elle s'annule par un avoir. Mentions imprimées sur chaque PDF : identité, forme « entrepreneur individuel », adresse et SIRET de l'émetteur, nom, adresse et SIREN du client, nature de l'opération, date d'émission et de prestation, lignes et totaux HT, franchise de TVA (art. 293 B), échéance, pénalités de retard, indemnité de 40 € entre professionnels, médiateur et rétractation pour les particuliers.</p>
   <p class="note">Conservation : garde chaque PDF émis et un export CSV annuel dans un dossier à toi, 10 ans (art. L123-22 C. com.). Facturation électronique : depuis le 1er septembre 2026 tu dois pouvoir recevoir des factures électroniques via une plateforme agréée ; à partir du 1er septembre 2027, tes factures aux professionnels devront être émises par cette plateforme et les ventes aux particuliers déclarées en e-reporting. Ce tableau de bord reste la source, la plateforme prendra le relais pour la transmission.</p>
+</section>
+
+<section class="view" id="tab-visites" hidden>
+  <div class="head">
+    <div><p class="eyebrow">Site cotoma.fr</p><h2>Qui lit le site, et d'où il arrive.</h2><p class="sub">Compteur maison, sans cookie ni donnée personnelle : le serveur ne garde qu'un total par jour, par provenance et par type d'appareil. Une visite = un chargement de la page. Tes propres visites ne comptent pas tant que tu es connecté à ce tableau de bord.</p></div>
+    <aside class="stamp" aria-label="Visites récentes"><span class="seal">Anonyme</span><dl id="v-stamp"></dl></aside>
+  </div>
+  <div class="row"><div class="filters"><select id="v-per" aria-label="Période"><option value="7">7 derniers jours</option><option value="30" selected>30 derniers jours</option><option value="90">90 derniers jours</option><option value="365">12 derniers mois</option></select><button class="btn sm quiet" id="v-reload" type="button">Actualiser</button></div><button class="toggle" id="v-toggle" type="button">Voir le tableau</button></div>
+  <div class="kpis" id="v-kpis"></div>
+  <div class="card" style="margin-bottom:16px"><h3 id="v-chart-title">Visites par jour</h3><div class="chart" id="v-chart"></div><div class="legend" id="v-legend"></div></div>
+  <div class="grid2">
+    <div class="card"><h3>D'où arrivent les visiteurs</h3><div id="v-sources"></div></div>
+    <div class="card"><h3>Appareils</h3><div id="v-app"></div><p class="note" style="margin:14px 0 0">Pour savoir ce que rapporte chaque canal, ajoute <span class="ref">?src=</span> au lien que tu partages : <span class="ref">cotoma.fr/?src=linkedin</span>, <span class="ref">?src=email</span>, <span class="ref">?src=malt</span>, <span class="ref">?src=carte</span>. Les visites apparaissent alors sous « campagne : linkedin ».</p></div>
+  </div>
 </section>
 
 <section class="view" id="tab-bilan" hidden>
@@ -278,7 +293,7 @@ function queueRows(){
 }
 
 /* ---------- render ---------- */
-function renderAll(){if(!S.ready)return;renderDash();renderChart();renderPipeline();renderTodo();renderUrssaf();renderQueue();renderProspects();renderClients();renderFactures();renderBilan();}
+function renderAll(){if(!S.ready)return;if(!$('#tab-visites').hidden)loadVisites();renderDash();renderChart();renderPipeline();renderTodo();renderUrssaf();renderQueue();renderProspects();renderClients();renderFactures();renderBilan();}
 function renderDash(){
   const s=stats();const obj=+S.cfg.objectif_mensuel||0;
   $('.brand').firstChild.textContent=S.cfg.nom_commercial||'COTOMA';$('#brand-sub').textContent='Pilotage RGPD'+(S.cfg.nom?' · '+S.cfg.nom:' · Seine-et-Marne');
@@ -396,6 +411,64 @@ function renderBilan(){
   $('#b-kpis').innerHTML=[['REC','Encaissé',eur(tot.ca),`${tot.nb} facture${tot.nb>1?'s':''}, ${clients} client${clients>1?'s':''}`],['COT','Cotisations estimées',eur(tot.cot),`${taux().toFixed(1)} %`],['NET','Net avant impôt',eur(tot.ca-tot.cot),'encaissé moins cotisations'],['FAC','Facturé sur l\'année',eur(fact),'encaissé ou non'],['MOY','Panier moyen',tot.nb?eur(tot.ca/tot.nb):'—','par facture encaissée']].map(([r,k,v,s])=>`<div class="kpi"><div class="ref">${r} · ${k}</div><div class="v">${v}</div><div class="s">${s}</div></div>`).join('');
   $('#b-table').innerHTML=`<tr><th>Trimestre</th><th class="num">Factures encaissées</th><th class="num">Chiffre d'affaires</th><th class="num">Cotisations</th><th class="num">Net</th><th>Déclaration URSSAF avant le</th></tr>`+q.map(x=>{const lim=new Date(+y,x.n*3+1,0);return `<tr><td class="ref">T${x.n}</td><td class="num">${x.nb}</td><td class="num">${eur(x.ca)}</td><td class="num">${eur(x.cot)}</td><td class="num">${eur(x.ca-x.cot)}</td><td>${lim.toLocaleDateString('fr-FR')}</td></tr>`;}).join('')+`<tr><th>Total</th><th class="num">${tot.nb}</th><th class="num">${eur(tot.ca)}</th><th class="num">${eur(tot.cot)}</th><th class="num">${eur(tot.ca-tot.cot)}</th><th></th></tr>`;
 }
+
+/* ---------- visites du site ---------- */
+/* Les chiffres viennent du serveur cotoma.fr (api.php, action visites) : totaux par jour, aucune donnée personnelle. */
+const V={rows:null,jour:'',err:'',loading:false,at:0,table:false};
+const dPlus=(d,n)=>{const x=new Date(d+'T00:00:00Z');x.setUTCDate(x.getUTCDate()+n);return x.toISOString().slice(0,10);};
+const nb=n=>(+n||0).toLocaleString('fr-FR');
+async function loadVisites(force){
+  if(!window.cotomaVisites){V.err='local';renderVisites();return;}
+  if(V.loading||(!force&&V.at&&Date.now()-V.at<60000))return;
+  V.loading=true;if(!V.rows)renderVisites();
+  try{const r=await window.cotomaVisites(800);V.rows=r.lignes||[];V.jour=r.jour||today();V.err='';V.at=Date.now();}
+  catch(e){V.err=(e&&e.message)||'erreur';}
+  V.loading=false;renderVisites();
+}
+function renderVisites(){
+  const off=['#v-chart','#v-sources','#v-app'];
+  if(V.err==='local'||(!V.rows&&V.err)){
+    $('#v-kpis').innerHTML=`<div class="kpi" style="grid-column:1/-1"><div class="ref">VIS · Visites du site</div><div class="s">${V.err==='local'?'Les visites sont comptées par le serveur cotoma.fr : cet onglet affiche les chiffres dans le tableau de bord en ligne, cotoma.fr/app. Cette copie claude.ai n\'a pas accès au serveur.':'Chiffres indisponibles ('+esc(V.err)+'). Réessaie avec « Actualiser ».'}</div></div>`;
+    off.forEach(id=>$(id).innerHTML='<div class="empty">—</div>');$('#v-stamp').innerHTML='';$('#v-legend').textContent='';return;
+  }
+  if(!V.rows){$('#v-kpis').innerHTML='<div class="kpi" style="grid-column:1/-1"><div class="s">Chargement des visites…</div></div>';return;}
+  const per=+$('#v-per').value||30,end=V.jour,start=dPlus(end,-(per-1)),pStart=dPlus(start,-per);
+  const byDay={},prevTot={n:0},src={},app={};let tot=0;
+  V.rows.forEach(([j,,so,ap,n])=>{byDay[j]=(byDay[j]||0)+n;if(j>=start&&j<=end){tot+=n;src[so]=(src[so]||0)+n;app[ap]=(app[ap]||0)+n;}else if(j>=pStart&&j<start)prevTot.n+=n;});
+  const first=V.rows.length?V.rows[0][0]:'';const sumFrom=d=>Object.entries(byDay).reduce((a,[j,n])=>a+(j>=d&&j<=end?n:0),0);
+  const delta=prevTot.n&&first&&first<=pStart?Math.round((tot-prevTot.n)/prevTot.n*100):null;
+  const srcs=Object.entries(src).sort((a,b)=>b[1]-a[1]);
+  $('#v-stamp').innerHTML=`<dt>Aujourd'hui</dt><dd>${nb(byDay[end])}</dd><dt>Hier</dt><dd>${nb(byDay[dPlus(end,-1)])}</dd><dt>7 jours</dt><dd>${nb(sumFrom(dPlus(end,-6)))}</dd><dt>Compté depuis</dt><dd>${first?fdate(first):'—'}</dd>`;
+  $('#v-kpis').innerHTML=[
+    ['VIS','Visites',nb(tot),delta===null?'pas encore de période précédente à comparer':`${delta>=0?'+':''}${delta} % par rapport aux ${per} jours d'avant`],
+    ['MOY','Moyenne par jour',(tot/per).toLocaleString('fr-FR',{maximumFractionDigits:1}),`sur ${per} jours`],
+    ['SRC','Première provenance',srcs.length?esc(srcs[0][0]):'—',srcs.length?`${nb(srcs[0][1])} visite${srcs[0][1]>1?'s':''} · ${Math.round(srcs[0][1]/tot*100)} %`:'aucune visite sur la période'],
+    ['MOB','Sur mobile',tot?Math.round((app.mobile||0)/tot*100)+' %':'—',`${nb(app.mobile)} sur ${nb(tot)}`],
+  ].map(([r,k,v,sub])=>`<div class="kpi"><div class="ref">${r} · ${k}</div><div class="v">${v}</div><div class="s">${sub}</div></div>`).join('');
+  /* graphique : par jour jusqu'à 90 jours, par mois sur 12 mois */
+  let pts=[];
+  if(per<=90){for(let i=0;i<per;i++){const d=dPlus(start,i);pts.push({k:d,label:new Date(d+'T00:00:00Z').toLocaleDateString('fr-FR',{day:'numeric',month:'short',timeZone:'UTC'}).replace('.',''),v:byDay[d]||0});}}
+  else{const m={};Object.entries(byDay).forEach(([j,n])=>{if(j>=start&&j<=end)m[j.slice(0,7)]=(m[j.slice(0,7)]||0)+n;});let d=start.slice(0,7)+'-01';while(d.slice(0,7)<=end.slice(0,7)){const k=d.slice(0,7);pts.push({k,label:new Date(d+'T00:00:00Z').toLocaleDateString('fr-FR',{month:'short',timeZone:'UTC'}).replace('.',''),v:m[k]||0});d=dPlus(d,32).slice(0,7)+'-01';}}
+  $('#v-chart-title').textContent=per<=90?'Visites par jour':'Visites par mois';
+  const host=$('#v-chart');
+  if(V.table){host.innerHTML=`<div class="tablewrap"><table><tr><th>${per<=90?'Jour':'Mois'}</th><th class="num">Visites</th></tr>${pts.slice().reverse().map(x=>`<tr><td>${x.label}</td><td class="num">${nb(x.v)}</td></tr>`).join('')}</table></div>`;$('#v-toggle').textContent='Voir le graphique';$('#v-legend').textContent='';}
+  else{
+    $('#v-toggle').textContent='Voir le tableau';
+    const W=720,H=200,L=40,B=28,T=12,R=8,iw=(W-L-R)/pts.length,max=Math.max(1,...pts.map(x=>x.v));const step=Math.ceil(pts.length/12);
+    let svg=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${per<=90?'Visites par jour':'Visites par mois'}, ${per} derniers jours">`;
+    [0,.5,1].forEach(f=>{const y=T+(H-T-B)*(1-f);svg+=`<line x1="${L}" x2="${W-R}" y1="${y.toFixed(1)}" y2="${y.toFixed(1)}" stroke="var(--line)" stroke-width="1"/><text x="${L-6}" y="${(y+4).toFixed(1)}" text-anchor="end" font-size="10" fill="var(--muted)" font-family="IBM Plex Mono,monospace">${Math.round(max*f)}</text>`;});
+    pts.forEach((x,i)=>{const bw=Math.max(iw*.66,1),bx=L+i*iw+(iw-bw)/2,h=(H-T-B)*(x.v/max),last=i===pts.length-1;svg+=`<rect x="${bx.toFixed(1)}" y="${(H-B-h).toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" rx="${iw>8?2:0}" fill="${last?'var(--accent)':'var(--bar)'}"/><rect data-i="${i}" x="${(L+i*iw).toFixed(1)}" y="${T}" width="${iw.toFixed(1)}" height="${H-T-B}" fill="transparent"/>`;if(i%step===0||last)svg+=`<text x="${(L+i*iw+iw/2).toFixed(1)}" y="${H-8}" text-anchor="middle" font-size="10" fill="var(--muted)" font-family="IBM Plex Sans,sans-serif">${x.label}</text>`;});
+    svg+='</svg><div class="tip" id="v-tip"></div>';host.innerHTML=svg;
+    $('#v-legend').textContent=per<=90?'Barre rouge : aujourd\'hui (journée en cours).':'Barre rouge : mois en cours.';
+    const tip=$('#v-tip');host.querySelectorAll('rect[data-i]').forEach(r=>{r.addEventListener('pointermove',e=>{const x=pts[+r.dataset.i],b=host.getBoundingClientRect();tip.style.display='block';tip.style.left=(e.clientX-b.left)+'px';tip.style.top=(e.clientY-b.top)+'px';tip.textContent=`${x.label} · ${nb(x.v)} visite${x.v>1?'s':''}`;});r.addEventListener('pointerleave',()=>tip.style.display='none');});
+  }
+  const bars=(list)=>{const m=Math.max(1,...list.map(x=>x[1]));return `<table>${list.map(([l,n])=>`<tr><td style="width:34%">${esc(l)}</td><td style="width:42%"><div style="height:10px;background:var(--bar);width:${(n/m*100).toFixed(0)}%;min-width:${n?4:0}px"></div></td><td class="num">${nb(n)}</td><td class="num" style="color:var(--muted)">${tot?Math.round(n/tot*100)+' %':''}</td></tr>`).join('')}</table>`;};
+  $('#v-sources').innerHTML=srcs.length?bars(srcs.slice(0,12))+(srcs.length>12?`<p class="note">${srcs.length-12} autres provenances.</p>`:'')+'<p class="note" style="margin:10px 0 0">« Accès direct » : adresse tapée, favori, lien depuis un email ou un PDF, ou navigateur qui masque la provenance.</p>':'<div class="empty">Aucune visite sur la période.</div>';
+  $('#v-app').innerHTML=tot?bars([['Ordinateur',app.ordinateur||0],['Mobile',app.mobile||0]]):'<div class="empty">Aucune visite sur la période.</div>';
+}
+$('#v-per').addEventListener('change',renderVisites);
+$('#v-toggle').addEventListener('click',()=>{V.table=!V.table;renderVisites();});
+$('#v-reload').addEventListener('click',()=>loadVisites(true));
 
 /* ---------- dialogs ---------- */
 const dlg=$('#dlg'),body=$('#dlg-body');
@@ -574,7 +647,7 @@ function openParams(){
 function copy(t,btn){const done=()=>{const o=btn.textContent;btn.textContent='Copié';setTimeout(()=>btn.textContent=o,1500);};const fb=()=>{const pre=btn.closest('.dlg').querySelector('pre');if(pre){const r=document.createRange();r.selectNodeContents(pre);const s=getSelection();s.removeAllRanges();s.addRange(r);}};if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(done,fb);else fb();}
 
 /* ---------- wiring ---------- */
-function showTab(id){$$('nav.tabs button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===id)));$$('main > section').forEach(s=>s.hidden=s.id!=='tab-'+id);try{localStorage.setItem('rgpd-tab',id);}catch(e){}}
+function showTab(id){if(id==='visites'&&S.ready)loadVisites();$$('nav.tabs button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===id)));$$('main > section').forEach(s=>s.hidden=s.id!=='tab-'+id);try{localStorage.setItem('rgpd-tab',id);}catch(e){}}
 $$('nav.tabs button').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
 try{const t=localStorage.getItem('rgpd-tab');if(t&&$('#tab-'+t))showTab(t);}catch(e){}
 $('#chart-toggle').addEventListener('click',()=>{S.chartTable=!S.chartTable;renderChart();});

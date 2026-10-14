@@ -29,6 +29,8 @@ $pdo->exec('CREATE TABLE IF NOT EXISTS docs (collection TEXT NOT NULL, id TEXT N
 $pdo->exec('CREATE TABLE IF NOT EXISTS attempts (ip TEXT NOT NULL, ts INTEGER NOT NULL)');
 $pdo->exec('CREATE TABLE IF NOT EXISTS journal (ts TEXT NOT NULL, action TEXT NOT NULL, collection TEXT, id TEXT)');
 $pdo->exec('CREATE TABLE IF NOT EXISTS sessions (token TEXT PRIMARY KEY, expires INTEGER NOT NULL, created TEXT NOT NULL)');
+// Visites du site public : uniquement des totaux par jour, sans adresse IP, sans cookie, sans identifiant de visiteur.
+$pdo->exec('CREATE TABLE IF NOT EXISTS visites (jour TEXT NOT NULL, page TEXT NOT NULL, source TEXT NOT NULL, appareil TEXT NOT NULL, n INTEGER NOT NULL, PRIMARY KEY (jour, page, source, appareil))');
 $pdo->prepare('DELETE FROM sessions WHERE expires < ?')->execute([time()]);
 $SESSION_TTL = 43200; // 12 heures, prolongées à chaque requête
 $token = (string)($_COOKIE['cotoma'] ?? '');
@@ -73,13 +75,31 @@ if ($cfgRow) {
 $method = $_SERVER['REQUEST_METHOD'];
 $body = [];
 if ($method === 'POST') {
-    if (($_SERVER['HTTP_X_COTOMA'] ?? '') !== '1') fail('Requête refusée.', 403);
     $body = json_decode((string)file_get_contents('php://input'), true) ?: [];
+    // Le compteur de visites du site public est la seule écriture acceptée sans l'en-tête du tableau de bord.
+    if (($body['action'] ?? '') !== 'visite' && ($_SERVER['HTTP_X_COTOMA'] ?? '') !== '1') fail('Requête refusée.', 403);
 }
 $action = $body['action'] ?? $_GET['action'] ?? 'status';
 // Derrière le répartiteur de charge OVH, l'adresse du visiteur est dans X-Forwarded-For.
 $ip = trim(explode(',', (string)($_SERVER['HTTP_X_FORWARDED_FOR'] ?? ''))[0]) ?: ($_SERVER['REMOTE_ADDR'] ?? '0');
 $COLLS = ['prospects', 'clients', 'factures', 'parametres'];
+
+$JOUR = (new DateTimeImmutable('now', new DateTimeZone('Europe/Paris')))->format('Y-m-d');
+
+// Provenance d'une visite : le nom du site d'origine seulement (jamais l'adresse complète), ou la campagne (?src=).
+function visite_source(string $ref, string $src): string {
+    $src = strtolower(trim($src));
+    if ($src !== '' && preg_match('/^[a-z0-9_-]{1,40}$/', $src)) return 'campagne : ' . $src;
+    $h = strtolower(trim($ref));
+    if ($h === '' || !preg_match('/^[a-z0-9.-]{1,253}$/', $h)) return 'Accès direct';
+    $h = preg_replace('/^(www|m|l|lm)\./', '', $h);
+    if ($h === 'cotoma.fr') return 'Accès direct';
+    $connus = ['/(^|\.)google\./' => 'Google', '/(^|\.)bing\.com$/' => 'Bing', '/duckduckgo\.com$/' => 'DuckDuckGo', '/qwant\.com$/' => 'Qwant', '/ecosia\.org$/' => 'Ecosia', '/(^|\.)yahoo\./' => 'Yahoo',
+        '/(linkedin\.com|lnkd\.in)$/' => 'LinkedIn', '/(facebook\.com|fb\.com|fb\.me)$/' => 'Facebook', '/instagram\.com$/' => 'Instagram', '/(^t\.co|twitter\.com|^x\.com)$/' => 'X (Twitter)',
+        '/malt\.(fr|com)$/' => 'Malt', '/pagesjaunes\.fr$/' => 'PagesJaunes', '/(chatgpt\.com|openai\.com|perplexity\.ai|claude\.ai)$/' => 'Assistant IA'];
+    foreach ($connus as $re => $nom) if (preg_match($re, $h)) return $nom;
+    return substr($h, 0, 60);
+}
 
 function coll(string $c, array $COLLS): string { if (!in_array($c, $COLLS, true)) fail('Collection inconnue.'); return $c; }
 function docid(string $id): string { if (!preg_match('/^[A-Za-z0-9_.~:@+-]{1,200}$/', $id)) fail('Identifiant invalide.'); return $id; }
@@ -90,6 +110,22 @@ switch ($action) {
         $pdo->exec('CREATE TABLE IF NOT EXISTS meta (k TEXT PRIMARY KEY, v TEXT)');
         $pdo->exec("INSERT INTO meta (k, v) VALUES ('ping', '0') ON CONFLICT(k) DO UPDATE SET v = CAST(CAST(v AS INTEGER) + 1 AS TEXT)");
         out(['ping' => (int)$pdo->query("SELECT v FROM meta WHERE k = 'ping'")->fetchColumn(), 'node' => substr(hash('sha256', (string)gethostname()), 0, 8)]);
+    case 'visite':
+        if ($method !== 'POST') fail('Méthode.', 405);
+        if ($auth) out(['ok' => true]); // tes propres visites, connecté au tableau de bord, ne comptent pas
+        $ua = (string)($_SERVER['HTTP_USER_AGENT'] ?? ''); // lu pour écarter les robots, jamais enregistré
+        if ($ua === '' || preg_match('/bot|crawl|spider|slurp|headless|preview|lighthouse|monitor|curl|wget|python/i', $ua)) out(['ok' => true]);
+        $page = (string)($body['page'] ?? '/'); if (!preg_match('#^/[A-Za-z0-9/_.-]{0,80}$#', $page)) $page = '/';
+        $source = visite_source((string)($body['ref'] ?? ''), (string)($body['src'] ?? ''));
+        $appareil = ($body['appareil'] ?? '') === 'mobile' ? 'mobile' : 'ordinateur';
+        // Garde-fous contre le remplissage : 20 000 vues et 300 lignes par jour au plus.
+        $st = $pdo->prepare('SELECT COALESCE(SUM(n), 0), COUNT(*) FROM visites WHERE jour = ?'); $st->execute([$JOUR]); [$tot, $lignes] = $st->fetch(PDO::FETCH_NUM);
+        if ((int)$tot >= 20000) out(['ok' => true]);
+        if ((int)$lignes >= 300) { $st = $pdo->prepare('SELECT 1 FROM visites WHERE jour = ? AND page = ? AND source = ? AND appareil = ?'); $st->execute([$JOUR, $page, $source, $appareil]); if (!$st->fetchColumn()) { $page = '/'; $source = 'autre'; } }
+        $pdo->prepare('INSERT INTO visites (jour, page, source, appareil, n) VALUES (?,?,?,?,1) ON CONFLICT(jour, page, source, appareil) DO UPDATE SET n = n + 1')->execute([$JOUR, $page, $source, $appareil]);
+        // Durée de conservation : 25 mois, comme le recommande la CNIL pour la mesure d'audience.
+        $pdo->prepare('DELETE FROM visites WHERE jour < ?')->execute([(new DateTimeImmutable($JOUR))->modify('-25 months')->format('Y-m-d')]);
+        out(['ok' => true]);
     case 'status':
         out(['auth' => $auth, 'setup' => $COTOMA_PASSWORD === 'change-moi', 'v' => 3]);
     case 'login':
@@ -155,6 +191,12 @@ switch ($action) {
         $pdo->prepare('DELETE FROM docs WHERE collection = ? AND id = ?')->execute([$c, $id]);
         $pdo->prepare('INSERT INTO journal (ts, action, collection, id) VALUES (?,?,?,?)')->execute([gmdate('c'), 'delete', $c, $id]);
         out(['ok' => true]);
+    case 'visites':
+        $jours = max(1, min(800, (int)($body['jours'] ?? $_GET['jours'] ?? 400)));
+        $depuis = (new DateTimeImmutable($JOUR))->modify('-' . ($jours - 1) . ' days')->format('Y-m-d');
+        $st = $pdo->prepare('SELECT jour, page, source, appareil, n FROM visites WHERE jour >= ? ORDER BY jour'); $st->execute([$depuis]);
+        $rows = []; foreach ($st as $r) $rows[] = [$r['jour'], $r['page'], $r['source'], $r['appareil'], (int)$r['n']];
+        out(['jour' => $JOUR, 'depuis' => $depuis, 'lignes' => $rows]);
     default:
         fail('Action inconnue.', 404);
 }
