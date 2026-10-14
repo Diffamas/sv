@@ -56,7 +56,8 @@ if ($count === 0 && is_file($seed)) {
 $cfgRow = $pdo->query("SELECT data, version FROM docs WHERE collection = 'parametres' AND id = 'config'")->fetch(PDO::FETCH_ASSOC);
 if ($cfgRow) {
     $cfg = json_decode($cfgRow['data'], true) ?: [];
-    if (empty($cfg['nom'])) {
+    $fixVille = !empty($cfg['adresse']) && str_ends_with($cfg['adresse'], '77130 Montereau-Fault-Yonne');
+    if (empty($cfg['nom']) || $fixVille) {
         $src = is_file($seed) ? $seed : (is_file($seed . '.importe') ? $seed . '.importe' : null);
         $s = $src ? json_decode((string)file_get_contents($src), true) : null;
         $def = $s['parametres']['config'] ?? [];
@@ -64,6 +65,7 @@ if ($cfgRow) {
         foreach (['nom', 'adresse', 'telephone', 'email', 'forme'] as $k) {
             if (empty($cfg[$k]) && !empty($def[$k])) { $cfg[$k] = $def[$k]; $changed = true; }
         }
+        if (!empty($cfg['adresse']) && str_ends_with($cfg['adresse'], '77130 Montereau-Fault-Yonne')) { $cfg['adresse'] = str_replace('77130 Montereau-Fault-Yonne', '77130 La Grande-Paroisse', $cfg['adresse']); $changed = true; }
         if ($changed) $pdo->prepare("UPDATE docs SET data = ?, version = version + 1, updated_at = ? WHERE collection = 'parametres' AND id = 'config'")->execute([json_encode($cfg, JSON_UNESCAPED_UNICODE), gmdate('c')]);
     }
 }
