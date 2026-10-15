@@ -119,6 +119,23 @@ ol.steps p{margin:6px 0 0;font-size:.95rem;color:var(--muted)}
 .copy{margin-top:10px;font-size:.85rem;background:var(--tint);border:1px solid var(--line);color:var(--fg);padding:6px 10px;cursor:pointer;font-family:var(--body)}
 .copy:focus-visible{outline:2px solid var(--accent)}
 .note{font-size:.9rem;color:var(--muted);margin-top:10px}
+.cform{background:var(--paper);border:1px solid var(--line);padding:22px;margin-bottom:18px;display:grid;grid-template-columns:1fr 1fr;gap:14px 18px}
+.cform label{display:flex;flex-direction:column;gap:6px;font-family:var(--mono);font-size:.74rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;min-width:0}
+.cform label.wide{grid-column:1/-1}
+.cform label span{text-transform:none;letter-spacing:0}
+.cform input,.cform textarea{font:inherit;font-family:var(--body);font-size:1rem;color:var(--fg);background:var(--bg);border:1px solid var(--line);padding:10px 12px;width:100%;box-sizing:border-box;text-transform:none;letter-spacing:0}
+.cform textarea{min-height:110px;resize:vertical}
+.cform input:focus-visible,.cform textarea:focus-visible{outline:2px solid var(--accent);outline-offset:0;border-color:var(--accent)}
+.cform .send{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.cform .send button{border:0;cursor:pointer;font-size:1rem}
+.cform .send button[disabled]{opacity:.6;cursor:wait}
+.cform .msg{font-size:.95rem;font-weight:600}
+.cform .msg.ko{color:var(--accent)}
+.cform .info{grid-column:1/-1;margin:0;font-size:.85rem}
+.cform .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.cform.done>*:not(.send){display:none}
+.or{font-family:var(--mono);font-size:.74rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin:0 0 10px}
+@media (max-width:720px){.cform{grid-template-columns:1fr;padding:16px}}
 footer{padding-block:24px;font-size:.85rem;color:var(--muted);border-top:1px solid var(--line)}
 footer p{margin:4px 0}
 /* Thèmes au choix : encre (défaut), ardoise, nuit, sable. Le visiteur choisit en pied de page ; le choix reste sur son appareil. */
@@ -311,12 +328,22 @@ details[open]>p,details[open]>.tablewrap,details[open]>.faq-body{animation:faq-i
 <section id="contact">
   <p class="eyebrow">Contact</p>
   <h2>Envoyez-moi l'adresse de votre site. Audit express gratuit sous 48 h.</h2>
+  <form class="cform" id="cform" novalidate>
+    <label>Nom ou entreprise *<input name="nom" autocomplete="organization" maxlength="120" required></label>
+    <label>Email *<input name="email" type="email" autocomplete="email" maxlength="160" required></label>
+    <label class="wide">Adresse de votre site<input name="site" type="text" inputmode="url" placeholder="www.exemple.fr" maxlength="200"></label>
+    <label class="wide">Votre message <span>(facultatif : un questionnaire reçu, une question, un créneau pour vous rappeler)</span><textarea name="message" maxlength="3000"></textarea></label>
+    <div class="hp" aria-hidden="true"><label>Ne pas remplir<input name="web" tabindex="-1" autocomplete="off"></label></div>
+    <div class="send"><button class="btn" type="submit">Envoyer ma demande</button><span class="msg" id="cform-msg" role="status" aria-live="polite"></span></div>
+    <p class="note info">Vos réponses servent uniquement à vous répondre et à préparer un éventuel devis. Elles restent chez moi et mon hébergeur OVH, en France, 1 an après notre dernier échange. Ni cookie, ni adresse IP enregistrés. Vos droits : <a href="#confidentialite" style="color:inherit">Confidentialité</a>.</p>
+  </form>
+  <p class="or">Ou directement</p>
   <div class="contact">
     <div class="card"><div class="k">Email</div><div class="v"><a id="mail" href="mailto:contact@cotoma.fr">contact@cotoma.fr</a></div><button class="copy" type="button" data-copy="mail">Copier l'adresse</button></div>
     <div class="card"><div class="k">Téléphone</div><div class="v"><a id="tel" href="tel:+33788403495">07 88 40 34 95</a></div><button class="copy" type="button" data-copy="tel">Copier le numéro</button></div>
     <div class="card"><div class="k">Zone</div><div class="v">Sud Seine-et-Marne, nord Yonne, et à distance partout en France</div></div>
   </div>
-  <p class="note">Dans votre message, indiquez l'adresse du site et, si vous l'avez, le questionnaire reçu de votre client. Réponse sous 48 h ouvrées avec les trois premiers points à corriger.</p>
+  <p class="note">Réponse sous 48 h ouvrées avec les trois premiers points à corriger.</p>
 </section>
 
 <section id="mentions" class="faq">
@@ -351,7 +378,7 @@ details[open]>p,details[open]>.tablewrap,details[open]>.faq-body{animation:faq-i
       <tbody>
         <tr><td>Vous consultez le site</td><td>Un compteur de visites anonyme, hébergé sur ce site : il ajoute 1 au total du jour, classé par site d'origine (par exemple « Google » ou « LinkedIn », jamais l'adresse complète de la page) et par type d'appareil (mobile ou ordinateur). Ni cookie, ni adresse IP, ni identifiant : impossible de savoir qui a visité, ni de relier deux visites.</td><td>Savoir combien de personnes lisent le site et d'où elles viennent</td><td>Intérêt légitime ; aucune donnée personnelle conservée</td><td>Totaux journaliers gardés 25 mois</td></tr>
         <tr><td>Le serveur reçoit votre visite</td><td>L'hébergeur tient des journaux techniques (adresse IP, date, page consultée) pour la sécurité du serveur.</td><td>Sécurité</td><td>Intérêt légitime de l'hébergeur</td><td>1 an au plus, chez OVH</td></tr>
-        <tr><td>Vous m'écrivez par email</td><td>Votre adresse, votre nom et le contenu de votre message.</td><td>Vous répondre et préparer un devis</td><td>Mesures précontractuelles à votre demande</td><td>1 an après le dernier échange, 3 ans si une relation commerciale s'engage</td></tr>
+        <tr><td>Vous m'écrivez (formulaire ou email)</td><td>Votre nom ou celui de votre entreprise, votre adresse email, l'adresse de votre site si vous la donnez, et votre message. Le formulaire n'enregistre ni votre adresse IP, ni cookie, ni information sur votre appareil.</td><td>Vous répondre et préparer un devis</td><td>Mesures précontractuelles à votre demande</td><td>1 an après le dernier échange, 3 ans si une relation commerciale s'engage</td></tr>
         <tr><td>Vous choisissez un thème</td><td>Votre choix d'affichage, enregistré dans votre navigateur (stockage local), jamais transmis.</td><td>Mémoriser votre préférence</td><td>Exempté de consentement : préférence demandée par vous (art. 82 de la loi Informatique et Libertés)</td><td>Jusqu'à effacement des données du site dans votre navigateur</td></tr>
       </tbody>
     </table>
@@ -412,6 +439,24 @@ details[open]>p,details[open]>.tablewrap,details[open]>.faq-body{animation:faq-i
   var src='';try{var q=new URLSearchParams(location.search);src=q.get('src')||q.get('utm_source')||'';}catch(e){}
   var body=JSON.stringify({action:'visite',page:location.pathname,ref:ref,src:src,appareil:matchMedia('(max-width:720px)').matches?'mobile':'ordinateur'});
   try{fetch('/app/api.php',{method:'POST',body:body,keepalive:true,credentials:'same-origin',headers:{'Content-Type':'text/plain'}}).catch(function(){});}catch(e){}
+})();
+/* Formulaire de contact : envoi vers ce même site (api.php), sans cookie ni traceur. La demande arrive dans le tableau de bord. */
+(function(){
+  var f=document.getElementById('cform');if(!f)return;
+  var msg=document.getElementById('cform-msg'),btn=f.querySelector('button[type=submit]'),t0=Date.now();
+  function say(t,ko){msg.textContent=t;msg.className='msg'+(ko?' ko':'');}
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var d={action:'contact',nom:f.nom.value.trim(),email:f.email.value.trim(),site:f.site.value.trim(),message:f.message.value.trim(),web:f.web.value,t:Date.now()-t0};
+    if(!d.nom){f.nom.focus();return say('Indiquez votre nom ou celui de votre entreprise.',true);}
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email)){f.email.focus();return say('Vérifiez votre adresse email.',true);}
+    if(!d.site&&!d.message){f.site.focus();return say('Indiquez l\'adresse de votre site ou écrivez un message.',true);}
+    btn.disabled=true;say('Envoi…');
+    var fail=function(t){btn.disabled=false;say((t||'L\'envoi n\'a pas abouti.')+' Vous pouvez aussi écrire à contact@cotoma.fr.',true);};
+    try{fetch('/app/api.php',{method:'POST',body:JSON.stringify(d),credentials:'same-origin',headers:{'Content-Type':'text/plain'}})
+      .then(function(r){return r.json().catch(function(){return {};}).then(function(j){if(r.ok&&j.ok){f.classList.add('done');btn.hidden=true;say('Merci, votre demande est bien arrivée. Je vous réponds sous 48 h ouvrées.');}else fail(j.error);});},function(){fail();});}
+    catch(err){fail();}
+  });
 })();
 document.querySelectorAll('.copy').forEach(function(b){
   b.addEventListener('click',function(){
