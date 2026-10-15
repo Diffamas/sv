@@ -7,10 +7,16 @@
 - ajoute le squelette HTML complet, la description, l'icône, le robots.txt, le sitemap
 - écrit le .htaccess (HTTPS forcé, en-têtes de sécurité, cache)
 Le contenu reste identique à la page publiée sur claude.ai : modifie page/index.html, relance build.py, envoie site/ sur OVH.
+- construit une page par fiche pratique de page/ressources/ dans site/ressources/ et met à jour leur liste
+  dans la section Ressources de page/index.html (voir fiches.py)
 """
 import os, re, datetime as dt
+import fiches as F
 HERE=os.path.dirname(os.path.abspath(__file__)); ROOT=os.path.dirname(HERE)
-src=open(os.path.join(ROOT,'page','index.html'),encoding='utf-8').read()
+PAGE=os.path.join(ROOT,'page','index.html')
+FICHES=F.charger(ROOT)
+src=F.remplir(open(PAGE,encoding='utf-8').read(),FICHES)
+open(PAGE,'w',encoding='utf-8').write(src)
 fonts=open(os.path.join(HERE,'fonts','fonts.css'),encoding='utf-8').read()
 src=re.sub(r'<link rel="stylesheet" href="https://fonts\.googleapis\.com[^"]*">', '<style>'+fonts+'</style>', src)
 assert 'googleapis' not in src, 'il reste une référence à Google Fonts'
@@ -31,7 +37,7 @@ i=src.index('<div class="wrap">')
 out=head+src[:i]+'</head>\n<body>\n'+src[i:]+'\n</body>\n</html>\n'
 open(os.path.join(HERE,'index.html'),'w',encoding='utf-8').write(out)
 open(os.path.join(HERE,'robots.txt'),'w').write('User-agent: *\nAllow: /\nSitemap: https://cotoma.fr/sitemap.xml\n')
-open(os.path.join(HERE,'sitemap.xml'),'w').write(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://cotoma.fr/</loc><lastmod>{dt.date.today()}</lastmod></url></urlset>\n')
+open(os.path.join(HERE,'sitemap.xml'),'w').write(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://cotoma.fr/</loc><lastmod>{dt.date.today()}</lastmod></url>{F.sitemap(FICHES)}</urlset>\n')
 open(os.path.join(HERE,'.htaccess'),'w').write('''# COTOMA — hébergement OVH (Apache)
 # HTTPS obligatoire
 RewriteEngine On
@@ -62,3 +68,5 @@ AddDefaultCharset UTF-8
 ErrorDocument 404 /index.html
 ''')
 print('site construit :', os.path.join(HERE,'index.html'), len(out), 'octets')
+icone=re.search(r'<link rel="icon"[^>]*>',head).group(0)
+print(len(FICHES),'fiches construites dans',F.construire(HERE,FICHES,src,icone))

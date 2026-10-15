@@ -82,6 +82,14 @@ ol.steps p{margin:6px 0 0;font-size:.95rem;color:var(--muted)}
 .faq summary::after{content:"+";font-weight:500;color:var(--muted)}
 .faq details[open] summary::after{content:"–"}
 .faq p{margin:10px 0 0;color:var(--muted);max-width:60em}
+/* Ressources : une carte cliquable par fiche pratique, chaque fiche a sa propre page (ressources/<nom>/). */
+.fiches{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:18px}
+.fiche{display:flex;flex-direction:column;gap:8px;background:var(--paper);border:1px solid var(--line);padding:18px;color:var(--fg);text-decoration:none;min-width:0}
+.fiche .ref{font-family:var(--mono);font-size:.74rem;color:var(--muted);letter-spacing:.06em}
+.fiche p{margin:0;font-size:.95rem;color:var(--muted)}
+.fiche .lire{margin-top:auto;padding-top:6px;font-family:var(--display);font-weight:700;font-size:.92rem;color:var(--accent)}
+.fiche:hover h3,.fiche:focus-visible h3{text-decoration:underline;text-underline-offset:3px}
+.fiche:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .contact{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
 .card{background:var(--paper);border:1px solid var(--line);padding:18px;min-width:0}
 .card .k{font-family:var(--mono);font-size:.74rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
@@ -109,8 +117,8 @@ footer p{margin:4px 0}
 @media (max-width:720px){.hero{grid-template-columns:1fr}.seal{right:10px}}
 @media (prefers-reduced-motion:no-preference){
 html{scroll-behavior:smooth}
-.pack,.steps li,.card{transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
-.pack:hover,.steps li:hover,.card:hover{transform:translateY(-3px);border-color:var(--muted);box-shadow:0 10px 24px -18px rgba(0,0,0,.45)}
+.pack,.steps li,.card,.fiche{transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+.pack:hover,.steps li:hover,.card:hover,.fiche:hover{transform:translateY(-3px);border-color:var(--muted);box-shadow:0 10px 24px -18px rgba(0,0,0,.45)}
 .pack.hl:hover{border-color:var(--accent)}
 .btn,.copy{transition:transform .15s ease,background-color .2s ease,color .2s ease,border-color .2s ease,box-shadow .2s ease}
 .btn:hover{transform:translateY(-1px);box-shadow:0 8px 18px -12px rgba(0,0,0,.5)}
@@ -136,7 +144,7 @@ details[open]>p,details[open]>.tablewrap,details[open]>.faq-body{animation:faq-i
 <div class="wrap">
 <header class="top">
   <div class="brand">COTOMA<small>Conformité RGPD · TPE et PME · Seine-et-Marne</small></div>
-  <nav aria-label="Sections"><a href="#offres">Offres</a><a href="#livrables">Livrables</a><a href="#methode">Méthode</a><a href="#apropos">À propos</a><a href="#questions">Questions</a><a href="#confidentialite">Confidentialité</a><a href="#contact" class="nav-cta">Contact</a></nav>
+  <nav aria-label="Sections"><a href="#offres">Offres</a><a href="#livrables">Livrables</a><a href="#methode">Méthode</a><a href="#apropos">À propos</a><a href="#questions">Questions</a><a href="#ressources">Ressources</a><a href="#confidentialite">Confidentialité</a><a href="#contact" class="nav-cta">Contact</a></nav>
 </header>
 
 <div class="hero">
@@ -264,6 +272,19 @@ details[open]>p,details[open]>.tablewrap,details[open]>.faq-body{animation:faq-i
   <details><summary>Vous êtes avocat ?</summary><p>Non. Je produis la documentation et les réglages techniques et organisationnels, comme un référent RGPD externe. Pour un contentieux ou un avis juridique engageant, je vous oriente vers un avocat.</p></details>
 </section>
 
+<section id="ressources">
+  <p class="eyebrow">Ressources</p>
+  <h2>Fiches pratiques pour les gérants</h2>
+  <!-- ressources:debut (liste regénérée par rgpd/site/build.py à partir de page/ressources/) -->
+  <div class="fiches">
+    <a class="fiche" href="ressources/cookies-sans-consentement/"><span class="ref">FICHE-01 · 4 min de lecture</span><h3>Quels cookies sont autorisés sans consentement ?</h3><p>Panier, connexion, sécurité : ce qui passe sans bannière, ce qui exige un accord, et les erreurs que la CNIL sanctionne.</p><span class="lire">Lire la fiche →</span></a>
+    <a class="fiche" href="ressources/reagir-apres-phishing/"><span class="ref">FICHE-02 · 4 min de lecture</span><h3>Comment réagir après un phishing ?</h3><p>Mot de passe saisi sur un faux site, pièce jointe ouverte : quoi faire tout de suite, et quand prévenir la CNIL.</p><span class="lire">Lire la fiche →</span></a>
+    <a class="fiche" href="ressources/registre-traitements-tpe/"><span class="ref">FICHE-03 · 3 min de lecture</span><h3>Une TPE doit-elle tenir un registre des traitements ?</h3><p>Presque toujours oui. Ce que dit le texte, ce qu'on met dedans, et comment le remplir en une demi-journée.</p><span class="lire">Lire la fiche →</span></a>
+    <a class="fiche" href="ressources/durees-de-conservation/"><span class="ref">FICHE-04 · 3 min de lecture</span><h3>Combien de temps garder les données ?</h3><p>Prospects, factures, paie, candidats, vidéos : les durées à connaître et une méthode simple pour faire le ménage.</p><span class="lire">Lire la fiche →</span></a>
+  </div>
+  <!-- ressources:fin -->
+</section>
+
 <section id="contact">
   <p class="eyebrow">Contact</p>
   <h2>Envoyez-moi l'adresse de votre site. Audit express gratuit sous 48 h.</h2>
@@ -343,7 +364,7 @@ details[open]>p,details[open]>.tablewrap,details[open]>.faq-body{animation:faq-i
 /* Apparition en douceur au défilement, désactivée si l'utilisateur préfère réduire les animations. */
 (function(){
   if(!window.matchMedia||!matchMedia('(prefers-reduced-motion:no-preference)').matches)return;
-  var items=document.querySelectorAll('section>.eyebrow,section>h2,section>p,section>.tablewrap,section>table,section>ol,.apropos p,.pack,.steps li,.card,details,footer>*');
+  var items=document.querySelectorAll('section>.eyebrow,section>h2,section>p,section>.tablewrap,section>table,section>ol,.apropos p,.pack,.steps li,.card,.fiche,details,footer>*');
   var byParent=new Map();
   items.forEach(function(el){el.classList.add('reveal');var list=byParent.get(el.parentNode)||[];list.push(el);byParent.set(el.parentNode,list);});
   byParent.forEach(function(list){list.forEach(function(el,i){el.style.setProperty('--d',Math.min(i,6)*0.07+'s');});});
