@@ -97,6 +97,7 @@ ol.steps li::before{content:"Semaine " counter(s);display:block;font-family:var(
 ol.steps p{margin:6px 0 0;font-size:.95rem;color:var(--muted)}
 .faq details{border-top:1px solid var(--line);padding:12px 0}
 .faq details:last-child{border-bottom:1px solid var(--line)}
+#mentions details,#confidentialite details{border-bottom:0}
 .faq summary{cursor:pointer;font-family:var(--display);font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:12px}
 .faq summary::after{content:"+";font-weight:500;color:var(--muted)}
 .faq details[open] summary::after{content:"–"}
@@ -109,14 +110,32 @@ ol.steps p{margin:6px 0 0;font-size:.95rem;color:var(--muted)}
 .fiche .lire{margin-top:auto;padding-top:6px;font-family:var(--display);font-weight:700;font-size:.92rem;color:var(--accent)}
 .fiche:hover h3,.fiche:focus-visible h3{text-decoration:underline;text-underline-offset:3px}
 .fiche:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.contact{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.contact{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px}
 .card{background:var(--paper);border:1px solid var(--line);padding:18px;min-width:0}
 .card .k{font-family:var(--mono);font-size:.74rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
 .card .v{font-size:1.05rem;font-weight:600;margin-top:4px;word-break:break-word;user-select:all}
 .card .v a{color:inherit;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1.5px}
 .copy{margin-top:10px;font-size:.85rem;background:var(--tint);border:1px solid var(--line);color:var(--fg);padding:6px 10px;cursor:pointer;font-family:var(--body)}
 .copy:focus-visible{outline:2px solid var(--accent)}
+.card .btn.rdv{margin-top:10px;font-size:.92rem;padding:9px 14px}
 .note{font-size:.9rem;color:var(--muted);margin-top:10px}
+.cform{background:var(--paper);border:1px solid var(--line);padding:22px;margin-bottom:18px;display:grid;grid-template-columns:1fr 1fr;gap:14px 18px}
+.cform label{display:flex;flex-direction:column;gap:6px;font-family:var(--mono);font-size:.74rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;min-width:0}
+.cform label.wide{grid-column:1/-1}
+.cform label span{text-transform:none;letter-spacing:0}
+.cform input,.cform textarea{font:inherit;font-family:var(--body);font-size:1rem;color:var(--fg);background:var(--bg);border:1px solid var(--line);padding:10px 12px;width:100%;box-sizing:border-box;text-transform:none;letter-spacing:0}
+.cform textarea{min-height:110px;resize:vertical}
+.cform input:focus-visible,.cform textarea:focus-visible{outline:2px solid var(--accent);outline-offset:0;border-color:var(--accent)}
+.cform .send{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.cform .send button{border:0;cursor:pointer;font-size:1rem}
+.cform .send button[disabled]{opacity:.6;cursor:wait}
+.cform .msg{font-size:.95rem;font-weight:600}
+.cform .msg.ko{color:var(--accent)}
+.cform .info{grid-column:1/-1;margin:0;font-size:.85rem}
+.cform .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.cform.done>*:not(.send){display:none}
+.or{font-family:var(--mono);font-size:.74rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin:0 0 10px}
+@media (max-width:720px){.cform{grid-template-columns:1fr;padding:16px}}
 footer{padding-block:24px;font-size:.85rem;color:var(--muted);border-top:1px solid var(--line)}
 footer p{margin:4px 0}
 /* Thèmes au choix : encre (défaut), ardoise, nuit, sable. Le visiteur choisit en pied de page ; le choix reste sur son appareil. */
