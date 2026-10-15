@@ -118,7 +118,8 @@ html{scroll-behavior:smooth}
 .top nav a{transition:background-color .2s ease,color .2s ease,border-color .2s ease}
 summary::after{display:inline-block;transition:transform .25s ease}
 details[open] summary::after{transform:rotate(180deg)}
-details[open]>p{animation:faq-in .35s ease both}
+details[open]>p,details[open]>.tablewrap{animation:faq-in .35s ease both}
+.faq details>.tablewrap{margin-top:10px}
 @keyframes faq-in{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
 .reveal.in{opacity:1;transform:none}
@@ -273,40 +274,36 @@ details[open]>p{animation:faq-in .35s ease both}
   <p class="note">Dans votre message, indiquez l'adresse du site et, si vous l'avez, le questionnaire reçu de votre client. Réponse sous 48 h ouvrées avec les trois premiers points à corriger.</p>
 </section>
 
-<section id="mentions">
+<section id="mentions" class="faq">
   <p class="eyebrow">Mentions légales</p>
   <h2>Qui édite ce site</h2>
-  <div class="tablewrap">
-  <table>
-    <tbody>
-      <tr><td class="ref">Éditeur</td><td>COTOMA, nom commercial de Mattis Maupin, entrepreneur individuel. Siège : 52 bis rue de Montgelard, 77130 La Grande-Paroisse. SIRET en cours d'immatriculation (sera affiché dès attribution). TVA non applicable, art. 293 B du CGI. Directeur de la publication : Mattis Maupin.</td></tr>
-      <tr><td class="ref">Contact</td><td>contact@cotoma.fr · 07 88 40 34 95</td></tr>
-      <tr><td class="ref">Hébergeur</td><td>OVH SAS, 2 rue Kellermann, 59100 Roubaix, France. Téléphone : 09 72 10 10 07. RCS Lille Métropole 424 761 419.</td></tr>
-      <tr><td class="ref">Propriété</td><td>Les textes, la structure et le nom COTOMA sont protégés par le droit d'auteur et le droit des marques. Toute reproduction sans accord écrit est interdite. Les polices Archivo, IBM Plex Sans et IBM Plex Mono sont utilisées sous licence SIL Open Font License et hébergées sur ce site.</td></tr>
-      <tr><td class="ref">Médiation</td><td>Les prestations COTOMA s'adressent exclusivement aux professionnels (entreprises, associations, professions libérales). La médiation de la consommation prévue aux articles L.612-1 et suivants du Code de la consommation ne s'applique donc pas. En cas de litige, les parties recherchent d'abord une solution amiable.</td></tr>
-      <tr><td class="ref">Droit</td><td>Ce site est soumis au droit français. Dernière mise à jour : 13 octobre 2026.</td></tr>
-    </tbody>
-  </table>
-  </div>
+  <details><summary>Éditeur</summary><p>COTOMA, nom commercial de Mattis Maupin, entrepreneur individuel. Siège : 52 bis rue de Montgelard, 77130 La Grande-Paroisse. SIRET en cours d'immatriculation (sera affiché dès attribution). TVA non applicable, art. 293 B du CGI. Directeur de la publication : Mattis Maupin.</p></details>
+  <details><summary>Contact</summary><p>contact@cotoma.fr · 07 88 40 34 95</p></details>
+  <details><summary>Hébergeur</summary><p>OVH SAS, 2 rue Kellermann, 59100 Roubaix, France. Téléphone : 09 72 10 10 07. RCS Lille Métropole 424 761 419.</p></details>
+  <details><summary>Propriété</summary><p>Les textes, la structure et le nom COTOMA sont protégés par le droit d'auteur et le droit des marques. Toute reproduction sans accord écrit est interdite. Les polices Archivo, IBM Plex Sans et IBM Plex Mono sont utilisées sous licence SIL Open Font License et hébergées sur ce site.</p></details>
+  <details><summary>Médiation</summary><p>Les prestations COTOMA s'adressent exclusivement aux professionnels (entreprises, associations, professions libérales). La médiation de la consommation prévue aux articles L.612-1 et suivants du Code de la consommation ne s'applique donc pas. En cas de litige, les parties recherchent d'abord une solution amiable.</p></details>
+  <details><summary>Droit</summary><p>Ce site est soumis au droit français. Dernière mise à jour : 13 octobre 2026.</p></details>
 </section>
 
-<section id="confidentialite">
+<section id="confidentialite" class="faq">
   <p class="eyebrow">Confidentialité</p>
   <h2>Ce que ce site fait de vos données : rien, ou presque.</h2>
-  <div class="tablewrap">
-  <table>
-    <thead><tr><th>Situation</th><th>Données</th><th>Pourquoi</th><th>Base légale</th><th>Durée</th></tr></thead>
-    <tbody>
-      <tr><td>Vous consultez le site</td><td>Un compteur de visites anonyme, hébergé sur ce site : il ajoute 1 au total du jour, classé par site d'origine (par exemple « Google » ou « LinkedIn », jamais l'adresse complète de la page) et par type d'appareil (mobile ou ordinateur). Ni cookie, ni adresse IP, ni identifiant : impossible de savoir qui a visité, ni de relier deux visites.</td><td>Savoir combien de personnes lisent le site et d'où elles viennent</td><td>Intérêt légitime ; aucune donnée personnelle conservée</td><td>Totaux journaliers gardés 25 mois</td></tr>
-      <tr><td>Le serveur reçoit votre visite</td><td>L'hébergeur tient des journaux techniques (adresse IP, date, page consultée) pour la sécurité du serveur.</td><td>Sécurité</td><td>Intérêt légitime de l'hébergeur</td><td>1 an au plus, chez OVH</td></tr>
-      <tr><td>Vous m'écrivez par email</td><td>Votre adresse, votre nom et le contenu de votre message.</td><td>Vous répondre et préparer un devis</td><td>Mesures précontractuelles à votre demande</td><td>1 an après le dernier échange, 3 ans si une relation commerciale s'engage</td></tr>
-      <tr><td>Vous choisissez un thème</td><td>Votre choix d'affichage, enregistré dans votre navigateur (stockage local), jamais transmis.</td><td>Mémoriser votre préférence</td><td>Exempté de consentement : préférence demandée par vous (art. 82 de la loi Informatique et Libertés)</td><td>Jusqu'à effacement des données du site dans votre navigateur</td></tr>
-    </tbody>
-  </table>
-  </div>
-  <p class="note" style="margin-top:12px"><strong>Cookies et traceurs :</strong> aucun. La mesure d'audience se limite au compteur anonyme décrit ci-dessus, sans cookie, et ne s'active pas si votre navigateur envoie le signal « Global Privacy Control » ou « Ne pas me pister ». Pas de bouton de partage, pas de vidéo intégrée, pas de police chargée depuis un serveur tiers. Aucune donnée ne quitte l'Union européenne.</p>
-  <p class="note"><strong>Responsable du traitement :</strong> Mattis Maupin, COTOMA, 52 bis rue de Montgelard, 77130 La Grande-Paroisse, contact@cotoma.fr. <strong>Destinataires :</strong> moi seul, et mon hébergeur de messagerie OVH SAS (serveurs en France). Aucune vente ni cession.</p>
-  <p class="note"><strong>Vos droits :</strong> accès, rectification, effacement, limitation, opposition, portabilité, directives post-mortem. Écrivez à contact@cotoma.fr ; réponse sous un mois. Si vous estimez que vos droits ne sont pas respectés, vous pouvez saisir la CNIL, 3 place de Fontenoy, TSA 80715, 75334 Paris Cedex 07, cnil.fr/fr/plaintes.</p>
+  <details><summary>Les données collectées</summary>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Situation</th><th>Données</th><th>Pourquoi</th><th>Base légale</th><th>Durée</th></tr></thead>
+      <tbody>
+        <tr><td>Vous consultez le site</td><td>Un compteur de visites anonyme, hébergé sur ce site : il ajoute 1 au total du jour, classé par site d'origine (par exemple « Google » ou « LinkedIn », jamais l'adresse complète de la page) et par type d'appareil (mobile ou ordinateur). Ni cookie, ni adresse IP, ni identifiant : impossible de savoir qui a visité, ni de relier deux visites.</td><td>Savoir combien de personnes lisent le site et d'où elles viennent</td><td>Intérêt légitime ; aucune donnée personnelle conservée</td><td>Totaux journaliers gardés 25 mois</td></tr>
+        <tr><td>Le serveur reçoit votre visite</td><td>L'hébergeur tient des journaux techniques (adresse IP, date, page consultée) pour la sécurité du serveur.</td><td>Sécurité</td><td>Intérêt légitime de l'hébergeur</td><td>1 an au plus, chez OVH</td></tr>
+        <tr><td>Vous m'écrivez par email</td><td>Votre adresse, votre nom et le contenu de votre message.</td><td>Vous répondre et préparer un devis</td><td>Mesures précontractuelles à votre demande</td><td>1 an après le dernier échange, 3 ans si une relation commerciale s'engage</td></tr>
+        <tr><td>Vous choisissez un thème</td><td>Votre choix d'affichage, enregistré dans votre navigateur (stockage local), jamais transmis.</td><td>Mémoriser votre préférence</td><td>Exempté de consentement : préférence demandée par vous (art. 82 de la loi Informatique et Libertés)</td><td>Jusqu'à effacement des données du site dans votre navigateur</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </details>
+  <details><summary>Cookies et traceurs</summary><p>Aucun. La mesure d'audience se limite au compteur anonyme décrit ci-dessus, sans cookie, et ne s'active pas si votre navigateur envoie le signal « Global Privacy Control » ou « Ne pas me pister ». Pas de bouton de partage, pas de vidéo intégrée, pas de police chargée depuis un serveur tiers. Aucune donnée ne quitte l'Union européenne.</p></details>
+  <details><summary>Responsable du traitement et destinataires</summary><p><strong>Responsable du traitement :</strong> Mattis Maupin, COTOMA, 52 bis rue de Montgelard, 77130 La Grande-Paroisse, contact@cotoma.fr. <strong>Destinataires :</strong> moi seul, et mon hébergeur de messagerie OVH SAS (serveurs en France). Aucune vente ni cession.</p></details>
+  <details><summary>Vos droits</summary><p>Accès, rectification, effacement, limitation, opposition, portabilité, directives post-mortem. Écrivez à contact@cotoma.fr ; réponse sous un mois. Si vous estimez que vos droits ne sont pas respectés, vous pouvez saisir la CNIL, 3 place de Fontenoy, TSA 80715, 75334 Paris Cedex 07, cnil.fr/fr/plaintes.</p></details>
 </section>
 
 <footer>
