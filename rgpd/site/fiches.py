@@ -106,7 +106,7 @@ PAGE = """<!doctype html>
 <body>
 <div class="wrap">
 <header class="top">
-  <a class="brand" href="/" style="color:inherit;text-decoration:none">COTOMA<small>Conformité RGPD · TPE et PME · Seine-et-Marne</small></a>
+  <a class="brand" href="/"><svg class="mark" viewBox="0 0 256 256" width="34" height="34" aria-hidden="true"><rect width="256" height="256" rx="40" fill="#15233b"/><path d="M188 92 A72 72 0 1 0 188 164" fill="none" stroke="#fff" stroke-width="34"/><rect x="150" y="110" width="36" height="36" rx="6" fill="#b8232f"/></svg><span>COTOMA<small>Conformité RGPD · TPE et PME · Seine-et-Marne</small></span></a>
   {nav}
 </header>
 <article class="fiche-page">
