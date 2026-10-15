@@ -614,11 +614,11 @@ async function genPdf(f,btn){
   doc.setFont('helvetica','bold');doc.setFontSize(14);txt(nc,W-M-15,M,{align:'right'});
   doc.setFontSize(20);txt(ty[1]+(f.numero?' N° '+f.numero:brouillon?' — BROUILLON':''),M,y);y+=8;
   doc.setFont('helvetica','normal');doc.setFontSize(9.5);
-  if(brouillon){txt('Document provisoire : sans numéro, sans valeur comptable ni fiscale. Le numéro et la date définitifs sont attribués à l\'émission.',M,y);y+=4.5;}
+  if(brouillon){doc.splitTextToSize('Document provisoire : sans numéro, sans valeur comptable ni fiscale. Le numéro et la date définitifs sont attribués à l\'émission.',W-2*M-30).forEach(l=>{txt(l,M,y);y+=4.5;});}
   txt(`Date d'émission : ${fdate(f.date)}`,M,y);y+=4.5;
   if(f.type==='devis'){txt(`Valable jusqu'au : ${fdate(f.validite)}`,M,y);y+=4.5;}else{txt(`Date de la prestation : ${fdate(f.date_prestation||f.date)}`,M,y);y+=4.5;if(f.type==='facture'){txt(`Date d'échéance : ${fdate(f.echeance)}`,M,y);y+=4.5;}}
   if(f.ref){txt(`Annule et remplace la facture ${f.ref}`,M,y);y+=4.5;}if(f.ref_devis){txt(`Suite au devis ${f.ref_devis}`,M,y);y+=4.5;}
-  if(f.type!=='devis'){txt('Nature de l\'opération : prestation de services. Lieu d\'exécution : adresse du client ci-contre (pas de livraison de biens).',M,y);y+=4.5;}
+  if(f.type!=='devis'){doc.splitTextToSize('Nature de l\'opération : prestation de services. Lieu d\'exécution : adresse du client ci-contre (pas de livraison de biens).',W-2*M-30).forEach(l=>{txt(l,M,y);y+=4.5;});}
   y+=4;const yb=y;
   doc.setFont('helvetica','bold');txt('Émetteur',M,y);doc.setFont('helvetica','normal');y+=5;
   [vendeur,c.adresse||'',`SIRET ${c.siret||''}`,c.rcs||'',c.tva?`TVA intracommunautaire : ${c.tva}`:'TVA non applicable, art. 293 B du CGI',c.email||'',c.telephone||''].filter(Boolean).forEach(s=>{doc.splitTextToSize(s,80).forEach(l=>{txt(l,M,y);y+=4.5;});});
@@ -631,7 +631,7 @@ async function genPdf(f,btn){
   ls.forEach(l=>{const t=(+l.qte||0)*(+l.pu||0);tot+=t;const lines=doc.splitTextToSize(l.des||'',W-2*M-75);lines.forEach((s,i)=>{txt(s,M,y+i*4.5);});txt(String(l.qte),W-M-62,y,{align:'right'});txt(fr(+l.pu||0),W-M-30,y,{align:'right'});txt(fr(t),W-M,y,{align:'right'});y+=lines.length*4.5+2;});
   line(y);y+=6;
   txt('Total HT',W-M-40,y,{align:'right'});txt(fr(tot),W-M,y,{align:'right'});y+=5;
-  txt('TVA',W-M-40,y,{align:'right'});txt('non applicable, art. 293 B du CGI',W-M,y,{align:'right'});y+=6;
+  txt('TVA non applicable, art. 293 B du CGI',W-M,y,{align:'right'});y+=6;
   doc.setFont('helvetica','bold');doc.setFontSize(11);txt(f.type==='avoir'?'Montant de l\'avoir':f.type==='devis'?'Total du devis':'Net à payer',W-M-40,y,{align:'right'});txt(fr(tot),W-M,y,{align:'right'});doc.setFont('helvetica','normal');doc.setFontSize(9.5);y+=10;
   if(f.type==='facture'){
     txt(`Règlement par virement avant le ${fdate(f.echeance)}.`,M,y);y+=4.5;

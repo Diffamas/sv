@@ -91,14 +91,13 @@ ol.steps p{margin:6px 0 0;font-size:.95rem;color:var(--muted)}
 .fiche .lire{margin-top:auto;padding-top:6px;font-family:var(--display);font-weight:700;font-size:.92rem;color:var(--accent)}
 .fiche:hover h3,.fiche:focus-visible h3{text-decoration:underline;text-underline-offset:3px}
 .fiche:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.contact{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px}
+.contact{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
 .card{background:var(--paper);border:1px solid var(--line);padding:18px;min-width:0}
 .card .k{font-family:var(--mono);font-size:.74rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
 .card .v{font-size:1.05rem;font-weight:600;margin-top:4px;word-break:break-word;user-select:all}
 .card .v a{color:inherit;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1.5px}
 .copy{margin-top:10px;font-size:.85rem;background:var(--tint);border:1px solid var(--line);color:var(--fg);padding:6px 10px;cursor:pointer;font-family:var(--body)}
 .copy:focus-visible{outline:2px solid var(--accent)}
-.card .btn.rdv{margin-top:10px;font-size:.92rem;padding:9px 14px}
 .note{font-size:.9rem;color:var(--muted);margin-top:10px}
 .cform{background:var(--paper);border:1px solid var(--line);padding:22px;margin-bottom:18px;display:grid;grid-template-columns:1fr 1fr;gap:14px 18px}
 .cform label{display:flex;flex-direction:column;gap:6px;font-family:var(--mono);font-size:.74rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;min-width:0}
@@ -318,7 +317,6 @@ details[open]>p,details[open]>.tablewrap,details[open]>.faq-body{animation:faq-i
   </form>
   <p class="or">Ou directement</p>
   <div class="contact">
-    <div class="card"><div class="k">Rendez-vous</div><div class="v">Premier entretien d'une heure, au créneau de votre choix</div><a class="btn rdv" href="https://zeeg.me/mattismaupin" target="_blank" rel="noopener">Réserver un créneau</a></div>
     <div class="card"><div class="k">Email</div><div class="v"><a id="mail" href="mailto:contact@cotoma.fr">contact@cotoma.fr</a></div><button class="copy" type="button" data-copy="mail">Copier l'adresse</button></div>
     <div class="card"><div class="k">Téléphone</div><div class="v"><a id="tel" href="tel:+33788403495">07 88 40 34 95</a></div><button class="copy" type="button" data-copy="tel">Copier le numéro</button></div>
     <div class="card"><div class="k">Zone</div><div class="v">Sud Seine-et-Marne, nord Yonne, et à distance partout en France</div></div>
@@ -359,13 +357,12 @@ details[open]>p,details[open]>.tablewrap,details[open]>.faq-body{animation:faq-i
         <tr><td>Vous consultez le site</td><td>Un compteur de visites anonyme, hébergé sur ce site : il ajoute 1 au total du jour, classé par site d'origine (par exemple « Google » ou « LinkedIn », jamais l'adresse complète de la page) et par type d'appareil (mobile ou ordinateur). Ni cookie, ni adresse IP, ni identifiant : impossible de savoir qui a visité, ni de relier deux visites.</td><td>Savoir combien de personnes lisent le site et d'où elles viennent</td><td>Intérêt légitime ; aucune donnée personnelle conservée</td><td>Totaux journaliers gardés 25 mois</td></tr>
         <tr><td>Le serveur reçoit votre visite</td><td>L'hébergeur tient des journaux techniques (adresse IP, date, page consultée) pour la sécurité du serveur.</td><td>Sécurité</td><td>Intérêt légitime de l'hébergeur</td><td>1 an au plus, chez OVH</td></tr>
         <tr><td>Vous m'écrivez (formulaire ou email)</td><td>Votre nom ou celui de votre entreprise, votre adresse email, l'adresse de votre site si vous la donnez, et votre message. Le formulaire n'enregistre ni votre adresse IP, ni cookie, ni information sur votre appareil.</td><td>Vous répondre et préparer un devis</td><td>Mesures précontractuelles à votre demande</td><td>1 an après le dernier échange, 3 ans si une relation commerciale s'engage</td></tr>
-        <tr><td>Vous réservez un rendez-vous</td><td>Votre nom, votre adresse email et le créneau choisi, saisis sur ma page de réservation Zeeg (Zeeg GmbH, Allemagne, données hébergées en Europe), puis ajoutés à mon agenda.</td><td>Organiser l'entretien que vous demandez</td><td>Mesures précontractuelles à votre demande</td><td>1 an après le dernier échange, 3 ans si une relation commerciale s'engage</td></tr>
         <tr><td>Vous choisissez un thème</td><td>Votre choix d'affichage, enregistré dans votre navigateur (stockage local), jamais transmis.</td><td>Mémoriser votre préférence</td><td>Exempté de consentement : préférence demandée par vous (art. 82 de la loi Informatique et Libertés)</td><td>Jusqu'à effacement des données du site dans votre navigateur</td></tr>
       </tbody>
     </table>
     </div>
     <p class="note" style="margin-top:12px"><strong>Cookies et traceurs :</strong> aucun. La mesure d'audience se limite au compteur anonyme décrit ci-dessus, sans cookie, et ne s'active pas si votre navigateur envoie le signal « Global Privacy Control » ou « Ne pas me pister ». Pas de bouton de partage, pas de vidéo intégrée, pas de police chargée depuis un serveur tiers. Aucune donnée ne quitte l'Union européenne.</p>
-    <p class="note"><strong>Responsable du traitement :</strong> Mattis Maupin, COTOMA, 52 bis rue de Montgelard, 77130 La Grande-Paroisse, contact@cotoma.fr. <strong>Destinataires :</strong> moi seul, mon hébergeur et messagerie OVH SAS (serveurs en France), et, pour les rendez-vous, Zeeg GmbH et mon agenda Apple iCloud. Aucune vente ni cession.</p>
+    <p class="note"><strong>Responsable du traitement :</strong> Mattis Maupin, COTOMA, 52 bis rue de Montgelard, 77130 La Grande-Paroisse, contact@cotoma.fr. <strong>Destinataires :</strong> moi seul, et mon hébergeur de messagerie OVH SAS (serveurs en France). Aucune vente ni cession.</p>
     <p class="note"><strong>Vos droits :</strong> accès, rectification, effacement, limitation, opposition, portabilité, directives post-mortem. Écrivez à contact@cotoma.fr ; réponse sous un mois. Si vous estimez que vos droits ne sont pas respectés, vous pouvez saisir la CNIL, 3 place de Fontenoy, TSA 80715, 75334 Paris Cedex 07, cnil.fr/fr/plaintes.</p>
   </div>
   </details>
