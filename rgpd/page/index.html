@@ -15,7 +15,8 @@ body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px
 /* Bandeau de navigation : reste en haut de l'écran pendant le défilement, liens lisibles, section en cours soulignée, Contact en bouton. */
 header.top{display:flex;flex-wrap:wrap;gap:10px 24px;align-items:center;justify-content:space-between;padding-block:14px;border-bottom:2px solid var(--fg);position:sticky;top:0;z-index:20;background:var(--bg);margin-inline:-16px;padding-inline:16px}
 html{scroll-padding-top:84px}
-.brand{font-family:var(--display);font-weight:800;font-size:1.05rem;letter-spacing:.01em}
+.brand{font-family:var(--display);font-weight:800;font-size:1.05rem;letter-spacing:.01em;display:flex;align-items:center;gap:10px;color:inherit;text-decoration:none}
+.brand .mark{flex:none;display:block}
 .brand small{display:block;font-family:var(--mono);font-weight:400;font-size:.72rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
 .top nav{display:flex;flex-wrap:wrap;gap:4px;font-size:.98rem;align-items:center}
 .top nav a{color:var(--fg);font-weight:600;text-decoration:none;padding:7px 11px;border-bottom:2px solid transparent}
@@ -160,13 +161,13 @@ details[open]>p,details[open]>.tablewrap,details[open]>.faq-body{animation:faq-i
 
 <div class="wrap">
 <header class="top">
-  <div class="brand">COTOMA<small>Conformité RGPD · TPE et PME · Seine-et-Marne</small></div>
+  <a class="brand" href="#" aria-label="Haut de page"><svg class="mark" viewBox="0 0 256 256" width="34" height="34" aria-hidden="true"><rect width="256" height="256" rx="40" fill="#15233b"/><path d="M188 92 A72 72 0 1 0 188 164" fill="none" stroke="#fff" stroke-width="34"/><rect x="150" y="110" width="36" height="36" rx="6" fill="#b8232f"/></svg><span>COTOMA<small>Conformité RGPD · TPE et PME · Seine-et-Marne</small></span></a>
   <nav aria-label="Sections"><a href="#offres">Offres</a><a href="#livrables">Livrables</a><a href="#methode">Méthode</a><a href="#apropos">À propos</a><a href="#questions">Questions</a><a href="#ressources">Ressources</a><a href="#confidentialite">Confidentialité</a><a href="#contact" class="nav-cta">Contact</a></nav>
 </header>
 
 <div class="hero">
   <div>
-    <p class="eyebrow">Mise en conformité à prix fixe</p>
+    <p class="eyebrow">Conforme au RGPD, sans jargon ni frais cachés.</p>
     <h1>Un client vous réclame un dossier RGPD. Votre site n'a pas de bannière cookies. Je m'en occupe en deux jours.</h1>
     <p class="lede">Registre des traitements, politiques, cookies, procédure de violation de données, réponses EcoVadis et CyberVadis. Le prix est annoncé avant de commencer, et vous repartez avec les documents à montrer en cas de contrôle.</p>
     <div class="cta">

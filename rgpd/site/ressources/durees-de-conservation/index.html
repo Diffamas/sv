@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer">
 <link rel="canonical" href="https://cotoma.fr/ressources/durees-de-conservation/">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Combien de temps garder les données de vos clients, prospects et salariés ?", "description": "Durées de conservation RGPD pour une TPE : prospects, clients, factures, bulletins de paie, candidats, vidéosurveillance, cartes bancaires, et une méthode simple de purge annuelle.", "datePublished": "2026-10-15", "dateModified": "2026-10-15", "inLanguage": "fr", "mainEntityOfPage": "https://cotoma.fr/ressources/durees-de-conservation/", "author": {"@type": "Person", "name": "Mattis Maupin"}, "publisher": {"@type": "Organization", "name": "COTOMA", "url": "https://cotoma.fr/"}}</script>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2315233b'/%3E%3Ctext x='16' y='22' font-size='18' font-family='Arial' font-weight='bold' fill='%23fff' text-anchor='middle'%3EC%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' rx='40' fill='%2315233b'/%3E%3Cpath d='M188 92 A72 72 0 1 0 188 164' fill='none' stroke='%23fff' stroke-width='34'/%3E%3Crect x='150' y='110' width='36' height='36' rx='6' fill='%23b8232f'/%3E%3C/svg%3E">
 <style>@font-face{font-family:'Archivo';font-style:normal;font-weight:500;font-display:swap;src:url(/fonts/Archivo-500.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:'Archivo';font-style:normal;font-weight:700;font-display:swap;src:url(/fonts/Archivo-700.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:'Archivo';font-style:normal;font-weight:800;font-display:swap;src:url(/fonts/Archivo-800.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
@@ -35,7 +35,8 @@ body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px
 /* Bandeau de navigation : reste en haut de l'écran pendant le défilement, liens lisibles, section en cours soulignée, Contact en bouton. */
 header.top{display:flex;flex-wrap:wrap;gap:10px 24px;align-items:center;justify-content:space-between;padding-block:14px;border-bottom:2px solid var(--fg);position:sticky;top:0;z-index:20;background:var(--bg);margin-inline:-16px;padding-inline:16px}
 html{scroll-padding-top:84px}
-.brand{font-family:var(--display);font-weight:800;font-size:1.05rem;letter-spacing:.01em}
+.brand{font-family:var(--display);font-weight:800;font-size:1.05rem;letter-spacing:.01em;display:flex;align-items:center;gap:10px;color:inherit;text-decoration:none}
+.brand .mark{flex:none;display:block}
 .brand small{display:block;font-family:var(--mono);font-weight:400;font-size:.72rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
 .top nav{display:flex;flex-wrap:wrap;gap:4px;font-size:.98rem;align-items:center}
 .top nav a{color:var(--fg);font-weight:600;text-decoration:none;padding:7px 11px;border-bottom:2px solid transparent}
@@ -97,6 +98,7 @@ ol.steps li::before{content:"Semaine " counter(s);display:block;font-family:var(
 ol.steps p{margin:6px 0 0;font-size:.95rem;color:var(--muted)}
 .faq details{border-top:1px solid var(--line);padding:12px 0}
 .faq details:last-child{border-bottom:1px solid var(--line)}
+#mentions details,#confidentialite details{border-bottom:0}
 .faq summary{cursor:pointer;font-family:var(--display);font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:12px}
 .faq summary::after{content:"+";font-weight:500;color:var(--muted)}
 .faq details[open] summary::after{content:"–"}
@@ -117,6 +119,23 @@ ol.steps p{margin:6px 0 0;font-size:.95rem;color:var(--muted)}
 .copy{margin-top:10px;font-size:.85rem;background:var(--tint);border:1px solid var(--line);color:var(--fg);padding:6px 10px;cursor:pointer;font-family:var(--body)}
 .copy:focus-visible{outline:2px solid var(--accent)}
 .note{font-size:.9rem;color:var(--muted);margin-top:10px}
+.cform{background:var(--paper);border:1px solid var(--line);padding:22px;margin-bottom:18px;display:grid;grid-template-columns:1fr 1fr;gap:14px 18px}
+.cform label{display:flex;flex-direction:column;gap:6px;font-family:var(--mono);font-size:.74rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;min-width:0}
+.cform label.wide{grid-column:1/-1}
+.cform label span{text-transform:none;letter-spacing:0}
+.cform input,.cform textarea{font:inherit;font-family:var(--body);font-size:1rem;color:var(--fg);background:var(--bg);border:1px solid var(--line);padding:10px 12px;width:100%;box-sizing:border-box;text-transform:none;letter-spacing:0}
+.cform textarea{min-height:110px;resize:vertical}
+.cform input:focus-visible,.cform textarea:focus-visible{outline:2px solid var(--accent);outline-offset:0;border-color:var(--accent)}
+.cform .send{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.cform .send button{border:0;cursor:pointer;font-size:1rem}
+.cform .send button[disabled]{opacity:.6;cursor:wait}
+.cform .msg{font-size:.95rem;font-weight:600}
+.cform .msg.ko{color:var(--accent)}
+.cform .info{grid-column:1/-1;margin:0;font-size:.85rem}
+.cform .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.cform.done>*:not(.send){display:none}
+.or{font-family:var(--mono);font-size:.74rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin:0 0 10px}
+@media (max-width:720px){.cform{grid-template-columns:1fr;padding:16px}}
 footer{padding-block:24px;font-size:.85rem;color:var(--muted);border-top:1px solid var(--line)}
 footer p{margin:4px 0}
 /* Thèmes au choix : encre (défaut), ardoise, nuit, sable. Le visiteur choisit en pied de page ; le choix reste sur son appareil. */
@@ -185,7 +204,7 @@ details[open]>p,details[open]>.tablewrap,details[open]>.faq-body{animation:faq-i
 <body>
 <div class="wrap">
 <header class="top">
-  <a class="brand" href="/" style="color:inherit;text-decoration:none">COTOMA<small>Conformité RGPD · TPE et PME · Seine-et-Marne</small></a>
+  <a class="brand" href="/"><svg class="mark" viewBox="0 0 256 256" width="34" height="34" aria-hidden="true"><rect width="256" height="256" rx="40" fill="#15233b"/><path d="M188 92 A72 72 0 1 0 188 164" fill="none" stroke="#fff" stroke-width="34"/><rect x="150" y="110" width="36" height="36" rx="6" fill="#b8232f"/></svg><span>COTOMA<small>Conformité RGPD · TPE et PME · Seine-et-Marne</small></span></a>
   <nav aria-label="Sections"><a href="/#offres">Offres</a><a href="/#livrables">Livrables</a><a href="/#methode">Méthode</a><a href="/#apropos">À propos</a><a href="/#questions">Questions</a><a href="/#ressources" aria-current="true">Ressources</a><a href="/#confidentialite">Confidentialité</a><a href="/#contact" class="nav-cta">Contact</a></nav>
 </header>
 <article class="fiche-page">
