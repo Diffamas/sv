@@ -31,6 +31,7 @@ jobs:
           mkdir -p deploy/www/app
           cp rgpd/site/index.html rgpd/site/.htaccess rgpd/site/robots.txt rgpd/site/sitemap.xml deploy/www/
           cp -r rgpd/site/fonts deploy/www/fonts
+          cp -r rgpd/site/ressources deploy/www/ressources
           cp rgpd/app/index.html rgpd/app/api.php rgpd/app/remote.js rgpd/app/.htaccess deploy/www/app/
           cp -r rgpd/app/data rgpd/app/fonts rgpd/app/lib deploy/www/app/
           rm -f deploy/www/app/data/*.sqlite* deploy/www/app/data/*.importe

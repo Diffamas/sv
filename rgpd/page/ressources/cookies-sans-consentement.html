@@ -1,0 +1,63 @@
+<!--
+ordre: 1
+titre: Quels cookies peut-on déposer sans demander l'accord du visiteur ?
+carte: Quels cookies sont autorisés sans consentement ?
+resume: Panier, connexion, sécurité : ce qui passe sans bannière, ce qui exige un accord, et les erreurs que la CNIL sanctionne.
+description: Panier, connexion, sécurité, mesure d'audience anonyme : la liste des cookies exemptés de consentement, ceux qui exigent une bannière et les erreurs de bannière que la CNIL sanctionne.
+date: 2026-10-15
+lecture: 4 min
+-->
+<div class="bref">
+  <p class="bref-title">En bref</p>
+  <ul>
+    <li>Un cookie strictement nécessaire au service demandé (panier, connexion, sécurité) se dépose sans accord.</li>
+    <li>Publicité, boutons de réseaux sociaux, vidéos intégrées et la plupart des outils de statistiques exigent un accord préalable.</li>
+    <li>Refuser doit être aussi simple qu'accepter, dès le premier écran de la bannière.</li>
+  </ul>
+</div>
+
+<h2>La règle : l'accord d'abord, sauf exceptions</h2>
+<p>L'article 82 de la loi Informatique et Libertés impose de recueillir l'accord du visiteur avant de déposer ou de lire quoi que ce soit sur son appareil. Deux exceptions seulement : ce qui sert uniquement à faire fonctionner la communication, et ce qui est strictement nécessaire à un service que le visiteur a lui-même demandé.</p>
+<p>Le nom technique ne change rien. Cookie, pixel, stockage local ou empreinte du navigateur suivent la même règle : on regarde à quoi l'outil sert, pas comment il s'appelle.</p>
+
+<h2>Ce que vous pouvez déposer sans demander</h2>
+<div class="tablewrap">
+<table>
+  <thead><tr><th>Usage</th><th>Exemple</th><th>Sans accord ?</th></tr></thead>
+  <tbody>
+    <tr><td>Panier d'achat</td><td>Garder les articles choisis d'une page à l'autre</td><td>Oui</td></tr>
+    <tr><td>Connexion</td><td>Rester connecté à son espace client</td><td>Oui</td></tr>
+    <tr><td>Sécurité</td><td>Bloquer les tentatives de connexion répétées</td><td>Oui</td></tr>
+    <tr><td>Choix dans la bannière</td><td>Se souvenir que le visiteur a refusé</td><td>Oui</td></tr>
+    <tr><td>Préférence d'affichage</td><td>Langue ou thème choisi par le visiteur</td><td>Oui</td></tr>
+    <tr><td>Mesure d'audience</td><td>Nombre de visites par page</td><td>Oui, sous conditions (voir ci-dessous)</td></tr>
+  </tbody>
+</table>
+</div>
+<p>La mesure d'audience n'échappe à l'accord que si l'outil sert uniquement à vos statistiques, ne transmet rien à un tiers, ne suit pas le visiteur sur d'autres sites, produit des chiffres anonymes, garde ses cookies 13 mois au plus et les données 25 mois au plus. Le visiteur doit en être informé et pouvoir s'y opposer. Google Analytics, dans sa configuration habituelle, ne remplit pas ces conditions.</p>
+
+<h2>Ce qui exige l'accord préalable</h2>
+<ul>
+  <li>La publicité et le reciblage : pixel Meta, balises Google Ads, régies publicitaires.</li>
+  <li>Les boutons de partage des réseaux sociaux qui déposent leurs propres traceurs.</li>
+  <li>Les vidéos YouTube et les cartes Google Maps intégrées en mode standard.</li>
+  <li>Les outils de statistiques ou d'enregistrement de sessions qui ne remplissent pas les conditions ci-dessus.</li>
+</ul>
+<p>Tant que le visiteur n'a pas cliqué sur « Accepter », aucun de ces outils ne doit se charger. Continuer à naviguer ne vaut pas accord.</p>
+
+<h2>Les erreurs de bannière les plus sanctionnées</h2>
+<ul>
+  <li>Pas de bouton « Tout refuser » au même niveau que « Tout accepter ».</li>
+  <li>Des traceurs déposés avant même le premier clic.</li>
+  <li>Des cases cochées d'avance.</li>
+  <li>Une bannière qui revient à chaque visite après un refus : la CNIL recommande de garder le choix, accord comme refus, pendant six mois environ.</li>
+  <li>Aucun moyen de changer d'avis ensuite, alors qu'un lien « Gérer les cookies » en bas de page suffit.</li>
+</ul>
+
+<h2>Vérifier votre site en cinq minutes</h2>
+<ol>
+  <li>Ouvrez votre site dans une fenêtre de navigation privée.</li>
+  <li>Sans cliquer sur la bannière, appuyez sur F12, puis ouvrez l'onglet Application (Chrome, Edge) ou Stockage (Firefox), rubrique Cookies.</li>
+  <li>Tout cookie qui ne correspond pas au tableau ci-dessus, comme <code>_ga</code> ou <code>_fbp</code>, pose problème.</li>
+  <li>Cliquez sur « Tout refuser » et rechargez la page : aucun nouveau cookie ne doit apparaître.</li>
+</ol>
