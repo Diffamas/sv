@@ -76,8 +76,8 @@ $method = $_SERVER['REQUEST_METHOD'];
 $body = [];
 if ($method === 'POST') {
     $body = json_decode((string)file_get_contents('php://input'), true) ?: [];
-    // Le compteur de visites du site public est la seule écriture acceptée sans l'en-tête du tableau de bord.
-    if (($body['action'] ?? '') !== 'visite' && ($_SERVER['HTTP_X_COTOMA'] ?? '') !== '1') fail('Requête refusée.', 403);
+    // Le compteur de visites et le formulaire de contact du site public sont les seules écritures acceptées sans l'en-tête du tableau de bord.
+    if (!in_array($body['action'] ?? '', ['visite', 'contact'], true) && ($_SERVER['HTTP_X_COTOMA'] ?? '') !== '1') fail('Requête refusée.', 403);
 }
 $action = $body['action'] ?? $_GET['action'] ?? 'status';
 // Derrière le répartiteur de charge OVH, l'adresse du visiteur est dans X-Forwarded-For.
@@ -125,6 +125,40 @@ switch ($action) {
         $pdo->prepare('INSERT INTO visites (jour, page, source, appareil, n) VALUES (?,?,?,?,1) ON CONFLICT(jour, page, source, appareil) DO UPDATE SET n = n + 1')->execute([$JOUR, $page, $source, $appareil]);
         // Durée de conservation : 25 mois, comme le recommande la CNIL pour la mesure d'audience.
         $pdo->prepare('DELETE FROM visites WHERE jour < ?')->execute([(new DateTimeImmutable($JOUR))->modify('-25 months')->format('Y-m-d')]);
+        out(['ok' => true]);
+    case 'contact':
+        // Formulaire de contact du site : la demande devient un prospect « À contacter », priorité 1, et un email t'avertit.
+        // Ni adresse IP, ni cookie, ni navigateur enregistrés : uniquement ce que la personne a écrit.
+        if ($method !== 'POST') fail('Méthode.', 405);
+        $origin = (string)($_SERVER['HTTP_ORIGIN'] ?? '');
+        if ($origin !== '' && !preg_match('#^https?://(www\.)?cotoma\.fr$#', $origin)) fail('Requête refusée.', 403);
+        if (trim((string)($body['web'] ?? '')) !== '') out(['ok' => true]); // champ piège invisible : rempli par un robot, ignoré en silence
+        if ((int)($body['t'] ?? 0) < 3000) fail('Envoi trop rapide : réessayez dans quelques secondes.', 429);
+        $clean = fn($v, int $max) => mb_substr(trim(preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', (string)$v) ?? ''), 0, $max);
+        $nom = preg_replace('/\s+/u', ' ', $clean($body['nom'] ?? '', 120));
+        $email = $clean($body['email'] ?? '', 160);
+        $site = preg_replace('/\s+/u', '', $clean($body['site'] ?? '', 200));
+        $message = $clean($body['message'] ?? '', 3000);
+        if ($nom === '') fail('Indiquez votre nom ou celui de votre entreprise.');
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) fail('Adresse email invalide.');
+        if ($site === '' && $message === '') fail('Indiquez l\'adresse de votre site ou écrivez un message.');
+        // Garde-fou contre le remplissage : 30 demandes par jour au plus, compteur sans donnée personnelle.
+        $pdo->exec('CREATE TABLE IF NOT EXISTS meta (k TEXT PRIMARY KEY, v TEXT)');
+        $st = $pdo->prepare('SELECT v FROM meta WHERE k = ?'); $st->execute(['contact:' . $JOUR]);
+        if ((int)$st->fetchColumn() >= 30) fail('Trop de demandes aujourd\'hui : écrivez directement à contact@cotoma.fr.', 429);
+        $pdo->prepare("INSERT INTO meta (k, v) VALUES (?, '1') ON CONFLICT(k) DO UPDATE SET v = CAST(CAST(v AS INTEGER) + 1 AS TEXT)")->execute(['contact:' . $JOUR]);
+        $pdo->prepare("DELETE FROM meta WHERE k LIKE 'contact:%' AND k < ?")->execute(['contact:' . $JOUR]);
+        $id = 'site-' . str_replace('-', '', $JOUR) . '-' . bin2hex(random_bytes(3));
+        $doc = ['nom' => $nom, 'email' => $email, 'site' => $site, 'telephone' => '', 'adresse' => '', 'categorie' => 'Demande via le site', 'secteur' => '', 'quartier' => '',
+            'statut' => 'a_contacter', 'priorite' => 1, 'pack_vise' => '', 'montant_potentiel' => 0, 'score' => '', 'accroche' => '', 'raison' => 'A écrit via le formulaire du site : demande entrante, à rappeler en premier.',
+            'source' => 'Formulaire du site', 'cree' => $JOUR, 'maj' => '', 'relance' => '', 'note' => $message,
+            'historique' => [['date' => $JOUR, 'action' => 'Message reçu via le site', 'note' => mb_substr($message, 0, 300)]]];
+        $pdo->prepare('INSERT INTO docs (collection, id, data, version, updated_at) VALUES (?,?,?,1,?)')->execute(['prospects', $id, json_encode($doc, JSON_UNESCAPED_UNICODE), gmdate('c')]);
+        $pdo->prepare('INSERT INTO journal (ts, action, collection, id) VALUES (?,?,?,?)')->execute([gmdate('c'), 'contact', 'prospects', $id]);
+        // Avertissement par email (OVH). Si l'envoi échoue, la demande reste dans le tableau de bord.
+        $txt = "Nouvelle demande depuis cotoma.fr\n\nNom ou entreprise : $nom\nEmail : $email\nSite : " . ($site ?: '(non indiqué)') . "\n\nMessage :\n" . ($message ?: '(aucun)') . "\n\nElle est aussi dans le tableau de bord, onglet À contacter : https://cotoma.fr/app/\n";
+        $headers = "From: COTOMA site <contact@cotoma.fr>\r\nReply-To: $email\r\nContent-Type: text/plain; charset=utf-8\r\nContent-Transfer-Encoding: 8bit\r\nMIME-Version: 1.0";
+        @mail('contact@cotoma.fr', '=?UTF-8?B?' . base64_encode('Demande site : ' . mb_substr($nom, 0, 60)) . '?=', $txt, $headers, '-fcontact@cotoma.fr');
         out(['ok' => true]);
     case 'status':
         out(['auth' => $auth, 'setup' => $COTOMA_PASSWORD === 'change-moi', 'v' => 3]);
